@@ -82,14 +82,20 @@ char	*ft_track_strdup(t_shell *shell, const char *src)
 {
 	char	*dest;
 	size_t	len;
+	size_t	i;
 
 	if (!src)
 		return (NULL);
-
-	len = ft_strlen(src) + 1;
-	dest = ft_track_malloc(shell, len);
+	len = ft_strlen(src);
+	dest = ft_track_malloc(shell, len + 1);
 	if (!dest)
 		return (NULL);
-	ft_strlcpy(dest, src, len);
+	i = 0;
+	while (i < len)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
 	return (dest);
 }
