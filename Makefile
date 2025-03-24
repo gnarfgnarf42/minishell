@@ -10,7 +10,7 @@ TEST_SRC    = tests/unit/test_memory.c tests/unity/unity.c src/utils/memory.c
 TEST_OBJ    = $(TEST_SRC:.c=.o)
 TEST_BINARY = test_binary
 
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re test valgrind-test
 
 # Default target
 all: $(NAME)
@@ -43,6 +43,12 @@ test: $(TEST_BINARY)
 	@echo "========== Running Tests =========="
 	@./$(TEST_BINARY)
 	@echo "========== Tests Complete ========="
+
+# Run tests with Valgrind
+valgrind-test: $(TEST_BINARY)
+	@echo "========== Running Tests with Valgrind =========="
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TEST_BINARY)
+	@echo "========== Valgrind Tests Complete ========="
 
 # Pattern rules for test source files
 tests/unit/%.o: tests/unit/%.c minishell.h

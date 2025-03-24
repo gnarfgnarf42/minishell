@@ -69,6 +69,8 @@ This keeps Minishell testing manageable while introducing CI and frameworks effe
 - **Cons**: Doesn’t guarantee modules work together perfectly.
 - **Example**: For `parse_line()`, feed different command strings and verify parsing outputs match expected tokens.
 
+[Memory Tests](memory_tests.md)
+
 ### 2. Integration Testing
 - **Description**: Checks how different parts of Minishell work together (e.g., parser + built-ins + environment expansions).
 - **Pros**: Realistic scenarios, catches interface mismatches.
