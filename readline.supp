@@ -1,0 +1,53 @@
+{
+   readline_and_tinfo_still_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+}
+
+{
+   readline_and_tinfo_still_reachable_realloc
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:realloc
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+}
+
+{
+   readline_and_tinfo_still_reachable_calloc
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:calloc
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+}
+
+{
+   tinfo_still_reachable
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:malloc
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+}
+
+{
+   tinfo_still_reachable_realloc
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:realloc
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+}
+
+{
+   tinfo_still_reachable_calloc
+   Memcheck:Leak
+   match-leak-kinds:reachable
+   fun:calloc
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+}

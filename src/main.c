@@ -11,42 +11,39 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 void	ft_minishell_loop(t_shell *shell)
 {
 	char	*input;
 	char	*tracked_input;
-	size_t	len;
 
 	while (1)
 	{
-		printf("minishell$ ");
-		fflush(stdout);
-		input = NULL;
-		len = 0;
-		if (getline(&input, &len, stdin) == -1)
+		input = readline("minishell> ");
+		if (!input)
 		{
-			ft_track_free(shell, input);
-			printf("\n");
+			printf("exit\n");
 			break ;
 		}
-		if (input[ft_strlen(input) - 1] == '\n')
-			input[ft_strlen(input) - 1] = '\0';
-		if (ft_strlen(input) == 0)
+		if (ft_strncmp(input, "exit", 4) == 0)
 		{
-			ft_track_free(shell, input);
-			continue ;
+			free(input);
+			break ;
 		}
+		add_history(input);
 		tracked_input = ft_track_strdup(shell, input);
+		free(input);
 		if (!tracked_input)
 		{
-			ft_track_free(shell, input);
-			continue ;
+			printf("Error: Memory allocation failed\n");
+			break ;
 		}
-		ft_track_free(shell, input);
-		printf("You typed: %s\n", input);
-		ft_track_free(shell, input);
+		printf("You entered: %s\n", tracked_input);
+		ft_track_free(shell, tracked_input);
 	}
+	ft_free_all_tracked(shell);
 }
 
 int	main(void)
@@ -56,6 +53,5 @@ int	main(void)
 	shell.memory_list = NULL;
 
 	ft_minishell_loop(&shell);
-	ft_free_all_tracked(&shell);
 	return (0);
 }

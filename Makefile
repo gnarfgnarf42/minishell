@@ -23,7 +23,7 @@ $(LIBFT):
 # Build minishell
 $(NAME): $(LIBFT) $(OBJ)
 	@echo "Linking minishell..."
-	@$(CC) $(OBJ) -L$(LIBFT_DIR) -lft -o $(NAME)
+	@$(CC) $(OBJ) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 	@echo "Minishell built successfully!"
 
 # Compile object files for minishell
@@ -47,7 +47,7 @@ test: $(TEST_BINARY)
 # Run tests with Valgrind
 valgrind-test: $(TEST_BINARY)
 	@echo "========== Running Tests with Valgrind =========="
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TEST_BINARY)
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=./readline.supp ./$(TEST_BINARY)
 	@echo "========== Valgrind Tests Complete ========="
 
 # Pattern rules for test source files
