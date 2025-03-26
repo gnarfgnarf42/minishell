@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sscholz <sscholz@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 19:22:34 by sscholz           #+#    #+#             */
-/*   Updated: 2025/03/17 19:22:37 by sscholz          ###   ########.fr       */
+/*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
+/*   Updated: 2025/03/26 19:35:59 by sscholz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../includes/minishell.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -29,6 +29,7 @@ void	ft_minishell_loop(t_shell *shell)
 		}
 		if (ft_strncmp(input, "exit", 4) == 0)
 		{
+			printf("exit\n");
 			free(input);
 			break ;
 		}
@@ -44,14 +45,4 @@ void	ft_minishell_loop(t_shell *shell)
 		ft_track_free(shell, tracked_input);
 	}
 	ft_free_all_tracked(shell);
-}
-
-int	main(void)
-{
-	t_shell	shell;
-
-	shell.memory_list = NULL;
-
-	ft_minishell_loop(&shell);
-	return (0);
 }

@@ -1,72 +1,94 @@
-NAME        = minishell
-CC          = cc
-CFLAGS      = -Wall -Wextra -Werror
-SRC         = src/main.c src/utils/memory.c
-OBJ         = $(SRC:.c=.o)
-LIBFT_DIR   = ./libft
-LIBFT       = $(LIBFT_DIR)/libft.a
+NAME = minishell
 
-TEST_SRC    = tests/unit/test_memory.c tests/unity/unity.c src/utils/memory.c
-TEST_OBJ    = $(TEST_SRC:.c=.o)
+# Directories
+SRC_DIR = src
+INIT_DIR = $(SRC_DIR)/init
+PARSER_DIR = $(SRC_DIR)/parser
+TOKENIZER_DIR = $(PARSER_DIR)/tokenizer
+UTILS_DIR = $(SRC_DIR)/utils
+INC_DIR = includes
+OBJ_DIR = obj
+LIBFT_DIR = libft
+TEST_DIR = tests
+
+# Source files
+SRCS =	$(INIT_DIR)/main.c \
+		$(INIT_DIR)/minishell_loop.c \
+		$(UTILS_DIR)/memory.c \
+		$(TOKENIZER_DIR)/ft_add_token.c \
+		$(TOKENIZER_DIR)/ft_create_token.c \
+		$(TOKENIZER_DIR)/ft_finalize_tokens.c \
+		$(TOKENIZER_DIR)/ft_free_tokens.c \
+		$(TOKENIZER_DIR)/ft_handle_operator.c \
+		$(TOKENIZER_DIR)/ft_handle_quotes.c \
+		$(TOKENIZER_DIR)/ft_handle_word.c \
+		$(TOKENIZER_DIR)/ft_process_char.c \
+		$(TOKENIZER_DIR)/ft_skip_whitespace.c \
+		$(TOKENIZER_DIR)/ft_tokenize_loop.c \
+		$(TOKENIZER_DIR)/ft_tokenize.c
+
+OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
+
+TEST_SRC = $(TEST_DIR)/unit/test_memory.c \
+           $(TEST_DIR)/unity/unity.c \
+           $(UTILS_DIR)/memory.c
+TEST_OBJS = $(TEST_SRC:%.c=$(OBJ_DIR)/%.o)
 TEST_BINARY = test_binary
 
-.PHONY: all clean fclean re test valgrind-test
+# Compiler flags
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -I$(LIBFT_DIR)
+LDFLAGS = -L$(LIBFT_DIR) -lft -lreadline
 
-# Default target
+# Rules
 all: $(NAME)
 
-# Build libft if not already built
-$(LIBFT):
-	@echo "Building libft..."
-	@$(MAKE) -C $(LIBFT_DIR)
-
-# Build minishell
-$(NAME): $(LIBFT) $(OBJ)
+$(NAME): $(LIBFT_DIR)/libft.a $(OBJS)
 	@echo "Linking minishell..."
-	@$(CC) $(OBJ) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
+	$(CC) $(OBJS) $(LDFLAGS) -o $(NAME)
 	@echo "Minishell built successfully!"
 
-# Compile object files for minishell
-%.o: %.c minishell.h
-	@$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
+$(LIBFT_DIR)/libft.a:
+	@echo "Building libft..."
+	$(MAKE) -C $(LIBFT_DIR)
 
-# ---- TEST BINARY ----
+# Pattern rules
+$(OBJ_DIR)/%.o: %.c $(INC_DIR)/minishell.h
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-# This is the *real file* target that builds the "test" binary.
-$(TEST_BINARY): $(LIBFT) $(TEST_OBJ)
+# Test binary
+$(TEST_BINARY): $(LIBFT_DIR)/libft.a $(TEST_OBJS)
 	@echo "Linking test binary..."
-	@$(CC) $(TEST_OBJ) -L$(LIBFT_DIR) -lft -o $(TEST_BINARY)
+	$(CC) $(TEST_OBJS) $(LDFLAGS) -o $(TEST_BINARY)
 	@echo "Test binary built successfully!"
 
-# Single phony "test" target to build and run tests
 test: $(TEST_BINARY)
 	@echo "========== Running Tests =========="
-	@./$(TEST_BINARY)
+	./$(TEST_BINARY)
 	@echo "========== Tests Complete ========="
 
-# Run tests with Valgrind
 valgrind-test: $(TEST_BINARY)
 	@echo "========== Running Tests with Valgrind =========="
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=./readline.supp ./$(TEST_BINARY)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=./readline.supp ./$(TEST_BINARY)
 	@echo "========== Valgrind Tests Complete ========="
 
-# Pattern rules for test source files
-tests/unit/%.o: tests/unit/%.c minishell.h
-	@$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
+#debug
+debug:
+	@echo "SRCS = $(SRCS)"
+	@echo "OBJS = $(OBJS)"
 
-tests/unity/%.o: tests/unity/%.c
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-# ---- CLEANING ----
-
+# Cleaning
 clean:
 	@echo "Cleaning object files..."
-	@rm -f $(OBJ) $(TEST_OBJ)
-	@$(MAKE) -C $(LIBFT_DIR) clean
+	rm -rf $(OBJ_DIR)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	@echo "Cleaning binaries..."
-	@rm -f $(NAME) $(TEST_BINARY)
-	@$(MAKE) -C $(LIBFT_DIR) fclean
+	rm -f $(NAME) $(TEST_BINARY)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
+
+.PHONY: all clean fclean re test valgrind-test

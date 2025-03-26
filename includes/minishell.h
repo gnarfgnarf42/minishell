@@ -18,6 +18,9 @@
 # include <string.h>
 # include "../libft/includes/libft.h"
 
+typedef struct s_token		t_token;
+typedef struct s_command	t_command;
+
 // Memory tracking struct
 typedef struct s_track
 {
@@ -29,6 +32,7 @@ typedef struct s_track
 // Shell state struct
 typedef struct s_shell
 {
+	t_token	*tokens;
 	t_track	*memory_list;
 }	t_shell;
 
@@ -37,6 +41,7 @@ void	*ft_track_malloc(t_shell *shell, size_t size);
 void	ft_track_free(t_shell *shell, void *ptr);
 void	ft_free_all_tracked(t_shell *shell);
 char	*ft_track_strdup(t_shell *shell, const char *src);
+char	*ft_track_strndup(t_shell *shell, const char *s, size_t n);
 
 // Main loop function
 void	ft_minishell_loop(t_shell *shell);

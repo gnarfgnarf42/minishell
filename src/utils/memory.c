@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../includes/minishell.h"
 
 void	*ft_track_malloc(t_shell *shell, size_t size)
 {
@@ -87,6 +87,30 @@ char	*ft_track_strdup(t_shell *shell, const char *src)
 	if (!src)
 		return (NULL);
 	len = ft_strlen(src);
+	dest = ft_track_malloc(shell, len + 1);
+	if (!dest)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_track_strndup(t_shell *shell, const char *src, size_t n)
+{
+	char	*dest;
+	size_t	len;
+	size_t	i;
+
+	if (!src)
+		return (NULL);
+	len = ft_strlen(src);
+	if (len > n)
+		len = n;
 	dest = ft_track_malloc(shell, len + 1);
 	if (!dest)
 		return (NULL);

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../unity/unity.h"
-#include "../../include/minishell.h"
+#include "../../includes/minishell.h"
 
 // Setup and teardown functions (run before/after each test)
 void setUp(void)
