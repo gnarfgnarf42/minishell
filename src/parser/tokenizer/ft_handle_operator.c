@@ -23,7 +23,12 @@ t_token	*ft_handle_operator(t_shell *shell, const char *input, size_t *i)
 
 	if (!ft_is_operator(input[*i]))
 		return (NULL);
-	token = ft_create_token(shell, TOKEN_END, &input[*i], 1);
+	if (input[*i] == '|')
+		token = ft_create_token(shell, TOKEN_PIPE, &input[*i], 1);
+	else if (input[*i] == '<')
+		token = ft_create_token(shell, TOKEN_REDIR_IN, &input[*i], 1);
+	else
+		token = ft_create_token(shell, TOKEN_REDIR_OUT, &input[*i], 1);
 	if (!token)
 		return (NULL);
 	(*i)++;

@@ -30,7 +30,7 @@ t_token	*ft_tokenize_loop(t_shell *shell, const char *input, size_t *i)
 		}
 		if (new_token)
 			ft_add_token(&head, &tail, new_token);
-		else
+		if (!input[*i])
 			break ;
 	}
 	return (head);

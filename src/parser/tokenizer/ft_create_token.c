@@ -40,7 +40,7 @@ t_token	*ft_create_token(t_shell *shell, t_token_type type,
 	if (type == TOKEN_END)
 		token->type = TOKEN_END;
 	else
-		token->type = ft_set_token_type(value);
+		token->type = ft_set_token_type(token->value);
 	token->next = NULL;
 	return (token);
 }

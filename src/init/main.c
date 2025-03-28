@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include "../../includes/parser.h"
+#include "minishell.h"
+#include "parser.h"
 
 int	main(void)
 {
 	t_shell	shell;
 
-	shell = {NULL, NULL};
-
+	shell.tokens = NULL;
+	shell.memory_list = NULL;
 	ft_minishell_loop(&shell);
 	return (0);
 }
