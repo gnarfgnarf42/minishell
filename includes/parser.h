@@ -21,7 +21,11 @@ typedef enum e_token_type
 	TOKEN_PIPE,
 	TOKEN_REDIR_IN,
 	TOKEN_REDIR_OUT,
+	TOKEN_REDIR_APP,
 	TOKEN_QUOTE,
+	TOKEN_HEREDOC,
+	TOKEN_AND,
+	TOKEN_OR,
 	TOKEN_END
 }	t_token_type;
 
