@@ -15,31 +15,37 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-static void	ft_print_tokens(t_token *tokens)
+static void	ft_print_tokens(t_token *cur)
 {
-	t_token	*current;
-
-	current = tokens;
-	while (current)
+	while (cur)
 	{
-		printf("Token type: %d\n", current->type); // Debug
-		if (current->type == TOKEN_WORD)
+		printf("Token type: %d   ", cur->type);
+		if (cur->type == TOKEN_WORD)
 			printf("WORD: ");
-		else if (current->type == TOKEN_PIPE)
+		else if (cur->type == TOKEN_PIPE)
 			printf("PIPE: ");
-		else if (current->type == TOKEN_REDIR_IN)
+		else if (cur->type == TOKEN_REDIR_IN)
 			printf("REDIR_IN: ");
-		else if (current->type == TOKEN_REDIR_OUT)
+		else if (cur->type == TOKEN_REDIR_OUT)
 			printf("REDIR_OUT: ");
-		else if (current->type == TOKEN_END)
+		else if (cur->type == TOKEN_HEREDOC)
+			printf("HEREDOC: ");
+		else if (cur->type == TOKEN_APPEND)
+			printf("APPEND: ");
+		else if (cur->type == TOKEN_AND)
+			printf("AND: ");
+		else if (cur->type == TOKEN_OR)
+			printf("OR: ");
+		else if (cur->type == TOKEN_LPAREN)
+			printf("LPAREN: ");
+		else if (cur->type == TOKEN_RPAREN)
+			printf("RPAREN: ");
+		else if (cur->type == TOKEN_END)
 			printf("END: ");
 		else
 			printf("UNKNOWN: ");
-		if (current->value)
-			printf("\"%s\"\n", current->value);
-		else
-			printf("\"\"\"\n");
-		current = current->next;
+		printf("\"%s\"\n", cur->value);
+		cur = cur->next;
 	}
 }
 

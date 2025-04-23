@@ -19,7 +19,9 @@ SRCS =	$(INIT_DIR)/main.c \
 		$(TOKENIZER_DIR)/ft_create_token.c \
 		$(TOKENIZER_DIR)/ft_finalize_tokens.c \
 		$(TOKENIZER_DIR)/ft_free_tokens.c \
+		$(TOKENIZER_DIR)/ft_handle_multichar_op.c \
 		$(TOKENIZER_DIR)/ft_handle_operator.c \
+		$(TOKENIZER_DIR)/ft_handle_paren.c \
 		$(TOKENIZER_DIR)/ft_handle_quotes.c \
 		$(TOKENIZER_DIR)/ft_handle_word.c \
 		$(TOKENIZER_DIR)/ft_process_char.c \

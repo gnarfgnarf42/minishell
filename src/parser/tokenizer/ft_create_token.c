@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
-
+/*
 static t_token_type	ft_set_token_type(const char *value)
 {
 	if (value[0] == '|' && value[1] == '\0')
@@ -22,7 +22,7 @@ static t_token_type	ft_set_token_type(const char *value)
 		return (TOKEN_REDIR_OUT);
 	return (TOKEN_WORD);
 }
-
+*/
 t_token	*ft_create_token(t_shell *shell, t_token_type type,
 		const char *value, size_t len)
 {
@@ -40,7 +40,8 @@ t_token	*ft_create_token(t_shell *shell, t_token_type type,
 	if (type == TOKEN_END)
 		token->type = TOKEN_END;
 	else
-		token->type = ft_set_token_type(token->value);
+		token->type = type;
+		//token->type = ft_set_token_type(token->value);
 	token->next = NULL;
 	return (token);
 }
