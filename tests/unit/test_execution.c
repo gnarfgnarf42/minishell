@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/04/22 18:02:31 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:18:31 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,25 @@ void test_ft_exec_command_basic(void)
 	cmd.args[0] = "/usr/bin/ls";
 	cmd.args[1] = NULL;
 	ft_exec_command(&cmd);
-	TEST_ASSERT_EQUAL(127, cmd.exit_val);	// Run command "ls -la"
+	TEST_ASSERT_EQUAL(127, cmd.exit_val);	// Run command "ls" with wrong path
+	
+	cmd.pathname = "/usr/bin/touch";
+	cmd.args[0] = "/usr/bin/touch";
+	cmd.args[1] = "aaa";
+	ft_exec_command(&cmd);
+	TEST_ASSERT_EQUAL(0, cmd.exit_val);	// Run command "touch aaa"
+	
+	cmd.pathname = "/usr/bin/rm";
+	cmd.args[0] = "/usr/bin/rm";
+	cmd.args[1] = "aaa";
+	ft_exec_command(&cmd);
+	TEST_ASSERT_EQUAL(0, cmd.exit_val);	// Run command "rm aaa"
+
+	cmd.pathname = "/usr/bin/rm";
+	cmd.args[0] = "/usr/bin/rm";
+	cmd.args[1] = "aaa";
+	ft_exec_command(&cmd);
+	TEST_ASSERT_EQUAL(1, cmd.exit_val);	// Run command "rm aaa"
 	
 	printf("At exit exit_val: %d\n", cmd.exit_val);	
 	ft_free_all_tracked(&shell);				// Clean up
