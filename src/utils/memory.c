@@ -20,14 +20,12 @@ void	*ft_track_malloc(t_shell *shell, size_t size)
 	ptr = malloc(size);
 	if (!ptr)
 		return (NULL);
-
 	new_node = malloc(sizeof(t_track));
 	if (!new_node)
 	{
 		free(ptr);
 		return (NULL);
 	}
-
 	new_node->ptr = ptr;
 	new_node->size = size;
 	new_node->next = shell->memory_list;
@@ -44,7 +42,6 @@ void	ft_track_free(t_shell *shell, void *ptr)
 	prev = NULL;
 	if (!ptr)
 		return ;
-
 	while (current)
 	{
 		if (current->ptr == ptr)

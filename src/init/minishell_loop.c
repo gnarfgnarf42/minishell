@@ -20,7 +20,9 @@ static void	ft_print_tokens(t_token *cur)
 	while (cur)
 	{
 		printf("Token type: %d   ", cur->type);
-		if (cur->type == TOKEN_WORD)
+		if (cur->type == TOKEN_VAR)
+			printf("VAR: ");
+		else if (cur->type == TOKEN_WORD)
 			printf("WORD: ");
 		else if (cur->type == TOKEN_PIPE)
 			printf("PIPE: ");
@@ -55,6 +57,7 @@ void	ft_minishell_loop(t_shell *shell)
 	char	*tracked_input;
 	t_token	*tokens;
 
+	shell->last_exit_status = 0;
 	while (1)
 	{
 		input = readline("minishell> ");

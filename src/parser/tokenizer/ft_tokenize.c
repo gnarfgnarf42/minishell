@@ -22,5 +22,8 @@ t_token	*ft_tokenize(t_shell *shell, const char *input)
 	head = ft_tokenize_loop(shell, input, &i);
 	if (!head && input[i])
 		return (NULL);
-	return (ft_finalize_tokens(shell, head));
+	head = ft_finalize_tokens(shell, head);
+	if (!head)
+		return (NULL);
+	return (ft_expand_vars(shell, head));
 }

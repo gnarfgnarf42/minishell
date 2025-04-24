@@ -23,6 +23,9 @@ SRCS =	$(INIT_DIR)/main.c \
 		$(TOKENIZER_DIR)/ft_handle_operator.c \
 		$(TOKENIZER_DIR)/ft_handle_paren.c \
 		$(TOKENIZER_DIR)/ft_handle_quotes.c \
+		$(TOKENIZER_DIR)/ft_handle_dollar.c \
+		$(TOKENIZER_DIR)/ft_expand_vars.c \
+		$(TOKENIZER_DIR)/ft_merge_adjacent_words.c \
 		$(TOKENIZER_DIR)/ft_handle_word.c \
 		$(TOKENIZER_DIR)/ft_process_char.c \
 		$(TOKENIZER_DIR)/ft_skip_whitespace.c \

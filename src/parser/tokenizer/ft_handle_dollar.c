@@ -1,40 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_handle_word.c                                   :+:      :+:    :+:   */
+/*   ft_handle_dollar.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sscholz <sscholz@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/26 20:46:13 by sscholz           #+#    #+#             */
-/*   Updated: 2025/03/26 20:46:15 by sscholz          ###   ########.fr       */
+/*   Created: 2025/04/23 19:52:09 by sscholz           #+#    #+#             */
+/*   Updated: 2025/04/23 19:52:11 by sscholz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static size_t	ft_get_word_length(const char *input, size_t i)
+static size_t	ft_get_var_name_len(const char *s)
 {
 	size_t	len;
 
 	len = 0;
-	while (input[i + len] && input[i + len] != ' ' && input[i + len] != '|'
-		&& input[i + len] != '<' && input[i + len] != '>'
-		&& input[i + len] != '"' && input[i + len] != '\''
-		&& input[i + len] != '$')
+	if (s[0] == '?')
+		return (1);
+	while (s[len] && (ft_isalnum(s[len]) || s[len] == '_'))
 		len++;
 	return (len);
 }
 
-t_token	*ft_handle_word(t_shell *shell, const char *input, size_t *i)
+t_token	*ft_handle_dollar(t_shell *shell, const char *input, size_t *i)
 {
+	size_t	name_len;
+	char	*name;
 	t_token	*token;
-	size_t	len;
 
-	len = ft_get_word_length(input, *i);
-	token = ft_create_token(shell, TOKEN_WORD, &input[*i], len);
-	token->glue = false;
-	if (!token)
+	(*i)++;
+	name_len = ft_get_var_name_len(&input[*i]);
+	name = ft_track_strndup(shell, &input[*i], name_len);
+	if (!name)
 		return (NULL);
-	*i += len;
+	*i += name_len;
+	token = ft_create_token(shell, TOKEN_VAR, name, name_len);
+	token->glue = true;
+	ft_track_free(shell, name);
 	return (token);
 }

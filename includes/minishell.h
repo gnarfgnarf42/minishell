@@ -17,6 +17,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <stddef.h>
+# include <stdbool.h>
 # include "../libft/includes/libft.h"
 
 typedef struct s_token		t_token;
@@ -35,6 +37,7 @@ typedef struct s_shell
 {
 	t_token	*tokens;
 	t_track	*memory_list;
+	int		last_exit_status;
 }	t_shell;
 
 // Memory functions

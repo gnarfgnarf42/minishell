@@ -23,8 +23,10 @@ t_token	*ft_process_char(t_shell *shell, const char *input, size_t *i)
 		return (ft_handle_paren(shell, input, i));
 	if (input[*i] == '|' || input[*i] == '<' || input[*i] == '>')
 		return (ft_handle_operator(shell, input, i));
-	else if (input[*i] == '"' || input[*i] == '\'')
+	if (input[*i] == '"' || input[*i] == '\'')
 		return (ft_handle_quotes(shell, input, i));
+	if (input[*i] == '$')
+		return (ft_handle_dollar(shell, input, i));
 	else
 		return (ft_handle_word(shell, input, i));
 }

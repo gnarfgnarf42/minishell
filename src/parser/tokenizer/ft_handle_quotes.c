@@ -54,6 +54,7 @@ t_token	*ft_handle_quotes(t_shell *shell, const char *input, size_t *i)
 		return (NULL);
 	}
 	token = ft_create_token(shell, TOKEN_WORD, value, len);
+	token->glue = true;
 	ft_track_free(shell, value);
 	if (!token)
 		return (NULL);
