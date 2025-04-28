@@ -6,11 +6,12 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:06:17 by nefimov           #+#    #+#             */
-/*   Updated: 2025/04/23 17:14:53 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/04/25 21:10:44 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+#include <errno.h>
 
 static int	get_exit_code(pid_t pid)
 {
@@ -37,15 +38,70 @@ static int	get_exit_code(pid_t pid)
 	return (255);
 }
 
-void ft_exec_command(t_command *cmd)
+int search_in_path(t_shell *shell, t_command *cmd)
+{
+	char	*path;
+	
+	path = getenv("PATH");
+	if (path == NULL)
+		return (1);
+	
+}
+
+// Check if str content '/' char. Return 1 if yes, 0 if no.
+int str_is_pathname(char *str)
+{
+	while (*str)
+	{
+		if (*str == '/')
+			return (1);
+		str++;
+	}
+	return (0);
+}
+
+int	get_path(t_shell *shell, t_command *cmd)
+{
+	char	*path;
+	
+	if (str_is_pathname(cmd->pathname) == 1)
+		return (0);
+	
+	// Get pathnames from PATH env variable and check it for exist
+		
+	return (1);
+}
+
+void ft_exec_command(t_shell *shell, t_command *cmd)
 {
 	pid_t	pid;
+	int		i;
 
 	cmd->exit_val = 0;
+	if (get_path(shell, cmd) != 0)
+	{
+		cmd->exit_val = 127;
+		perror("Path error");
+		return ;
+	}
 	pid = fork();
 	if (pid == 0)
 	{
 		execve(cmd->pathname, cmd->args, cmd->envp);
+		if (errno == ENOEXEC)
+		{
+			// cmd->pathname = SH_PATH;
+			i = 0;
+			while (cmd->args[i])
+				i++;
+			while (i >= 0)
+			{
+				cmd->args[i + 1] = cmd->args[i];
+				i--;
+			}	
+			cmd->args[0] = SH_PATH;
+			execve(SH_PATH, cmd->args, cmd->envp);
+		}
 		perror("execve failed");
 		cmd->exit_val = 127;
 		exit(127);
