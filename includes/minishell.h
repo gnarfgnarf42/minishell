@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:35 by sscholz           #+#    #+#             */
-/*   Updated: 2025/04/22 19:19:39 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:06:51 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <linux/limits.h>
 # include "../libft/includes/libft.h"
 
 typedef struct s_token		t_token;
