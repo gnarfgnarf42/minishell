@@ -40,13 +40,16 @@ static int	ft_try_merge_pair(t_shell *shell, t_token *cur)
 {
 	char	*joined;
 
-	if (cur->type != TOKEN_WORD || !cur->next || cur->next->type != TOKEN_WORD
-		|| cur->next->glue == false)
+	if (cur->type != TOKEN_WORD
+		|| !cur->next
+		|| cur->next->type != TOKEN_WORD
+		|| cur->glue == false
+		|| cur->next->glue == false
+		|| cur->quote_type != cur->next->quote_type)
 		return (0);
 	joined = ft_join_values(shell, cur->value, cur->next->value);
 	if (!joined)
-		return (-1);
-	ft_track_free(shell, cur->value);
+		ft_track_free(shell, cur->value);
 	cur->value = joined;
 	ft_splice_out_next(shell, cur);
 	return (1);
