@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:06:17 by nefimov           #+#    #+#             */
-/*   Updated: 2025/04/25 21:10:44 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/04/28 14:21:14 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,39 +38,6 @@ static int	get_exit_code(pid_t pid)
 	return (255);
 }
 
-int search_in_path(t_shell *shell, t_command *cmd)
-{
-	char	*path;
-	
-	path = getenv("PATH");
-	if (path == NULL)
-		return (1);
-	
-}
-
-// Check if str content '/' char. Return 1 if yes, 0 if no.
-int str_is_pathname(char *str)
-{
-	while (*str)
-	{
-		if (*str == '/')
-			return (1);
-		str++;
-	}
-	return (0);
-}
-
-int	get_path(t_shell *shell, t_command *cmd)
-{
-	char	*path;
-	
-	if (str_is_pathname(cmd->pathname) == 1)
-		return (0);
-	
-	// Get pathnames from PATH env variable and check it for exist
-		
-	return (1);
-}
 
 void ft_exec_command(t_shell *shell, t_command *cmd)
 {
@@ -78,7 +45,7 @@ void ft_exec_command(t_shell *shell, t_command *cmd)
 	int		i;
 
 	cmd->exit_val = 0;
-	if (get_path(shell, cmd) != 0)
+	if (ft_get_path(shell, cmd) != 0)
 	{
 		cmd->exit_val = 127;
 		perror("Path error");
