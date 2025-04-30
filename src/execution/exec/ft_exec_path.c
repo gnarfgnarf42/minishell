@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 14:09:36 by nefimov           #+#    #+#             */
-/*   Updated: 2025/04/29 19:36:45 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/04/30 14:02:23 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,8 @@ int str_is_pathname(char *str)
 int	ft_get_path(t_shell *shell, t_command *cmd)
 {
 	// Check if cmd->pathname is a path
-	if (str_is_pathname(cmd->pathname) == 1 && access(cmd->pathname, F_OK) == 0)
+	if (str_is_pathname(cmd->pathname) == 1 && access(cmd->pathname, F_OK) == 0
+		&& path_is_dir(cmd->pathname) != 0)
 		return (0);
 	// Get pathnames from PATH env variable and check it for exist
 	if (search_in_path(shell, cmd) == 0)

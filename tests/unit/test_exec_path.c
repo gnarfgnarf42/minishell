@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/04/29 19:37:47 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/04/30 13:59:45 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,29 +164,94 @@ void test_search_in_path(void)
 	TEST_ASSERT_NULL(shell.memory_list); 		// Check memory list is empty
 }
 	
-/*
 void test_path_is_dir(void)
 {
-	t_command	cmd;
-	t_shell		shell;
-}
+	char	*path;
+	int 	is_dir;
 
+	path = "/usr/bin";
+	is_dir = path_is_dir(path);
+	printf("path: '%s' | out: %d\n", path, is_dir);
+	TEST_ASSERT_EQUAL_INT(0, is_dir);
+	
+	path = "/usr/bin/";
+	is_dir = path_is_dir(path);
+	printf("path: '%s' | out: %d\n", path, is_dir);
+	TEST_ASSERT_EQUAL_INT(0, is_dir);
+	
+	path = "usr/bin/";
+	is_dir = path_is_dir(path);
+	printf("path: '%s' | out: %d\n", path, is_dir);
+	TEST_ASSERT_EQUAL_INT(1, is_dir);
+	
+	path = "/usr/bin/cccc";
+	is_dir = path_is_dir(path);
+	printf("path: '%s' | out: %d\n", path, is_dir);
+	TEST_ASSERT_EQUAL_INT(1, is_dir);
+	
+	path = "";
+	is_dir = path_is_dir(path);
+	printf("path: '%s' | out: %d\n", path, is_dir);
+	TEST_ASSERT_EQUAL_INT(1, is_dir);
+
+	path = "/usr/sbin/cron";
+	is_dir = path_is_dir(path);
+	printf("path: '%s' | out: %d\n", path, is_dir);
+	TEST_ASSERT_EQUAL_INT(1, is_dir);
+}
+	
 void test_str_is_pathname(void)
 {
-	t_command	cmd;
-	t_shell		shell;
+	TEST_ASSERT_EQUAL_INT(1, str_is_pathname("/"));
+	TEST_ASSERT_EQUAL_INT(1, str_is_pathname("/usr/"));
+	TEST_ASSERT_EQUAL_INT(1, str_is_pathname("usr/"));
+	TEST_ASSERT_EQUAL_INT(1, str_is_pathname("usr/bin"));
+	TEST_ASSERT_EQUAL_INT(0, str_is_pathname(""));
+	TEST_ASSERT_EQUAL_INT(0, str_is_pathname("usr"));
 }
 
 void test_ft_get_path(void)
 {
 	t_command	cmd;
 	t_shell		shell;
+	int			ret;
 
 	cmd.pathname = "ls";
-	cmd.args = ft_track_malloc(&shell, sizeof(char *) * MAX_ARG_COUNT);
-	cmd.args[0] = cmd.pathname;
-	cmd.args[1] = NULL;
-} */
+	printf("cmd: '%s' -> ", cmd.pathname);
+	ret = ft_get_path(&shell, &cmd);
+	printf("'%s' | ret: %d\n", cmd.pathname, ret);
+	TEST_ASSERT_EQUAL_INT(0, ret);
+
+	cmd.pathname = "";
+	printf("cmd: '%s' -> ", cmd.pathname);
+	ret = ft_get_path(&shell, &cmd);
+	printf("'%s' | ret: %d\n", cmd.pathname, ret);
+	TEST_ASSERT_EQUAL_INT(1, ret);
+
+	cmd.pathname = "bbbbbbb";
+	printf("cmd: '%s' -> ", cmd.pathname);
+	ret = ft_get_path(&shell, &cmd);
+	printf("'%s' | ret: %d\n", cmd.pathname, ret);
+	TEST_ASSERT_EQUAL_INT(1, ret);
+
+	cmd.pathname = "/usr/bin/ls";
+	printf("cmd: '%s' -> ", cmd.pathname);
+	ret = ft_get_path(&shell, &cmd);
+	printf("'%s' | ret: %d\n", cmd.pathname, ret);
+	TEST_ASSERT_EQUAL_INT(0, ret);
+
+	cmd.pathname = "/usr/bin/";
+	printf("cmd: '%s' -> ", cmd.pathname);
+	ret = ft_get_path(&shell, &cmd);
+	printf("'%s' | ret: %d\n", cmd.pathname, ret);
+	TEST_ASSERT_EQUAL_INT(1, ret);
+
+	cmd.pathname = "/usr/bin/l";
+	printf("cmd: '%s' -> ", cmd.pathname);
+	ret = ft_get_path(&shell, &cmd);
+	printf("'%s' | ret: %d\n", cmd.pathname, ret);
+	TEST_ASSERT_EQUAL_INT(1, ret);
+}
 
 int main(void)
 {
@@ -195,9 +260,14 @@ int main(void)
 	
 	write(1, "\n", 2);
 	RUN_TEST(test_get_full_path);
-
 	write(1, "\n", 2);
 	RUN_TEST(test_search_in_path);
+	write(1, "\n", 2);
+	RUN_TEST(test_path_is_dir);
+	write(1, "\n", 2);
+	RUN_TEST(test_str_is_pathname);
+	write(1, "\n", 2);
+	RUN_TEST(test_ft_get_path);
 	
 	return UNITY_END();
 }

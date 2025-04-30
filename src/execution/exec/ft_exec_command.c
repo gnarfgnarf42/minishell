@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:06:17 by nefimov           #+#    #+#             */
-/*   Updated: 2025/04/28 14:21:14 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:25:42 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void ft_exec_command(t_shell *shell, t_command *cmd)
 		execve(cmd->pathname, cmd->args, cmd->envp);
 		if (errno == ENOEXEC)
 		{
-			// cmd->pathname = SH_PATH;
 			i = 0;
 			while (cmd->args[i])
 				i++;
