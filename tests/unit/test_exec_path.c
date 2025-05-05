@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/04/30 13:59:45 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/05 15:01:27 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void test_search_in_path(void)
 	TEST_ASSERT_EQUAL_INT(0, in_path);
 	ft_track_free(&shell, cmd.pathname);
 
-	cmd.pathname = "lxd.lxc";
+	cmd.pathname = "x86_64-linux-gnu-g++";
 	printf("pathname: '%s' | ", cmd.pathname);
 	in_path = search_in_path(&shell, &cmd);
 	printf("in_path: %d | full_path: '%s'\n", in_path, cmd.pathname);
