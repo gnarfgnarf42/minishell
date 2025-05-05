@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: sscholz <sscholz@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:35 by sscholz           #+#    #+#             */
-/*   Updated: 2025/04/24 14:06:51 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/03/17 19:11:40 by sscholz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include <linux/limits.h>
+# include <stddef.h>
+# include <stdbool.h>
 # include "../libft/includes/libft.h"
 
 typedef struct s_token		t_token;
@@ -36,6 +37,7 @@ typedef struct s_shell
 {
 	t_token	*tokens;
 	t_track	*memory_list;
+	int		last_exit_status;
 }	t_shell;
 
 // Memory functions

@@ -14,18 +14,25 @@
 # define PARSER_H
 
 # include "minishell.h"
-
+typedef enum e_quote_type
+{
+	QUOTE_NONE,
+	QUOTE_SINGLE,
+	QUOTE_DOUBLE
+}	t_quote_type;
 typedef enum e_token_type
 {
+	TOKEN_VAR,
 	TOKEN_WORD,
 	TOKEN_PIPE,
 	TOKEN_REDIR_IN,
 	TOKEN_REDIR_OUT,
-	TOKEN_REDIR_APP,
-	TOKEN_QUOTE,
+	TOKEN_APPEND,
 	TOKEN_HEREDOC,
 	TOKEN_AND,
 	TOKEN_OR,
+	TOKEN_LPAREN,
+	TOKEN_RPAREN,
 	TOKEN_END
 }	t_token_type;
 
@@ -33,6 +40,8 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	bool			glue;
+	t_quote_type	quote_type;
 	struct s_token	*next;
 }	t_token;
 
@@ -41,8 +50,14 @@ t_token	*ft_tokenize(t_shell *shell, const char *input);
 t_token	*ft_create_token(t_shell *shell, t_token_type type,
 			const char *value, size_t len);
 void	ft_skip_whitespace(const char *input, size_t *i);
+int		ft_is_multichar_start(char c, char next);
+t_token	*ft_handle_multichar_op(t_shell *shell, const char *input, size_t *i);
 t_token	*ft_handle_operator(t_shell *shell, const char *input, size_t *i);
+t_token	*ft_handle_paren(t_shell *shell, const char *input, size_t *i);
 t_token	*ft_handle_quotes(t_shell *shell, const char *input, size_t *i);
+t_token	*ft_handle_dollar(t_shell *shell, const char *input, size_t *i);
+t_token	*ft_expand_vars(t_shell *shell, t_token *head);
+void	ft_merge_adjacent_words(t_shell *shell, t_token *head);
 t_token	*ft_handle_word(t_shell *shell, const char *input, size_t *i);
 void	ft_add_token(t_token **head, t_token **tail, t_token *new_token);
 t_token	*ft_process_char(t_shell *shell, const char *input, size_t *i);
