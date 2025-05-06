@@ -36,7 +36,7 @@ OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 #TEST_SRC = $(TEST_DIR)/unit/test_memory.c \
            $(TEST_DIR)/unity/unity.c \
            $(UTILS_DIR)/memory.c
-TEST_SRC = $(TEST_DIR)/unit/test_exec_path.c \
+TEST_SRC = $(TEST_DIR)/unit/test_execution.c \
            $(TEST_DIR)/unity/unity.c \
            $(UTILS_DIR)/memory.c \
 		   $(EXEC_DIR)/ft_exec_command.c \

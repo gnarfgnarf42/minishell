@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/04/24 17:54:43 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/06 11:57:10 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,6 @@
 # define MAX_ARG_COUNT 10
 #endif
 
-/* static char	*add_cwd(t_shell *shell, char *cwd, char *fname)
-{
-	char *to_cpy;
-	char *dest;
-	
-	to_cpy = fname;
-	if (*to_cpy == '.' && *(to_cpy + 1) == '/')
-		to_cpy++;
-	
-	dest = ft_track_malloc(shell, PATH_MAX);
-	dest[0] = 0;
-	strcat(dest, cwd);
-	strcat(dest, to_cpy);
-	return (dest);	 
-} */
 // Setup and teardown functions (run before/after each test)
 void setUp(void)
 {}
@@ -68,7 +53,7 @@ void test_ft_exec_command_basic(void)
 
 	printf("\n--Run command 'ls -la'--\n");
 	ft_track_free(&shell, cmd.args);
-	cmd.args = ft_track_malloc(&shell, sizeof(char *) * 3);
+	// cmd.args = ft_track_malloc(&shell, sizeof(char *) * 3);
 	cmd.args[0] = cmd.pathname;
 	cmd.args[1] = "-la";
 	cmd.args[2] = NULL;
@@ -85,7 +70,7 @@ void test_ft_exec_command_basic(void)
 	cmd.args[0] = "/usr/bin/rm";
 	cmd.args[1] = NULL;
 	ft_exec_command(&shell, &cmd);
-	TEST_ASSERT_EQUAL(127, cmd.exit_val);	// Run command "ls" with wrong path
+	TEST_ASSERT_EQUAL(1, cmd.exit_val);	// Run command "ls" with wrong path
 	
 	printf("\n--Run command 'touch aaa'--\n");	
 	cmd.pathname = "/usr/bin/touch";
@@ -147,6 +132,12 @@ void test_ft_exec_command_basic(void)
 	cmd.args[2] = NULL;
 	ft_exec_command(&shell, &cmd);
 	TEST_ASSERT_EQUAL(1, cmd.exit_val);	// Run command "rm aaa"
+	
+	printf("\n--Run command 'bbbbbbb'--\n");	
+	cmd.pathname = "bbbbbbb";
+	cmd.args[0] = NULL;
+	ft_exec_command(&shell, &cmd);
+	TEST_ASSERT_EQUAL(127, cmd.exit_val);	// Run command "rm aaa"
 	
 	printf("\nexit_val: %d\n", cmd.exit_val);	
 	ft_free_all_tracked(&shell);				// Clean up
