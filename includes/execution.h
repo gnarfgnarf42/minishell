@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:21:49 by nefimov           #+#    #+#             */
-/*   Updated: 2025/04/29 19:37:02 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/06 11:46:18 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <limits.h>
+# include <linux/limits.h>
 # include "parser.h"
 
 typedef struct s_command
