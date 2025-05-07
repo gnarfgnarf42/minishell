@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:21:49 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/07 15:43:32 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/07 19:29:55 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_command	*init_cmd(t_shell *shell);
 void		ft_exec_command(t_shell *shell, t_command *cmd);
 
 t_command	*ft_create_exec_line(t_shell *shell);
+t_token		*ft_process_token(t_shell *shell, t_token *token, t_command *cmd);
 
 int			ft_get_path(t_shell *shell, t_command *cmd);
 char		*get_next_path(char *path, char delim);

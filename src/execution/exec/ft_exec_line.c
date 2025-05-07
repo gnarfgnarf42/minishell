@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/07 19:05:40 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/07 19:45:54 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_token		*ft_process_token(t_shell *shell, t_token *token, t_command *cmd)
 			cmd->cmdname = token->value;
 		cmd->args[cmd->argsc++] = token->value;
 		printf("TOKEN_WORD: %s\n", token->value);
-		return (token++);	
+		return (token->next);	
 	}
 	// TOKEN_REDIR_IN
 	else if (token->type == TOKEN_REDIR_IN)
@@ -37,6 +37,7 @@ t_token		*ft_process_token(t_shell *shell, t_token *token, t_command *cmd)
 			return (NULL);
 		printf("TOKEN_REDIR_IN: %s\n", token->value);
 		// Open file for read and write fd
+		token = token->next;
 	}
 	// else if (token->type == TOKEN_REDIR_OUT)
 	// else if (token->type == TOKEN_APPEND)

@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/07 19:03:59 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/07 19:50:47 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../../includes/execution.h"
 #include "../../includes/parser.h"
 #include <string.h>
+#include <stdio.h>
 
 #ifndef MAX_ARG_COUNT
 # define MAX_ARG_COUNT 10
@@ -32,19 +33,28 @@ void tearDown(void)
 void test_ft_process_token(void)
 {
 	char		*args_line;
-	t_command	cmd;
+	t_command	*cmd;
 	t_shell		shell;
+	t_token		*tkn;
 
 	shell.tokens = NULL;
 	shell.memory_list = NULL;
-	cmd.envp = NULL;
-	cmd.exit_val = 0;
-	cmd.fd_in = STDIN_FILENO;
-	cmd.fd_out = STDOUT_FILENO;
 	
-	args_line = "ls -la < aaa";
+	args_line = "ls -la <";
 	shell.tokens = ft_tokenize(&shell, args_line);
 	ft_print_tokens(shell.tokens);
+	
+	cmd = init_cmd(&shell);
+	tkn = shell.tokens;
+	if (tkn)
+		printf("Token to process: %d | '%s' | %p\n", tkn->type, tkn->value, tkn);
+	while (tkn && tkn->type != 11)
+	{
+		tkn = ft_process_token(&shell, tkn, cmd);
+		if (tkn)
+			printf("Next token: %d | '%s' | %p\n", tkn->type, tkn->value, tkn);
+	}
+	
 	ft_free_tokens(&shell, &shell.tokens);
 }
 /* 
