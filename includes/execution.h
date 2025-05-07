@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:21:49 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/07 09:45:52 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/07 15:43:32 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define SH_PATH		"/bin/sh"
 # define PATH_ENV		"PATH"
 # define PATH_DELIMITER	':'
+# define ARGS_MAX		100
 
 # include <sys/wait.h>
 # include <sys/stat.h>
@@ -35,7 +36,7 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-t_command	*init_cmd(t_shell *shell, char *str);
+t_command	*init_cmd(t_shell *shell);
 void		ft_exec_command(t_shell *shell, t_command *cmd);
 
 t_command	*ft_create_exec_line(t_shell *shell);
