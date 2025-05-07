@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 14:09:36 by nefimov           #+#    #+#             */
-/*   Updated: 2025/04/30 14:02:23 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/06 15:46:39 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*get_full_path(t_shell *shell, t_command *cmd, char *cur_path)
 	if (!cur_path)
 		return (NULL);
 	cur_len = ft_strlen(cur_path);
-	full_path = ft_track_malloc(shell, cur_len + ft_strlen(cmd->pathname) + 2);
+	full_path = ft_track_malloc(shell, cur_len + ft_strlen(cmd->cmdname) + 2);
 	if (!full_path)
 		return (NULL);
 	i = -1;	
@@ -61,8 +61,8 @@ char	*get_full_path(t_shell *shell, t_command *cmd, char *cur_path)
 	if (cur_len > 0 && cur_path[cur_len - 1] != '/')
 		full_path[i++] = '/';
 	j = 0;
-	while (cmd->pathname[j])
-		full_path[i++] = cmd->pathname[j++];
+	while (cmd->cmdname[j])
+		full_path[i++] = cmd->cmdname[j++];
 	full_path[i] = 0;
 	return full_path;
 }
@@ -100,7 +100,7 @@ int search_in_path(t_shell *shell, t_command *cmd)
 		if (access(full_path, F_OK) == 0 && path_is_dir(full_path) != 0)
 		{
 			// ft_track_free(shell, cmd->pathname);
-			cmd->pathname = full_path;
+			cmd->cmdname = full_path;
 			return (0);	
 		}
 		ft_track_free(shell, full_path);
@@ -128,8 +128,8 @@ int str_is_pathname(char *str)
 int	ft_get_path(t_shell *shell, t_command *cmd)
 {
 	// Check if cmd->pathname is a path
-	if (str_is_pathname(cmd->pathname) == 1 && access(cmd->pathname, F_OK) == 0
-		&& path_is_dir(cmd->pathname) != 0)
+	if (str_is_pathname(cmd->cmdname) == 1 && access(cmd->cmdname, F_OK) == 0
+		&& path_is_dir(cmd->cmdname) != 0)
 		return (0);
 	// Get pathnames from PATH env variable and check it for exist
 	if (search_in_path(shell, cmd) == 0)

@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/06 11:57:10 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/06 15:46:39 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void test_ft_exec_command_basic(void)
 	printf("cwd: '%s'\n", cwd);
 	
 	printf("\n--Run command 'ls'--\n");
-	cmd.pathname = "/usr/bin/ls";
+	cmd.cmdname = "/usr/bin/ls";
 	cmd.args = ft_track_malloc(&shell, sizeof(char *) * MAX_ARG_COUNT);
-	cmd.args[0] = cmd.pathname;
+	cmd.args[0] = cmd.cmdname;
 	cmd.args[1] = NULL;
 
 	// TEST_ASSERT_NOT_NULL(dup);				// Check allocation succeeded
@@ -54,7 +54,7 @@ void test_ft_exec_command_basic(void)
 	printf("\n--Run command 'ls -la'--\n");
 	ft_track_free(&shell, cmd.args);
 	// cmd.args = ft_track_malloc(&shell, sizeof(char *) * 3);
-	cmd.args[0] = cmd.pathname;
+	cmd.args[0] = cmd.cmdname;
 	cmd.args[1] = "-la";
 	cmd.args[2] = NULL;
 	ft_exec_command(&shell, &cmd);
@@ -66,14 +66,14 @@ void test_ft_exec_command_basic(void)
 	TEST_ASSERT_EQUAL(2, cmd.exit_val);	// Run command "ls -e"
 
 	printf("\n--Run command 'rm' with wrong pathname --\n");
-	cmd.pathname = "rm";
+	cmd.cmdname = "rm";
 	cmd.args[0] = "/usr/bin/rm";
 	cmd.args[1] = NULL;
 	ft_exec_command(&shell, &cmd);
 	TEST_ASSERT_EQUAL(1, cmd.exit_val);	// Run command "ls" with wrong path
 	
 	printf("\n--Run command 'touch aaa'--\n");	
-	cmd.pathname = "/usr/bin/touch";
+	cmd.cmdname = "/usr/bin/touch";
 	cmd.args[0] = "/usr/bin/touch";
 	cmd.args[1] = "aaa";
 	cmd.args[2] = NULL;
@@ -81,7 +81,7 @@ void test_ft_exec_command_basic(void)
 	TEST_ASSERT_EQUAL(0, cmd.exit_val);	// Run command "touch aaa"
 	
 	printf("\n--Run command '/bin/sh ./aaa'--\n");	
-	cmd.pathname = "/bin/sh";
+	cmd.cmdname = "/bin/sh";
 	cmd.args[0] = "/bin/sh";
 	cmd.args[1] = "./aaa";
 	cmd.args[2] = NULL;
@@ -90,16 +90,16 @@ void test_ft_exec_command_basic(void)
 	
 	printf("\n--Run command './aaa'--\n");	
 	// cmd.pathname = add_cwd(&shell, cwd, "./aaa");
-	cmd.pathname = "./aaa";
-	cmd.args[0] = cmd.pathname;
+	cmd.cmdname = "./aaa";
+	cmd.args[0] = cmd.cmdname;
 	cmd.args[1] = NULL;
-	printf("path: '%s\n'", cmd.pathname);
+	printf("path: '%s\n'", cmd.cmdname);
 	ft_exec_command(&shell, &cmd);
 	TEST_ASSERT_EQUAL(127, cmd.exit_val);	// Run command "touch aaa"
 	// ft_track_free(&shell, cmd.pathname);
 	
 	printf("\n--Run command 'chmod +x aaa'--\n");	
-	cmd.pathname = "/usr/bin/chmod";
+	cmd.cmdname = "/usr/bin/chmod";
 	cmd.args[0] = "/usr/bin/chmod";
 	cmd.args[1] = "+x";
 	cmd.args[2] = "aaa";
@@ -109,16 +109,16 @@ void test_ft_exec_command_basic(void)
 	
 	printf("\n--Run command './aaa'--\n");	
 	// cmd.pathname = add_cwd(&shell, cwd, "./lsaaa");
-	cmd.pathname = "./aaa";
-	cmd.args[0] = cmd.pathname;
+	cmd.cmdname = "./aaa";
+	cmd.args[0] = cmd.cmdname;
 	cmd.args[1] = NULL;
-	printf("path: '%s\n'", cmd.pathname);
+	printf("path: '%s\n'", cmd.cmdname);
 	ft_exec_command(&shell, &cmd);
 	TEST_ASSERT_EQUAL(0, cmd.exit_val);	// Run command "touch aaa"
 	// ft_track_free(&shell, cmd.pathname);
 	
 	printf("\n--Run command 'rm aaa'--\n");	
-	cmd.pathname = "/usr/bin/rm";
+	cmd.cmdname = "/usr/bin/rm";
 	cmd.args[0] = "/usr/bin/rm";
 	cmd.args[1] = "aaa";
 	cmd.args[2] = NULL;
@@ -126,7 +126,7 @@ void test_ft_exec_command_basic(void)
 	TEST_ASSERT_EQUAL(0, cmd.exit_val);	// Run command "rm aaa"
 
 	printf("\n--Run command 'rm aaa'--\n");	
-	cmd.pathname = "/usr/bin/rm";
+	cmd.cmdname = "/usr/bin/rm";
 	cmd.args[0] = "/usr/bin/rm";
 	cmd.args[1] = "aaa";
 	cmd.args[2] = NULL;
@@ -134,7 +134,7 @@ void test_ft_exec_command_basic(void)
 	TEST_ASSERT_EQUAL(1, cmd.exit_val);	// Run command "rm aaa"
 	
 	printf("\n--Run command 'bbbbbbb'--\n");	
-	cmd.pathname = "bbbbbbb";
+	cmd.cmdname = "bbbbbbb";
 	cmd.args[0] = NULL;
 	ft_exec_command(&shell, &cmd);
 	TEST_ASSERT_EQUAL(127, cmd.exit_val);	// Run command "rm aaa"

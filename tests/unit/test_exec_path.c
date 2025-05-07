@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/05 15:01:27 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/06 15:46:39 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,35 +71,35 @@ void test_get_full_path(void)
 	cmd.fd_in = STDIN_FILENO;
 	cmd.fd_out = STDOUT_FILENO;
 	
-	cmd.pathname = "cmake";
+	cmd.cmdname = "cmake";
 	cur_path = "/usr/local/bin";
 	full_path = get_full_path(&shell, &cmd, cur_path);
 	printf("cur_path: '%s' | full_path: '%s'\n", cur_path, full_path);
 	TEST_ASSERT_EQUAL_STRING("/usr/local/bin/cmake", full_path);
 	ft_track_free(&shell, full_path);
 
-	cmd.pathname = "cmake";
+	cmd.cmdname = "cmake";
 	cur_path = "/usr/local/bin/";
 	full_path = get_full_path(&shell, &cmd, cur_path);
 	printf("cur_path: '%s' | full_path: '%s'\n", cur_path, full_path);
 	TEST_ASSERT_EQUAL_STRING("/usr/local/bin/cmake", full_path);
 	ft_track_free(&shell, full_path);
 
-	cmd.pathname = "";
+	cmd.cmdname = "";
 	cur_path = "/usr/local/bin";
 	full_path = get_full_path(&shell, &cmd, cur_path);
 	printf("cur_path: '%s' | full_path: '%s'\n", cur_path, full_path);
 	TEST_ASSERT_EQUAL_STRING("/usr/local/bin/", full_path);
 	ft_track_free(&shell, full_path);
 
-	cmd.pathname = "cmake";
+	cmd.cmdname = "cmake";
 	cur_path = "";
 	full_path = get_full_path(&shell, &cmd, cur_path);
 	printf("cur_path: '%s' | full_path: '%s'\n", cur_path, full_path);
 	TEST_ASSERT_EQUAL_STRING("cmake", full_path);
 	ft_track_free(&shell, full_path);
 
-	cmd.pathname = "";
+	cmd.cmdname = "";
 	cur_path = "";
 	full_path = get_full_path(&shell, &cmd, cur_path);
 	printf("cur_path: '%s' | full_path: '%s'\n", cur_path, full_path);
@@ -122,42 +122,42 @@ void test_search_in_path(void)
 	cmd.fd_in = STDIN_FILENO;
 	cmd.fd_out = STDOUT_FILENO;
 	
-	cmd.pathname = "cmake";
-	printf("pathname: '%s' | ", cmd.pathname);
+	cmd.cmdname = "cmake";
+	printf("pathname: '%s' | ", cmd.cmdname);
 	in_path = search_in_path(&shell, &cmd);
-	printf("in_path: %d | full_path: '%s'\n", in_path, cmd.pathname);
+	printf("in_path: %d | full_path: '%s'\n", in_path, cmd.cmdname);
 	TEST_ASSERT_EQUAL_INT(0, in_path);
-	ft_track_free(&shell, cmd.pathname);
+	ft_track_free(&shell, cmd.cmdname);
 
-	cmd.pathname = "cron";
-	printf("pathname: '%s' | ", cmd.pathname);
+	cmd.cmdname = "cron";
+	printf("pathname: '%s' | ", cmd.cmdname);
 	in_path = search_in_path(&shell, &cmd);
-	printf("in_path: %d | full_path: '%s'\n", in_path, cmd.pathname);
+	printf("in_path: %d | full_path: '%s'\n", in_path, cmd.cmdname);
 	TEST_ASSERT_EQUAL_INT(0, in_path);
-	ft_track_free(&shell, cmd.pathname);
+	ft_track_free(&shell, cmd.cmdname);
 
-	cmd.pathname = "x86_64-linux-gnu-g++";
-	printf("pathname: '%s' | ", cmd.pathname);
+	cmd.cmdname = "x86_64-linux-gnu-g++";
+	printf("pathname: '%s' | ", cmd.cmdname);
 	in_path = search_in_path(&shell, &cmd);
-	printf("in_path: %d | full_path: '%s'\n", in_path, cmd.pathname);
+	printf("in_path: %d | full_path: '%s'\n", in_path, cmd.cmdname);
 	TEST_ASSERT_EQUAL_INT(0, in_path);
-	ft_track_free(&shell, cmd.pathname);
+	ft_track_free(&shell, cmd.cmdname);
 
-	cmd.pathname = "";
-	printf("pathname: '%s' | ", cmd.pathname);
+	cmd.cmdname = "";
+	printf("pathname: '%s' | ", cmd.cmdname);
 	in_path = search_in_path(&shell, &cmd);
-	printf("in_path: %d | full_path: '%s'\n", in_path, cmd.pathname);
+	printf("in_path: %d | full_path: '%s'\n", in_path, cmd.cmdname);
 	perror("perror");
 	TEST_ASSERT_EQUAL_INT(1, in_path);
-	ft_track_free(&shell, cmd.pathname);
+	ft_track_free(&shell, cmd.cmdname);
 
-	cmd.pathname = "bbbbb";
-	printf("pathname: '%s' | ", cmd.pathname);
+	cmd.cmdname = "bbbbb";
+	printf("pathname: '%s' | ", cmd.cmdname);
 	in_path = search_in_path(&shell, &cmd);
-	printf("in_path: %d | full_path: '%s'\n", in_path, cmd.pathname);
+	printf("in_path: %d | full_path: '%s'\n", in_path, cmd.cmdname);
 	perror("perror");
 	TEST_ASSERT_EQUAL_INT(1, in_path);
-	ft_track_free(&shell, cmd.pathname);
+	ft_track_free(&shell, cmd.cmdname);
 
 
 	ft_free_all_tracked(&shell);				// Clean up
@@ -216,40 +216,40 @@ void test_ft_get_path(void)
 	t_shell		shell;
 	int			ret;
 
-	cmd.pathname = "ls";
-	printf("cmd: '%s' -> ", cmd.pathname);
+	cmd.cmdname = "ls";
+	printf("cmd: '%s' -> ", cmd.cmdname);
 	ret = ft_get_path(&shell, &cmd);
-	printf("'%s' | ret: %d\n", cmd.pathname, ret);
+	printf("'%s' | ret: %d\n", cmd.cmdname, ret);
 	TEST_ASSERT_EQUAL_INT(0, ret);
 
-	cmd.pathname = "";
-	printf("cmd: '%s' -> ", cmd.pathname);
+	cmd.cmdname = "";
+	printf("cmd: '%s' -> ", cmd.cmdname);
 	ret = ft_get_path(&shell, &cmd);
-	printf("'%s' | ret: %d\n", cmd.pathname, ret);
+	printf("'%s' | ret: %d\n", cmd.cmdname, ret);
 	TEST_ASSERT_EQUAL_INT(1, ret);
 
-	cmd.pathname = "bbbbbbb";
-	printf("cmd: '%s' -> ", cmd.pathname);
+	cmd.cmdname = "bbbbbbb";
+	printf("cmd: '%s' -> ", cmd.cmdname);
 	ret = ft_get_path(&shell, &cmd);
-	printf("'%s' | ret: %d\n", cmd.pathname, ret);
+	printf("'%s' | ret: %d\n", cmd.cmdname, ret);
 	TEST_ASSERT_EQUAL_INT(1, ret);
 
-	cmd.pathname = "/usr/bin/ls";
-	printf("cmd: '%s' -> ", cmd.pathname);
+	cmd.cmdname = "/usr/bin/ls";
+	printf("cmd: '%s' -> ", cmd.cmdname);
 	ret = ft_get_path(&shell, &cmd);
-	printf("'%s' | ret: %d\n", cmd.pathname, ret);
+	printf("'%s' | ret: %d\n", cmd.cmdname, ret);
 	TEST_ASSERT_EQUAL_INT(0, ret);
 
-	cmd.pathname = "/usr/bin/";
-	printf("cmd: '%s' -> ", cmd.pathname);
+	cmd.cmdname = "/usr/bin/";
+	printf("cmd: '%s' -> ", cmd.cmdname);
 	ret = ft_get_path(&shell, &cmd);
-	printf("'%s' | ret: %d\n", cmd.pathname, ret);
+	printf("'%s' | ret: %d\n", cmd.cmdname, ret);
 	TEST_ASSERT_EQUAL_INT(1, ret);
 
-	cmd.pathname = "/usr/bin/l";
-	printf("cmd: '%s' -> ", cmd.pathname);
+	cmd.cmdname = "/usr/bin/l";
+	printf("cmd: '%s' -> ", cmd.cmdname);
 	ret = ft_get_path(&shell, &cmd);
-	printf("'%s' | ret: %d\n", cmd.pathname, ret);
+	printf("'%s' | ret: %d\n", cmd.cmdname, ret);
 	TEST_ASSERT_EQUAL_INT(1, ret);
 }
 
