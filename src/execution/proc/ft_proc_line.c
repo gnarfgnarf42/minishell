@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/07 19:45:54 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/09 11:02:36 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_token		*ft_process_token(t_shell *shell, t_token *token, t_command *cmd)
 			return (NULL);
 		printf("TOKEN_REDIR_IN: %s\n", token->value);
 		// Open file for read and write fd
-		token = token->next;
+		return (token->next);
 	}
 	// else if (token->type == TOKEN_REDIR_OUT)
 	// else if (token->type == TOKEN_APPEND)
@@ -48,27 +48,26 @@ t_token		*ft_process_token(t_shell *shell, t_token *token, t_command *cmd)
 	return (token);
 }
 
+// Read tokens from shell and create commands for execution
 t_command	*ft_create_exec_line(t_shell *shell)
 {
 	t_token		*cur_token;
 	t_token		*next_token;
 	t_command	*cmd_line;
 	t_command	*cmd;
-	// int			err;
 
-	cmd = init_cmd(shell);
+	cmd = init_cmd(shell); // Init first cmd
 	if (cmd == NULL)
 		return (NULL);
 	cmd_line = cmd;
-	cur_token = shell->tokens;
-	// err = 0;
+	cur_token = shell->tokens; // Init first token
 	while (cur_token && cur_token->type != TOKEN_END)
 	{
-		next_token = ft_process_token(shell, cur_token, cmd);
+		// Process token and retorn adress of next token to process
+		next_token = ft_process_token(shell, cur_token, cmd); 
+		// Syntax error check
 		if (next_token == NULL && cmd->exit_val == 0)
 			cmd->exit_val = 2;
-		// else if (cmd_line == NULL)
-		// cmd_line = cmd;
 		cur_token = next_token;
 	}
 	return (cmd_line);

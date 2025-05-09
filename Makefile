@@ -7,6 +7,7 @@ PARSER_DIR = $(SRC_DIR)/parser
 TOKENIZER_DIR = $(PARSER_DIR)/tokenizer
 EXECUTION_DIR = $(SRC_DIR)/execution
 EXEC_DIR = $(EXECUTION_DIR)/exec
+PROC_DIR = $(EXECUTION_DIR)/proc
 UTILS_DIR = $(SRC_DIR)/utils
 INC_DIR = includes
 OBJ_DIR = obj
@@ -30,7 +31,7 @@ SRCS =	$(INIT_DIR)/main.c \
 		$(TOKENIZER_DIR)/ft_tokenize.c \
 		$(EXEC_DIR)/ft_exec_command.c \
 		$(EXEC_DIR)/ft_exec_path.c \
-		$(EXEC_DIR)/ft_exec_line.c
+		$(PROC_DIR)/ft_proc_line.c
 
 OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
@@ -54,7 +55,7 @@ TEST_SRC =	$(TEST_DIR)/unit/test_exec_line.c \
 			$(TOKENIZER_DIR)/ft_tokenize.c \
 			$(EXEC_DIR)/ft_exec_command.c \
 			$(EXEC_DIR)/ft_exec_path.c \
-			$(EXEC_DIR)/ft_exec_line.c
+			$(PROC_DIR)/ft_proc_line.c
 
 TEST_OBJS = $(TEST_SRC:%.c=$(OBJ_DIR)/%.o)
 TEST_BINARY = test_binary
