@@ -34,12 +34,6 @@ SRCS =	$(INIT_DIR)/main.c \
 
 OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-TEST_SRC = $(TEST_DIR)/unit/test_memory.c \
-           $(TEST_DIR)/unity/unity.c \
-           $(UTILS_DIR)/memory.c
-TEST_OBJS = $(TEST_SRC:%.c=$(OBJ_DIR)/%.o)
-TEST_BINARY = test_binary
-
 # Compiler flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -I$(LIBFT_DIR)
@@ -62,23 +56,16 @@ $(OBJ_DIR)/%.o: %.c $(INC_DIR)/minishell.h
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Test binary
-$(TEST_BINARY): $(LIBFT_DIR)/libft.a $(TEST_OBJS)
-	@echo "Linking test binary..."
-	$(CC) $(TEST_OBJS) $(LDFLAGS) -o $(TEST_BINARY)
-	@echo "Test binary built successfully!"
+# Test rule to trigger test Makefile and run tests
+test:
+	@echo "Building and running tests..."
+	$(MAKE) -C $(TEST_DIR) test
 
-test: $(TEST_BINARY)
-	@echo "========== Running Tests =========="
-	./$(TEST_BINARY)
-	@echo "========== Tests Complete ========="
+valgrind-test:
+	@echo "Running tests with Valgrind..."
+	$(MAKE) -C $(TEST_DIR) valgrind-test
 
-valgrind-test: $(TEST_BINARY)
-	@echo "========== Running Tests with Valgrind =========="
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=./readline.supp ./$(TEST_BINARY)
-	@echo "========== Valgrind Tests Complete ========="
-
-#debug
+# Debug
 debug:
 	@echo "SRCS = $(SRCS)"
 	@echo "OBJS = $(OBJS)"
@@ -88,12 +75,14 @@ clean:
 	@echo "Cleaning object files..."
 	rm -rf $(OBJ_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
+	$(MAKE) -C $(TEST_DIR) clean
 
 fclean: clean
 	@echo "Cleaning binaries..."
-	rm -f $(NAME) $(TEST_BINARY)
+	rm -f $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
+	$(MAKE) -C $(TEST_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re test valgrind-test
+.PHONY: all clean fclean re test valgrind-test debug
