@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/06 15:46:39 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/09 18:43:11 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,35 +74,35 @@ void test_get_full_path(void)
 	cmd.cmdname = "cmake";
 	cur_path = "/usr/local/bin";
 	full_path = get_full_path(&shell, &cmd, cur_path);
-	printf("cur_path: '%s' | full_path: '%s'\n", cur_path, full_path);
+	printf("cmd: '%s'| cur_path: '%s' | full_path: '%s'\n",cmd.cmdname, cur_path, full_path);
 	TEST_ASSERT_EQUAL_STRING("/usr/local/bin/cmake", full_path);
 	ft_track_free(&shell, full_path);
 
 	cmd.cmdname = "cmake";
 	cur_path = "/usr/local/bin/";
 	full_path = get_full_path(&shell, &cmd, cur_path);
-	printf("cur_path: '%s' | full_path: '%s'\n", cur_path, full_path);
+	printf("cmd: '%s'| cur_path: '%s' | full_path: '%s'\n",cmd.cmdname, cur_path, full_path);
 	TEST_ASSERT_EQUAL_STRING("/usr/local/bin/cmake", full_path);
 	ft_track_free(&shell, full_path);
 
 	cmd.cmdname = "";
 	cur_path = "/usr/local/bin";
 	full_path = get_full_path(&shell, &cmd, cur_path);
-	printf("cur_path: '%s' | full_path: '%s'\n", cur_path, full_path);
+	printf("cmd: '%s'| cur_path: '%s' | full_path: '%s'\n",cmd.cmdname, cur_path, full_path);
 	TEST_ASSERT_EQUAL_STRING("/usr/local/bin/", full_path);
 	ft_track_free(&shell, full_path);
 
 	cmd.cmdname = "cmake";
 	cur_path = "";
 	full_path = get_full_path(&shell, &cmd, cur_path);
-	printf("cur_path: '%s' | full_path: '%s'\n", cur_path, full_path);
+	printf("cmd: '%s'| cur_path: '%s' | full_path: '%s'\n",cmd.cmdname, cur_path, full_path);
 	TEST_ASSERT_EQUAL_STRING("cmake", full_path);
 	ft_track_free(&shell, full_path);
 
 	cmd.cmdname = "";
 	cur_path = "";
 	full_path = get_full_path(&shell, &cmd, cur_path);
-	printf("cur_path: '%s' | full_path: '%s'\n", cur_path, full_path);
+	printf("cmd: '%s'| cur_path: '%s' | full_path: '%s'\n",cmd.cmdname, cur_path, full_path);
 	TEST_ASSERT_EQUAL_STRING("", full_path);
 	ft_track_free(&shell, full_path);
 

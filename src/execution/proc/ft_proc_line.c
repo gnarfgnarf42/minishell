@@ -6,14 +6,14 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/09 12:14:52 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:53:18 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "minishell.h"
 #include "parser.h"
-#include <string.h>
+// #include <string.h>
 
 // Check type of the Token and process it
 // Return a pointer to the next token to process
@@ -23,23 +23,9 @@ t_token		*ft_process_token(t_shell *shell, t_token *token, t_command *cmd)
 	// Add a new argument to args and cmdname if it is NULL.
 	(void)shell;
 	if (token->type == TOKEN_WORD)
-	{
-		if (cmd->cmdname == NULL)
-			cmd->cmdname = token->value;
-		cmd->args[cmd->argsc++] = token->value;
-		printf("TOKEN_WORD: %s\n", token->value);
-		return (token->next);	
-	}
-	// TOKEN_REDIR_IN
+		return (ft_process_word(shell, token,cmd));
 	else if (token->type == TOKEN_REDIR_IN)
-	{
-		token = token->next;
-		if (token->type != TOKEN_WORD)
-			return (NULL);
-		printf("TOKEN_REDIR_IN: %s\n", token->value);
-		// Open file for read and write fd
-		return (token->next);
-	}
+		return (ft_process_redir_in(shell, token,cmd));
 	// else if (token->type == TOKEN_REDIR_OUT)
 	// else if (token->type == TOKEN_APPEND)
 	// else if (token->type == TOKEN_HEREDOC)

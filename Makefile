@@ -41,6 +41,7 @@ OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 TEST_SRC =	$(TEST_DIR)/unit/test_exec_line.c \
     		$(TEST_DIR)/unity/unity.c \
         	$(UTILS_DIR)/memory.c \
+			$(UTILS_DIR)/command.c \
 			$(INIT_DIR)/minishell_loop.c \
 		   	$(TOKENIZER_DIR)/ft_add_token.c \
 			$(TOKENIZER_DIR)/ft_create_token.c \
@@ -55,7 +56,10 @@ TEST_SRC =	$(TEST_DIR)/unit/test_exec_line.c \
 			$(TOKENIZER_DIR)/ft_tokenize.c \
 			$(EXEC_DIR)/ft_exec_command.c \
 			$(EXEC_DIR)/ft_exec_path.c \
-			$(PROC_DIR)/ft_proc_line.c
+			$(PROC_DIR)/ft_proc_line.c \
+			$(PROC_DIR)/ft_proc_word.c \
+			$(PROC_DIR)/ft_proc_redir_in.c
+
 
 TEST_OBJS = $(TEST_SRC:%.c=$(OBJ_DIR)/%.o)
 TEST_BINARY = test_binary
