@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exec_line.c                                     :+:      :+:    :+:   */
+/*   ft_proc_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/09 11:02:36 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/09 12:14:52 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "minishell.h"
 #include "parser.h"
+#include <string.h>
 
 // Check type of the Token and process it
 // Return a pointer to the next token to process
@@ -67,7 +68,7 @@ t_command	*ft_create_exec_line(t_shell *shell)
 		next_token = ft_process_token(shell, cur_token, cmd); 
 		// Syntax error check
 		if (next_token == NULL && cmd->exit_val == 0)
-			cmd->exit_val = 2;
+			cmd->exit_val = 22;
 		cur_token = next_token;
 	}
 	return (cmd_line);
