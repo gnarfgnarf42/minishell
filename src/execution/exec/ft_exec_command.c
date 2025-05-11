@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:06:17 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/07 15:46:56 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/11 10:32:16 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,6 @@ static int	get_exit_code(pid_t pid)
 		return (128 + WTERMSIG(status));
 	}
 	return (255);
-}
-
-t_command	*init_cmd(t_shell *shell)
-{
-	t_command	*cmd;
-
-	cmd = (t_command *)ft_track_malloc(shell, sizeof(t_command));
-	if (!cmd)
-		return (NULL);
-	cmd->args = ft_track_malloc(shell, sizeof(char *) * ARGS_MAX);
-	if (!cmd->args)
-		return (NULL);		
-	cmd->cmdname = NULL;
-	// cmd->args = NULL;
-	cmd->argsc = 0;
-	cmd->envp = NULL;
-	cmd->exit_val = 0;
-	cmd->fd_in = STDIN_FILENO;
-	cmd->fd_out = STDOUT_FILENO;
-	cmd->next = NULL;
-	return (cmd);
 }
 
 void ft_exec_command(t_shell *shell, t_command *cmd)

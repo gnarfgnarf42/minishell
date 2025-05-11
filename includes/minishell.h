@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sscholz <sscholz@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:35 by sscholz           #+#    #+#             */
-/*   Updated: 2025/03/17 19:11:40 by sscholz          ###   ########.fr       */
+/*   Updated: 2025/05/11 11:02:36 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,7 @@ char	*ft_track_strndup(t_shell *shell, const char *s, size_t n);
 
 // Main loop function
 void	ft_minishell_loop(t_shell *shell);
+
+void	ft_print_tokens(t_token *tokens);
 
 #endif

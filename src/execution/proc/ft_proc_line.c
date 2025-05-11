@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/09 19:53:18 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/11 10:31:09 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_command	*ft_create_exec_line(t_shell *shell)
 	t_command	*cmd_line;
 	t_command	*cmd;
 
-	cmd = init_cmd(shell); // Init first cmd
+	cmd = ft_init_cmd(shell); // Init first cmd
 	if (cmd == NULL)
 		return (NULL);
 	cmd_line = cmd;

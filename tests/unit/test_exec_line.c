@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/09 20:00:52 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/11 10:37:02 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void test_ft_process_token(void)
 	ft_print_tokens(shell.tokens);
 	printf("\n");
 	
-	cmd = init_cmd(&shell);
+	cmd = ft_init_cmd(&shell);
 	tkn = shell.tokens;
 	if (tkn)
 		printf("First token: %d | '%s' | %p\n", tkn->type, tkn->value, tkn);
@@ -58,15 +58,7 @@ void test_ft_process_token(void)
 			printf("Next token: %d | '%s' | %p\n", tkn->type, tkn->value, tkn);
 	}
 	ft_print_cmd(cmd);
-	/* arg = cmd->args;
-	printf("\ncmd: '%s'\n", cmd->cmdname);
-	printf("argsc: %d\nargs: ", cmd->argsc);
-	while (*arg)
-	{
-		printf("'%s', ", *arg);
-		arg++;
-	}
-	printf("\n"); */
+	ft_free_cmd(&shell, cmd);
 	ft_free_tokens(&shell, &shell.tokens);
 }
 /* 

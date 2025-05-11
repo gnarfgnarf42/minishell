@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:21:49 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/09 20:02:08 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/11 10:55:43 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,10 @@ typedef struct s_command
 }	t_command;
 
 // ft_proc_line.c
-// Create a list of commands from tokens 
 t_command	*ft_create_exec_line(t_shell *shell);
 t_token		*ft_process_token(t_shell *shell, t_token *token, t_command *cmd);
 
 // ft_proc_word.c
-// Process a TOKEN_WORD token
 t_token		*ft_process_word(t_shell *shell, t_token *token, t_command *cmd);
 t_token		*ft_process_redir_in(t_shell *shell, t_token *token, t_command *cmd);
 // t_token		*ft_process_redir_out(t_shell *shell, t_token *token, t_command *cmd);
@@ -52,12 +50,11 @@ t_token		*ft_process_redir_in(t_shell *shell, t_token *token, t_command *cmd);
 // t_token		*ft_process_pipe(t_shell *shell, t_token *token, t_command *cmd);
 
 // ft_exec_command.c
-// Execute a command
-t_command	*init_cmd(t_shell *shell);
+t_command	*ft_init_cmd(t_shell *shell);
+void		ft_free_cmd(t_shell *shell, t_command *cmd);
 void		ft_exec_command(t_shell *shell, t_command *cmd);
 
 // ft_exec_path.c
-// Check and find command path in PATH env. variable
 int			ft_get_path(t_shell *shell, t_command *cmd);
 char		*get_next_path(char *path, char delim);
 char		*get_full_path(t_shell *shell, t_command *cmd, char *cur_path);
