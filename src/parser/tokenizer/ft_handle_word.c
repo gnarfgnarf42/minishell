@@ -19,7 +19,8 @@ static size_t	ft_get_word_length(const char *input, size_t i)
 	len = 0;
 	while (input[i + len] && input[i + len] != ' ' && input[i + len] != '|'
 		&& input[i + len] != '<' && input[i + len] != '>'
-		&& input[i + len] != '"' && input[i + len] != '\'')
+		&& input[i + len] != '"' && input[i + len] != '\''
+		&& input[i + len] != '$')
 		len++;
 	return (len);
 }
@@ -31,6 +32,8 @@ t_token	*ft_handle_word(t_shell *shell, const char *input, size_t *i)
 
 	len = ft_get_word_length(input, *i);
 	token = ft_create_token(shell, TOKEN_WORD, &input[*i], len);
+	token->glue = false;
+	token->quote_type = QUOTE_NONE;
 	if (!token)
 		return (NULL);
 	*i += len;
