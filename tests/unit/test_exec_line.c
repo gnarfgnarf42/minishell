@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/12 11:04:49 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/12 11:39:08 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void test_ft_process_token(void)
 	shell.tokens = NULL;
 	shell.memory_list = NULL;
 	
-	input_line = "ls -la -hs < in > out >> app <<hd";
+	input_line = "ls -la < in > out >> app <<hd";
 	printf("Input line: '%s'\n", input_line);
 	shell.tokens = ft_tokenize(&shell, input_line);
 	ft_print_tokens(shell.tokens);
@@ -58,6 +58,9 @@ void test_ft_process_token(void)
 			printf("Next token: %d | '%s' | %p\n", tkn->type, tkn->value, tkn);
 	}
 	ft_print_cmd(cmd);
+	
+	ft_exec_command(&shell, cmd);
+	
 	ft_free_cmd(&shell, cmd);
 	ft_free_tokens(&shell, &shell.tokens);
 }
