@@ -1,10 +1,10 @@
 NAME = minishell
 
 # Directories
-SRC_DIR = src
-INIT_DIR = $(SRC_DIR)/init
+SRC_DIR = 	src
+INIT_DIR = 	$(SRC_DIR)/init
 PARSER_DIR = $(SRC_DIR)/parser
-TOKENIZER_DIR = $(PARSER_DIR)/tokenizer
+TOKENIZER_DIR =	$(PARSER_DIR)/tokenizer
 EXECUTION_DIR = $(SRC_DIR)/execution
 EXEC_DIR = $(EXECUTION_DIR)/exec
 PROC_DIR = $(EXECUTION_DIR)/proc
@@ -15,25 +15,31 @@ LIBFT_DIR = libft
 TEST_DIR = tests
 
 # Source files
-SRCS =	$(INIT_DIR)/main.c \
-		$(INIT_DIR)/minishell_loop.c \
-		$(UTILS_DIR)/memory.c \
-		$(TOKENIZER_DIR)/ft_add_token.c \
-		$(TOKENIZER_DIR)/ft_create_token.c \
-		$(TOKENIZER_DIR)/ft_finalize_tokens.c \
-		$(TOKENIZER_DIR)/ft_free_tokens.c \
-		$(TOKENIZER_DIR)/ft_handle_operator.c \
-		$(TOKENIZER_DIR)/ft_handle_quotes.c \
-		$(TOKENIZER_DIR)/ft_handle_word.c \
-		$(TOKENIZER_DIR)/ft_process_char.c \
-		$(TOKENIZER_DIR)/ft_skip_whitespace.c \
-		$(TOKENIZER_DIR)/ft_tokenize_loop.c \
-		$(TOKENIZER_DIR)/ft_tokenize.c \
-		$(EXEC_DIR)/ft_exec_command.c \
-		$(EXEC_DIR)/ft_exec_path.c \
-		$(PROC_DIR)/ft_proc_line.c
+SRCS =		$(INIT_DIR)/main.c \
+			$(INIT_DIR)/minishell_loop.c \
+			$(UTILS_DIR)/memory.c \
+			$(TOKENIZER_DIR)/ft_add_token.c \
+			$(TOKENIZER_DIR)/ft_create_token.c \
+			$(TOKENIZER_DIR)/ft_finalize_tokens.c \
+			$(TOKENIZER_DIR)/ft_free_tokens.c \
+			$(TOKENIZER_DIR)/ft_handle_operator.c \
+			$(TOKENIZER_DIR)/ft_handle_quotes.c \
+			$(TOKENIZER_DIR)/ft_handle_word.c \
+			$(TOKENIZER_DIR)/ft_process_char.c \
+			$(TOKENIZER_DIR)/ft_skip_whitespace.c \
+			$(TOKENIZER_DIR)/ft_tokenize_loop.c \
+			$(TOKENIZER_DIR)/ft_tokenize.c \
+			$(EXEC_DIR)/ft_exec_command.c \
+			$(EXEC_DIR)/ft_exec_path.c \
+			$(PROC_DIR)/ft_proc_line.c \
+			$(PROC_DIR)/ft_proc_word.c \
+			$(PROC_DIR)/ft_proc_redir_in.c \
+			$(PROC_DIR)/ft_proc_redir_out.c \
+			$(PROC_DIR)/ft_proc_append.c \
+			$(PROC_DIR)/ft_proc_heredoc.c \
+			$(PROC_DIR)/ft_proc_pipe.c \
 
-OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
+OBJS =		$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 #TEST_SRC = $(TEST_DIR)/unit/test_memory.c \
         	$(TEST_DIR)/unity/unity.c \
@@ -58,7 +64,11 @@ TEST_SRC =	$(TEST_DIR)/unit/test_exec_line.c \
 			$(EXEC_DIR)/ft_exec_path.c \
 			$(PROC_DIR)/ft_proc_line.c \
 			$(PROC_DIR)/ft_proc_word.c \
-			$(PROC_DIR)/ft_proc_redir_in.c
+			$(PROC_DIR)/ft_proc_redir_in.c \
+			$(PROC_DIR)/ft_proc_redir_out.c \
+			$(PROC_DIR)/ft_proc_append.c \
+			$(PROC_DIR)/ft_proc_heredoc.c \
+			$(PROC_DIR)/ft_proc_pipe.c \
 
 
 TEST_OBJS = $(TEST_SRC:%.c=$(OBJ_DIR)/%.o)
