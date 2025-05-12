@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/12 11:39:08 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/12 12:04:37 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,34 +33,38 @@ void tearDown(void)
 void test_ft_process_token(void)
 {
 	char		*input_line;
-	// char		**arg;
 	t_command	*cmd;
+	t_command	*cmd_line;
 	t_shell		shell;
 	t_token		*tkn;
 
 	shell.tokens = NULL;
 	shell.memory_list = NULL;
 	
-	input_line = "ls -la < in > out >> app <<hd";
+	input_line = "ls -la < in > out >> app <<hd | pwd";
 	printf("Input line: '%s'\n", input_line);
 	shell.tokens = ft_tokenize(&shell, input_line);
 	ft_print_tokens(shell.tokens);
 	printf("\n");
 	
 	cmd = ft_init_cmd(&shell);
+	cmd_line = cmd;
 	tkn = shell.tokens;
 	if (tkn)
 		printf("First token: %d | '%s' | %p\n", tkn->type, tkn->value, tkn);
 	while (tkn && tkn->type != 11)
 	{
-		tkn = ft_process_token(&shell, tkn, cmd);
+		tkn = ft_process_token(&shell, tkn, &cmd);
 		if (tkn)
 			printf("Next token: %d | '%s' | %p\n", tkn->type, tkn->value, tkn);
 	}
-	ft_print_cmd(cmd);
 	
-	ft_exec_command(&shell, cmd);
-	
+	while (cmd_line)
+	{
+		ft_print_cmd(cmd_line);	
+		ft_exec_command(&shell, cmd_line);
+		cmd_line = cmd_line->next;
+	}
 	ft_free_cmd(&shell, cmd);
 	ft_free_tokens(&shell, &shell.tokens);
 }
