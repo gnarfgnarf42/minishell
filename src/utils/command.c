@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 19:24:15 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/11 11:04:17 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:03:57 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,44 @@ t_command	*ft_init_cmd(t_shell *shell)
 	cmd->exit_val = 0;
 	cmd->fd_in = STDIN_FILENO;
 	cmd->fd_out = STDOUT_FILENO;
-	cmd->fd_pipe[1] = STDIN_FILENO;
-	cmd->fd_pipe[0] = STDOUT_FILENO;
+	cmd->fd_pipe[0] = STDIN_FILENO;
+	cmd->fd_pipe[1] = STDOUT_FILENO;
 	cmd->next = NULL;
+	cmd->prev = NULL;
 	return (cmd);
 }
 
 void		ft_free_cmd(t_shell *shell, t_command *cmd)
 {
+	if (!cmd)
+		return ;	
+	if (cmd->fd_in != STDIN_FILENO)
+		close(cmd->fd_in);
+	if (cmd->fd_out != STDOUT_FILENO)
+		close(cmd->fd_out);
+	if (cmd->fd_pipe[0] != STDIN_FILENO)
+		close(cmd->fd_pipe[0]);
+	if (cmd->fd_pipe[1] != STDOUT_FILENO)
+		close(cmd->fd_pipe[1]);
+	// (void)shell;
 	if (cmd && cmd->args)
 		ft_track_free(shell, cmd->args);
 	if (cmd)
 		ft_track_free(shell, cmd);
 }
-	
+
+void		ft_free_cmd_line(t_shell *shell, t_command *cmd)
+{
+	t_command *cmd_next;
+
+	while (cmd)
+	{
+		cmd_next = cmd->next;
+		ft_free_cmd(shell, cmd);
+		cmd = cmd_next;
+	}
+}
+
 void		ft_print_cmd(t_command *cmd)
 {
 	char		**arg;
@@ -62,5 +86,6 @@ void		ft_print_cmd(t_command *cmd)
 	printf("\nfd_in: %2d | fd_out: %d\n", cmd->fd_in, cmd->fd_out);
 	printf("pipe: %3d | %d\n", cmd->fd_pipe[0], cmd->fd_pipe[1]);
 	printf("next: %p\n", cmd->next);
+	printf("prev: %p\n", cmd->prev);
 	printf("\n");
 }
