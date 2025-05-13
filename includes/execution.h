@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:21:49 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/12 11:55:28 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:04:21 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_command
 	int					fd_pipe[2];
 	int					exit_val;
 	struct s_command	*next;
+	struct s_command	*prev;
 }	t_command;
 
 // ft_proc_line.c
@@ -52,6 +53,7 @@ t_token		*ft_process_pipe(t_shell *shell, t_token *token, t_command **cmd);
 // ft_exec_command.c
 t_command	*ft_init_cmd(t_shell *shell);
 void		ft_free_cmd(t_shell *shell, t_command *cmd);
+void		ft_free_cmd_line(t_shell *shell, t_command *cmd);
 void		ft_exec_command(t_shell *shell, t_command *cmd);
 
 // ft_exec_path.c
