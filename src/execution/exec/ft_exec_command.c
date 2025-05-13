@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:06:17 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/13 15:58:46 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:30:14 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,19 @@ static int	dup_fd(t_command *cmd)
 		dup2(cmd->fd_out, STDOUT_FILENO);
 		close(cmd->fd_out);
 	}
+	return (0);
+}
+
+static int	close_fd(t_command *cmd)
+{	
+	if (cmd->next && cmd->fd_pipe[1] != STDOUT_FILENO)
+		close(cmd->fd_pipe[1]);		
+	if (cmd->prev && cmd->prev->fd_pipe[0] != STDIN_FILENO)
+		close(cmd->prev->fd_pipe[0]);
+	if (cmd->fd_in != STDIN_FILENO)
+		close(cmd->fd_in);
+	if (cmd->fd_out != STDOUT_FILENO)
+		close(cmd->fd_out);
 	return (0);
 }
 
@@ -76,10 +89,15 @@ void ft_exec_command(t_shell *shell, t_command *cmd)
 	}
 	else
 	{
-		if (cmd->next && cmd->fd_pipe[1] != STDOUT_FILENO)
-			close(cmd->fd_pipe[1]);		
-		if (cmd->prev && cmd->prev->fd_pipe[0] != STDIN_FILENO)
-			close(cmd->prev->fd_pipe[0]);
+		close_fd(cmd);
+		// if (cmd->next && cmd->fd_pipe[1] != STDOUT_FILENO)
+		// 	close(cmd->fd_pipe[1]);		
+		// if (cmd->prev && cmd->prev->fd_pipe[0] != STDIN_FILENO)
+		// 	close(cmd->prev->fd_pipe[0]);
+		// if (cmd->fd_in != STDIN_FILENO)
+		// 	close(cmd->fd_in);
+		// if (cmd->fd_out != STDOUT_FILENO)
+		// 	close(cmd->fd_out);
 		cmd->exit_val = get_exit_code(pid);
 		printf("Exit code: %d\n", cmd->exit_val);
 	}
