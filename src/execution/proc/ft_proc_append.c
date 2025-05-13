@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/13 16:23:10 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:36:27 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token		*ft_process_append(t_shell *shell, t_token *token, t_command *cmd)
 		return (NULL);
 	}
 	printf("TOKEN_APPEND: %s\n", token->value);
-	// Open file for read
+	// Open or create file for append
 	fd = open(token->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
@@ -38,7 +38,7 @@ t_token		*ft_process_append(t_shell *shell, t_token *token, t_command *cmd)
 		cmd->exit_val = 1; 
 		return (NULL);
 	}
-	// Closing previous redirection in
+	// Closing previous redirection out fd
 	if (cmd->fd_out != STDOUT_FILENO && close(cmd->fd_out) == -1)
 	{
 		// File close error
