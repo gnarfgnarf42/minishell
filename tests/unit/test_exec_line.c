@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/12 12:04:37 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:04:35 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,27 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <stdio.h>
+#include <dirent.h>
+#include <stdlib.h>
+
 #ifndef MAX_ARG_COUNT
 # define MAX_ARG_COUNT 10
 #endif
+
+void check_open_fds()
+{
+    DIR *dir = opendir("/proc/self/fd");
+    if (dir) {
+        struct dirent *entry;
+        while ((entry = readdir(dir)) != NULL) {
+            printf("Open FD: %s\n", entry->d_name);
+        }
+        closedir(dir);
+    }
+	else
+		printf("All FD are closed\n");
+}
 
 void	ft_print_tokens(t_token *tokens);
 
@@ -38,10 +56,14 @@ void test_ft_process_token(void)
 	t_shell		shell;
 	t_token		*tkn;
 
+	// check_open_fds();
 	shell.tokens = NULL;
 	shell.memory_list = NULL;
 	
-	input_line = "ls -la < in > out >> app <<hd | pwd";
+	// input_line = "ls -la <tests/files/simple_text >out >>app <<hd | cat";
+	// input_line = "cat tests/files/simple_text >out >>app <<hd | cat";
+	input_line = "cat <tests/files/simple_text >out >>app <<hd | cat < tests/files/simple_text_2";
+	
 	printf("Input line: '%s'\n", input_line);
 	shell.tokens = ft_tokenize(&shell, input_line);
 	ft_print_tokens(shell.tokens);
@@ -59,13 +81,21 @@ void test_ft_process_token(void)
 			printf("Next token: %d | '%s' | %p\n", tkn->type, tkn->value, tkn);
 	}
 	
-	while (cmd_line)
+	cmd = cmd_line;
+	while (cmd)
 	{
-		ft_print_cmd(cmd_line);	
-		ft_exec_command(&shell, cmd_line);
-		cmd_line = cmd_line->next;
+		if (cmd->exit_val == 0)
+		{
+			ft_print_cmd(cmd);	
+			ft_exec_command(&shell, cmd);
+			// check_open_fds();
+		}
+		// else
+		// 	printf("Error in parsing (cmd->exit_val): %d\n", cmd_line->exit_val);
+		cmd = cmd->next;
+		// ft_free_cmd(&shell, cmd_line);
 	}
-	ft_free_cmd(&shell, cmd);
+	ft_free_cmd_line(&shell, cmd);
 	ft_free_tokens(&shell, &shell.tokens);
 }
 /* 
