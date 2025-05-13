@@ -37,7 +37,7 @@ SRCS =		$(INIT_DIR)/main.c \
 			$(TOKENIZER_DIR)/ft_tokenize.c \
 			$(EXEC_DIR)/ft_exec_command.c \
 			$(EXEC_DIR)/ft_exec_path.c \
-			$(PROC_DIR)/ft_proc_line.c \
+			$(PROC_DIR)/ft_proc_tokens.c \
 			$(PROC_DIR)/ft_proc_word.c \
 			$(PROC_DIR)/ft_proc_redir_in.c \
 			$(PROC_DIR)/ft_proc_redir_out.c \
@@ -73,7 +73,7 @@ TEST_SRC =	$(TEST_DIR)/unit/test_exec_line.c \
 			$(TOKENIZER_DIR)/ft_tokenize.c \
 			$(EXEC_DIR)/ft_exec_command.c \
 			$(EXEC_DIR)/ft_exec_path.c \
-			$(PROC_DIR)/ft_proc_line.c \
+			$(PROC_DIR)/ft_proc_tokens.c \
 			$(PROC_DIR)/ft_proc_word.c \
 			$(PROC_DIR)/ft_proc_redir_in.c \
 			$(PROC_DIR)/ft_proc_redir_out.c \
