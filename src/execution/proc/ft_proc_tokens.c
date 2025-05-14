@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_proc_line.c                                     :+:      :+:    :+:   */
+/*   ft_proc_tokens.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/12 11:58:46 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/13 17:36:14 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_token		*ft_process_token(t_shell *shell, t_token *token, t_command **cmd)
 }
 
 // Read tokens from shell and create commands for execution
-t_command	*ft_create_exec_line(t_shell *shell)
+t_command	*ft_create_cmd_line(t_shell *shell)
 {
 	t_token		*cur_token;
 	t_token		*next_token;

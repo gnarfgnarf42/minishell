@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/13 15:01:10 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/13 18:08:07 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_token		*ft_process_pipe(t_shell *shell, t_token *token, t_command **cmd)
 		(*cmd)->exit_val = 2;  
 		return (NULL);
 	}
-	printf("TOKEN_PIPE: %s\n", token->value);
+	// printf("TOKEN_PIPE: %s\n", token->value);
 	// Create new cmd
 	new_cmd = ft_init_cmd(shell);
 	new_cmd->prev = *cmd;

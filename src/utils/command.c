@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 19:24:15 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/13 16:03:57 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/13 17:21:27 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,5 @@ void		ft_print_cmd(t_command *cmd)
 	printf("pipe: %3d | %d\n", cmd->fd_pipe[0], cmd->fd_pipe[1]);
 	printf("next: %p\n", cmd->next);
 	printf("prev: %p\n", cmd->prev);
-	printf("\n");
+	// printf("\n");
 }
