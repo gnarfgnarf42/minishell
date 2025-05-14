@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/13 16:04:35 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/13 17:37:07 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void test_ft_process_token(void)
 	shell.tokens = NULL;
 	shell.memory_list = NULL;
 	
-	// input_line = "ls -la <tests/files/simple_text >out >>app <<hd | cat";
-	// input_line = "cat tests/files/simple_text >out >>app <<hd | cat";
-	input_line = "cat <tests/files/simple_text >out >>app <<hd | cat < tests/files/simple_text_2";
+	// input_line = "ls -la <tests/files/simple_text >tests/files/out >>tests/files/app <<hd | cat";
+	input_line = "cat <tests/files/simple_text >tests/files/out >>tests/files/app <<hd | cat";
+	// input_line = "cat <tests/files/simple_text >tests/files/out >>tests/files/app <<hd | cat < tests/files/simple_text_2";
 	
 	printf("Input line: '%s'\n", input_line);
 	shell.tokens = ft_tokenize(&shell, input_line);
@@ -81,144 +81,57 @@ void test_ft_process_token(void)
 			printf("Next token: %d | '%s' | %p\n", tkn->type, tkn->value, tkn);
 	}
 	
+	ft_free_cmd_line(&shell, cmd_line);
+	ft_free_tokens(&shell, &shell.tokens);
+	// check_open_fds();
+}
+
+void test_create_cmd_line(void)
+{
+	char		*input_line;
+	t_command	*cmd;
+	t_command	*cmd_line;
+	t_shell		shell;
+	// t_token		*tkn;
+
+	// check_open_fds();
+	shell.tokens = NULL;
+	shell.memory_list = NULL;
+	
+	// input_line = "ls -la <tests/files/simple_text >tests/files/out >>tests/files/app <<hd | cat";
+	input_line = "cat <tests/files/simple_text >tests/files/out >>tests/files/app <<hd | cat | ls | echo aaa";
+	// input_line = "cat <tests/files/simple_text >tests/files/out >>tests/files/app <<hd | cat < tests/files/simple_text_2";
+	
+	printf("Input line: '%s'\n", input_line);
+	shell.tokens = ft_tokenize(&shell, input_line);
+	// ft_print_tokens(shell.tokens);
+	printf("\n");
+	
+	cmd_line = ft_create_cmd_line(&shell);
+		
 	cmd = cmd_line;
 	while (cmd)
 	{
 		if (cmd->exit_val == 0)
 		{
 			ft_print_cmd(cmd);	
-			ft_exec_command(&shell, cmd);
-			// check_open_fds();
+			// ft_exec_command(&shell, cmd);
 		}
-		// else
-		// 	printf("Error in parsing (cmd->exit_val): %d\n", cmd_line->exit_val);
 		cmd = cmd->next;
-		// ft_free_cmd(&shell, cmd_line);
 	}
-	ft_free_cmd_line(&shell, cmd);
+	ft_free_cmd_line(&shell, cmd_line);
 	ft_free_tokens(&shell, &shell.tokens);
+	printf("\n");
+	check_open_fds();
 }
-/* 
-void test_get_next_path(void)
-{
-	t_command	cmd;
-	t_shell		shell;
-	char		*path;
-	char		*str;
-
-	shell.memory_list = NULL;
-	cmd.envp = NULL;
-	cmd.exit_val = 0;
-	cmd.fd_in = STDIN_FILENO;
-	cmd.fd_out = STDOUT_FILENO;
-	
-	path = ft_track_strdup(&shell, "/home/nefimov/bin:/usr/local/sbin:/usr/local/bin");
-	printf("path: '%s'\n", path);
-	
-	str = get_next_path(path, PATH_DELIMITER);
-	printf("str: '%s'\n", str);
-	TEST_ASSERT_EQUAL_STRING("/home/nefimov/bin", str);
-	
-	ft_track_free(&shell, path);
-	ft_free_all_tracked(&shell);				// Clean up
-	TEST_ASSERT_NULL(shell.memory_list); 		// Check memory list is empty
-}
-void test_get_full_path(void)
-{
-	t_command	cmd;
-	t_shell		shell;
-	char		*cur_path;
-	char		*full_path;
-	
-	shell.memory_list = NULL;
-	cmd.envp = NULL;
-	cmd.exit_val = 0;
-	cmd.fd_in = STDIN_FILENO;
-	cmd.fd_out = STDOUT_FILENO;
-	
-	cmd.cmdname = "cmake";
-	cur_path = "/usr/local/bin";
-	full_path = get_full_path(&shell, &cmd, cur_path);
-	printf("cur_path: '%s' | full_path: '%s'\n", cur_path, full_path);
-	TEST_ASSERT_EQUAL_STRING("/usr/local/bin/cmake", full_path);
-	ft_track_free(&shell, full_path);
-
-
-	ft_free_all_tracked(&shell);				// Clean up
-	TEST_ASSERT_NULL(shell.memory_list); 		// Check memory list is empty
-}
-	
-void test_search_in_path(void)
-{
-	t_command	cmd;
-	t_shell		shell;
-	int			in_path;
-	
-	shell.memory_list = NULL;
-	cmd.envp = NULL;
-	cmd.exit_val = 0;
-	cmd.fd_in = STDIN_FILENO;
-	cmd.fd_out = STDOUT_FILENO;
-	
-	cmd.cmdname = "cmake";
-	printf("pathname: '%s' | ", cmd.cmdname);
-	in_path = search_in_path(&shell, &cmd);
-	printf("in_path: %d | full_path: '%s'\n", in_path, cmd.cmdname);
-	TEST_ASSERT_EQUAL_INT(0, in_path);
-	ft_track_free(&shell, cmd.cmdname);
-
-	ft_free_all_tracked(&shell);				// Clean up
-	TEST_ASSERT_NULL(shell.memory_list); 		// Check memory list is empty
-}
-	
-void test_path_is_dir(void)
-{
-	char	*path;
-	int 	is_dir;
-
-	path = "/usr/bin";
-	is_dir = path_is_dir(path);
-	printf("path: '%s' | out: %d\n", path, is_dir);
-	TEST_ASSERT_EQUAL_INT(0, is_dir);
-	
-	path = "/usr/sbin/cron";
-	is_dir = path_is_dir(path);
-	printf("path: '%s' | out: %d\n", path, is_dir);
-	TEST_ASSERT_EQUAL_INT(1, is_dir);
-}
-	
-void test_str_is_pathname(void)
-{
-	TEST_ASSERT_EQUAL_INT(1, str_is_pathname("/"));
-	TEST_ASSERT_EQUAL_INT(1, str_is_pathname("/usr/"));
-	TEST_ASSERT_EQUAL_INT(1, str_is_pathname("usr/"));
-	TEST_ASSERT_EQUAL_INT(1, str_is_pathname("usr/bin"));
-	TEST_ASSERT_EQUAL_INT(0, str_is_pathname(""));
-	TEST_ASSERT_EQUAL_INT(0, str_is_pathname("usr"));
-}
-
-void test_ft_get_path(void)
-{
-	t_command	cmd;
-	t_shell		shell;
-	int			ret;
-
-	
-	cmd.cmdname = "/usr/bin/l";
-	printf("cmd: '%s' -> ", cmd.cmdname);
-	ret = ft_get_path(&shell, &cmd);
-	printf("'%s' | ret: %d\n", cmd.cmdname, ret);
-	TEST_ASSERT_EQUAL_INT(1, ret);
-} */
 
 int main(void)
 {
 	UNITY_BEGIN();
 	RUN_TEST(test_ft_process_token);
 	
-	/* write(1, "\n", 2);
-	RUN_TEST(test_get_full_path);
-	*/
+	write(1, "\n", 2);
+	RUN_TEST(test_create_cmd_line);
 
 	return UNITY_END();
 }

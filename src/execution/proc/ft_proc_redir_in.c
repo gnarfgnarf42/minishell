@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/13 18:08:11 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/14 13:56:09 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ t_token		*ft_process_redir_in(t_shell *shell, t_token *token, t_command *cmd)
 	{
 		// File close error
 		perror("-minishell");
-		cmd->exit_val = 1; 
+		cmd->exit_val = 1;
+		close(fd);
 		return (NULL);
 	}
 	// Change fd_in in cmd
