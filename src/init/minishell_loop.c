@@ -6,12 +6,13 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/05/13 10:17:35 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:01:50 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
+#include "execution.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -80,11 +81,13 @@ void	ft_minishell_loop(t_shell *shell)
 			printf("Error: Memory allocation failed\n");
 			break ;
 		}
-		printf("You entered: %s\n", tracked_input);
+		// printf("You entered: %s\n", tracked_input);
 		tokens = ft_tokenize(shell, tracked_input);
-		if (tokens)
+		if (tokens && tokens->type != TOKEN_END)
 		{
-			ft_print_tokens(tokens);
+			// ft_print_tokens(tokens);
+			shell->tokens = tokens;
+			ft_exec_shell(shell);
 			ft_free_tokens(shell, &tokens);
 		}
 		ft_track_free(shell, tracked_input);
