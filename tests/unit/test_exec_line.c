@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:39:47 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/13 17:37:07 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:10:17 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,15 @@ void test_create_cmd_line(void)
 	t_shell		shell;
 	// t_token		*tkn;
 
+	check_open_fds();
+	printf("\n");
 	// check_open_fds();
 	shell.tokens = NULL;
 	shell.memory_list = NULL;
 	
 	// input_line = "ls -la <tests/files/simple_text >tests/files/out >>tests/files/app <<hd | cat";
-	input_line = "cat <tests/files/simple_text >tests/files/out >>tests/files/app <<hd | cat | ls | echo aaa";
-	// input_line = "cat <tests/files/simple_text >tests/files/out >>tests/files/app <<hd | cat < tests/files/simple_text_2";
+	// input_line = "cat <tests/files/simple_text >tests/files/out >>tests/files/app <<hd | cat | ls | echo aaa";
+	input_line = "cat <<hd | cat";
 	
 	printf("Input line: '%s'\n", input_line);
 	shell.tokens = ft_tokenize(&shell, input_line);
@@ -115,7 +117,7 @@ void test_create_cmd_line(void)
 		if (cmd->exit_val == 0)
 		{
 			ft_print_cmd(cmd);	
-			// ft_exec_command(&shell, cmd);
+			ft_exec_command(&shell, cmd);
 		}
 		cmd = cmd->next;
 	}
