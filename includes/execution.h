@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:21:49 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/14 09:55:53 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/15 14:54:15 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_command
 	int					fd_out;
 	int					fd_pipe[2];
 	int					exit_val;
+	int					is_builtin;
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_command;
@@ -46,6 +47,9 @@ t_command	*ft_init_cmd(t_shell *shell);
 void		ft_free_cmd(t_shell *shell, t_command *cmd);
 void		ft_free_cmd_line(t_shell *shell, t_command *cmd);
 void		ft_exec_command(t_shell *shell, t_command *cmd);
+int			ft_cmd_is_builtin(t_shell *shell, t_command *cmd);
+int			ft_exec_builtin(t_shell *shell, t_command *cmd);
+
 
 // ft_exec_path.c
 int			ft_get_path(t_shell *shell, t_command *cmd);
@@ -69,5 +73,15 @@ t_token		*ft_process_pipe(t_shell *shell, t_token *token, t_command **cmd);
 
 // utils/command.c
 void		ft_print_cmd(t_command *cmd);
+
+// cmd
+int			ft_close_cmd_fd(t_command *cmd);
+int			ft_ms_cd(t_shell *shell, t_command *cmd);
+int			ft_ms_echo(t_shell *shell, t_command *cmd);
+int			ft_ms_env(t_shell *shell, t_command *cmd);
+int			ft_ms_exit(t_shell *shell, t_command *cmd);
+int			ft_ms_export(t_shell *shell, t_command *cmd);
+int			ft_ms_pwd(t_shell *shell, t_command *cmd);
+int			ft_ms_unset(t_shell *shell, t_command *cmd);
 
 #endif
