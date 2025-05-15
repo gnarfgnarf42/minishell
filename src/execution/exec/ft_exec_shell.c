@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:37:59 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/14 09:55:53 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/15 14:36:50 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_exec_shell(t_shell *shell)
 	{
 		if (cmd->exit_val == 0)
 			ft_exec_command(shell, cmd);
+		ft_close_cmd_fd(cmd);
 		cmd = cmd->next;
 	}
 	ft_free_cmd_line(shell, cmd_line);
