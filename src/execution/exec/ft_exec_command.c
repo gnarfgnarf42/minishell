@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:06:17 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/15 15:34:40 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:19:12 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,46 +44,57 @@ void ft_exec_command(t_shell *shell, t_command *cmd)
 {
 	pid_t	pid;
 	int		i;
+	int old_fd[2];
 
-	// cmd->exit_val = 0;	
 	if (!ft_cmd_is_builtin(shell, cmd) && ft_get_path(shell, cmd) != 0)
 	{
 		cmd->exit_val = 127;
 		perror("Path error");
 		return ;
 	}
-	pid = fork();
-	if (pid == 0)
+	if (cmd->is_builtin)
 	{
+		old_fd[0] = dup(STDIN_FILENO);
+		old_fd[1] = dup(STDOUT_FILENO);
 		dup_fd(cmd);
-		if (cmd->is_builtin)
-			exit (ft_exec_builtin(shell, cmd));
-		else
-		{
-			execve(cmd->cmdname, cmd->args, cmd->envp);
-			if (errno == ENOEXEC)
-			{
-				i = 0;
-				while (cmd->args[i])
-					i++;
-				while (i >= 0)
-				{
-					cmd->args[i + 1] = cmd->args[i];
-					i--;
-				}	
-				cmd->args[0] = SH_PATH;
-				execve(SH_PATH, cmd->args, cmd->envp);
-			}
-			perror("execve failed");
-			cmd->exit_val = 127;
-			exit(127);
-		}
+		cmd->exit_val = ft_exec_builtin(shell, cmd);
+		dup2(old_fd[0], STDIN_FILENO);
+		dup2(old_fd[1], STDOUT_FILENO);
+		close(old_fd[0]);
+		close(old_fd[1]);
 	}
 	else
 	{
-		// close_fd(cmd);
-		cmd->exit_val = get_exit_code(pid);
-		printf("Exit code: %d\n", cmd->exit_val);
+		pid = fork();
+		if (pid == 0)
+		{
+			dup_fd(cmd);
+			{
+				execve(cmd->cmdname, cmd->args, cmd->envp);
+				if (errno == ENOEXEC)
+				{
+					i = 0;
+					while (cmd->args[i])
+						i++;
+					while (i >= 0)
+					{
+						cmd->args[i + 1] = cmd->args[i];
+						i--;
+					}	
+					cmd->args[0] = SH_PATH;
+					execve(SH_PATH, cmd->args, cmd->envp);
+				}
+				perror("execve failed");
+				cmd->exit_val = 127;
+				exit(127);
+			}
+		}
+		else
+		{
+			// close_fd(cmd);
+			cmd->exit_val = get_exit_code(pid);
+			printf("Exit code: %d\n", cmd->exit_val);
+		}
 	}
 }
 
