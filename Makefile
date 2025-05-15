@@ -8,6 +8,7 @@ TOKENIZER_DIR =	$(PARSER_DIR)/tokenizer
 EXECUTION_DIR = $(SRC_DIR)/execution
 EXEC_DIR = $(EXECUTION_DIR)/exec
 PROC_DIR = $(EXECUTION_DIR)/proc
+CMD_DIR = $(EXECUTION_DIR)/cmd
 UTILS_DIR = $(SRC_DIR)/utils
 INC_DIR = includes
 OBJ_DIR = obj
@@ -44,7 +45,14 @@ SRCS =		$(INIT_DIR)/main.c \
 			$(PROC_DIR)/ft_proc_redir_out.c \
 			$(PROC_DIR)/ft_proc_append.c \
 			$(PROC_DIR)/ft_proc_heredoc.c \
-			$(PROC_DIR)/ft_proc_pipe.c
+			$(PROC_DIR)/ft_proc_pipe.c \
+			$(CMD_DIR)/ft_ms_cd.c \
+			$(CMD_DIR)/ft_ms_echo.c \
+			$(CMD_DIR)/ft_ms_env.c \
+			$(CMD_DIR)/ft_ms_exit.c \
+			$(CMD_DIR)/ft_ms_export.c \
+			$(CMD_DIR)/ft_ms_pwd.c \
+			$(CMD_DIR)/ft_ms_unset.c 
 
 OBJS =		$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
@@ -81,8 +89,14 @@ TEST_SRC =	$(TEST_DIR)/unit/test_exec_line.c \
 			$(PROC_DIR)/ft_proc_redir_out.c \
 			$(PROC_DIR)/ft_proc_append.c \
 			$(PROC_DIR)/ft_proc_heredoc.c \
-			$(PROC_DIR)/ft_proc_pipe.c
-
+			$(PROC_DIR)/ft_proc_pipe.c \
+			$(CMD_DIR)/ft_ms_cd.c \
+			$(CMD_DIR)/ft_ms_echo.c \
+			$(CMD_DIR)/ft_ms_env.c \
+			$(CMD_DIR)/ft_ms_exit.c \
+			$(CMD_DIR)/ft_ms_export.c \
+			$(CMD_DIR)/ft_ms_pwd.c \
+			$(CMD_DIR)/ft_ms_unset.c 
 
 TEST_OBJS = $(TEST_SRC:%.c=$(OBJ_DIR)/%.o)
 TEST_BINARY = test_binary
