@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/15 16:28:24 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:10:42 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_ms_cd(t_shell *shell, t_command *cmd)
 	}
 	else if (cmd->argsc == 2)
 		path = cmd->args[1];
-	else
+	else if (cmd->argsc > 2)
 		{
 			write(STDERR_FILENO, "-minishell: cd: too many arguments\n", 35);
 			cmd->exit_val = 1;
