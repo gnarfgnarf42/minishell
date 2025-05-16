@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:06:17 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/15 18:19:12 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:56:29 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,8 @@ void ft_exec_command(t_shell *shell, t_command *cmd)
 		}
 		else
 		{
-			// close_fd(cmd);
 			cmd->exit_val = get_exit_code(pid);
-			printf("Exit code: %d\n", cmd->exit_val);
+			// printf("Exit code: %d\n", cmd->exit_val);
 		}
 	}
 }
