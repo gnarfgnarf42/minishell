@@ -20,6 +20,7 @@ SRCS =		$(INIT_DIR)/main.c \
 			$(INIT_DIR)/minishell_loop.c \
 			$(UTILS_DIR)/memory.c \
 			$(UTILS_DIR)/command.c \
+			$(UTILS_DIR)/env.c \
 			$(TOKENIZER_DIR)/ft_add_token.c \
 			$(TOKENIZER_DIR)/ft_create_token.c \
 			$(TOKENIZER_DIR)/ft_expand_vars.c \
@@ -59,11 +60,12 @@ OBJS =		$(SRCS:%.c=$(OBJ_DIR)/%.o)
 #TEST_SRC = $(TEST_DIR)/unit/test_memory.c \
         	$(TEST_DIR)/unity/unity.c \
         	$(UTILS_DIR)/memory.c
-TEST_SRC =	$(TEST_DIR)/unit/test_exec_line.c \
+TEST_SRC =	$(TEST_DIR)/unit/test_envp.c \
     		$(TEST_DIR)/unity/unity.c \
 			$(INIT_DIR)/minishell_loop.c \
         	$(UTILS_DIR)/memory.c \
 			$(UTILS_DIR)/command.c \
+			$(UTILS_DIR)/env.c \
 			$(TOKENIZER_DIR)/ft_add_token.c \
 			$(TOKENIZER_DIR)/ft_create_token.c \
 			$(TOKENIZER_DIR)/ft_expand_vars.c \
