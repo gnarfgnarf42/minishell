@@ -6,21 +6,18 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/13 17:36:14 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/16 18:49:26 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "minishell.h"
 #include "parser.h"
-// #include <string.h>
 
 // Check type of the Token and process it
 // Return a pointer to the next token to process
-t_token		*ft_process_token(t_shell *shell, t_token *token, t_command **cmd)
+t_token	*ft_process_token(t_shell *shell, t_token *token, t_command **cmd)
 {
-	// TOKEN_WORD
-	// Add a new argument to args and cmdname if it is NULL.
 	(void)shell;
 	if (token->type == TOKEN_WORD)
 		return (ft_process_word(shell, token, *cmd));
@@ -47,16 +44,14 @@ t_command	*ft_create_cmd_line(t_shell *shell)
 	t_command	*cmd_line;
 	t_command	*cmd;
 
-	cmd = ft_init_cmd(shell); // Init first cmd
+	cmd = ft_init_cmd(shell);
 	if (cmd == NULL)
 		return (NULL);
 	cmd_line = cmd;
-	cur_token = shell->tokens; // Init first token
+	cur_token = shell->tokens;
 	while (cur_token && cur_token->type != TOKEN_END)
 	{
-		// Process token and retorn adress of next token to process
-		next_token = ft_process_token(shell, cur_token, &cmd); 
-		// Syntax error check
+		next_token = ft_process_token(shell, cur_token, &cmd);
 		if (next_token == NULL && cmd->exit_val == 0)
 			cmd->exit_val = 22;
 		cur_token = next_token;

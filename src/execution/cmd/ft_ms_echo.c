@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 16:17:41 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:43:15 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	ft_ms_echo(t_shell *shell, t_command *cmd)
 			return (-1);
 		}
 		if (i < cmd->argsc - 1)
+		{
 			if (write(STDOUT_FILENO, " ", 1) == -1)
 			{
 				perror("-minishell");
@@ -43,13 +44,16 @@ int	ft_ms_echo(t_shell *shell, t_command *cmd)
 				return (-1);
 			}
 		}
+	}
 	if (nl)
+	{
 		if (write(STDOUT_FILENO, "\n", 1) == -1)
 		{
 			perror("-minishell");
 			cmd->exit_val = 1;
 			return (-1);
 		}
+	}
 	cmd->exit_val = 0;
 	return (0);
 }

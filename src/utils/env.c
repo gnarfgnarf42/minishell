@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:30:44 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 16:29:34 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/16 19:02:54 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_track_itoa(t_shell *shell, int n)
 static void	*clear_envp(t_shell *shell, char **envp)
 {
 	int	i;
-	
+
 	i = -1;
 	while (envp[++i])
 		ft_track_free(shell, envp[i]);
@@ -73,25 +73,23 @@ static void	*clear_envp(t_shell *shell, char **envp)
 char	**ft_envp_cpy(t_shell *shell, char *envp[])
 {
 	int		i;
-	int		c;
+	int		count;
 	char	**envp_cpy;
 
 	if (envp == NULL)
 		return (NULL);
-	
-	c = 0;
-	while (envp[c])
-		c++;	
-	envp_cpy = (char **)ft_track_malloc(shell, (c + 1) * sizeof(char *));
+	count = 0;
+	while (envp[count])
+		count++;
+	envp_cpy = (char **)ft_track_malloc(shell, (count + 1) * sizeof(char *));
 	if (envp_cpy == NULL)
 		return (NULL);
-	
 	i = -1;
-	while (++i < c)
+	while (++i < count)
 	{
 		envp_cpy[i] = ft_track_strdup(shell, envp[i]);
 		if (envp_cpy[i] == NULL)
-			return (clear_envp(shell, envp_cpy));		
+			return (clear_envp(shell, envp_cpy));
 	}
 	envp_cpy[i] = NULL;
 	return (envp_cpy);
@@ -115,9 +113,9 @@ void	ft_penv(t_shell *shell)
 char	*ft_getenv(t_shell *shell, char *name)
 {
 	int		i;
-	size_t 	j;
+	size_t	j;
 	size_t	name_len;
-	
+
 	if (shell->envp == NULL || name == NULL)
 		return (NULL);
 	name_len = ft_strlen(name);
@@ -127,7 +125,7 @@ char	*ft_getenv(t_shell *shell, char *name)
 	while (shell->envp[++i])
 	{
 		j = 0;
-		while(shell->envp[i][j] != '=' && shell->envp[i][j])
+		while (shell->envp[i][j] != '=' && shell->envp[i][j])
 			j++;
 		if (shell->envp[i][j] == '=')
 			if (name_len == j && ft_strncmp(name, shell->envp[i], j) == 0)
@@ -135,5 +133,3 @@ char	*ft_getenv(t_shell *shell, char *name)
 	}
 	return (NULL);
 }
-
-

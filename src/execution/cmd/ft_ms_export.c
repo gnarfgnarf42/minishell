@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 14:19:38 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/16 18:31:22 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // Find position of char '=' in string name
 // Return position value or 0 if there are no '=' in name
 // or it is in the begginig of the string
-static int find_eq_position(char *name)
+static int	find_eq_position(char *name)
 {
 	int	pos;
 	int	i;
@@ -33,9 +33,9 @@ static int find_eq_position(char *name)
 	return (pos);
 }
 
-static int name_is_valid(char *s, int len)
+static int	name_is_valid(char *s, int len)
 {
-	int out;
+	int	out;
 	int	i;
 
 	out = 0;
@@ -43,7 +43,7 @@ static int name_is_valid(char *s, int len)
 	while (i < len)
 	{
 		if (!((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z')
-			|| (s[i] >= '0' && s[i] <= '9') || s[i] == '_'))
+				|| (s[i] >= '0' && s[i] <= '9') || s[i] == '_'))
 			out = 1;
 		i++;
 	}
@@ -52,7 +52,7 @@ static int name_is_valid(char *s, int len)
 
 static int	add_line_to_envp(t_shell *shell, char *line)
 {
-	char 	**new_envp;
+	char	**new_envp;
 	char	**tmp_envp;
 	int		len;
 	int		i;
@@ -60,7 +60,6 @@ static int	add_line_to_envp(t_shell *shell, char *line)
 	len = 0;
 	while (shell->envp[len])
 		len++;
-	
 	new_envp = (char **)ft_track_malloc(shell, (len + 2) * sizeof(char *));
 	if (new_envp == NULL)
 		return (1);
@@ -87,33 +86,28 @@ int	ft_ms_export(t_shell *shell, t_command *cmd)
 	char	*tmp;
 	int		eq_pos;
 	int		out;
-	
+
 	if (shell == NULL || cmd == NULL)
 		return (2);
 	out = 0;
-	// for each arg
 	arg = cmd->args;
 	while (*(++arg))
 	{
-		// Find '=' position
 		eq_pos = find_eq_position(*arg);
 		if (eq_pos == 0)
-			continue;
-		// Check name
+			continue ;
 		if (name_is_valid(*arg, eq_pos) == 1)
 		{
-			write(STDERR_FILENO, "-minishell: export: ", 20);
-			write(STDERR_FILENO, *arg, ft_strlen(*arg));
-			write(STDERR_FILENO, " :not a valid identifier\n", 25);
+			ft_putstr_fd("-minishell: export: ", STDERR_FILENO);
+			ft_putstr_fd(*arg, STDERR_FILENO);
+			ft_putstr_fd(" :not a valid identifier\n", STDERR_FILENO);
 			cmd->exit_val = 1;
 			out = 1;
-			continue;
-		}	
-		// Try to find name in env
+			continue ;
+		}
 		env = shell->envp;
 		while (*env)
 		{
-			// If name is in env, change the line
 			if (ft_strncmp(*env, *arg, eq_pos) == 0 && (*env)[eq_pos] == '=')
 			{
 				tmp = *env;
@@ -122,14 +116,13 @@ int	ft_ms_export(t_shell *shell, t_command *cmd)
 				{
 					cmd->exit_val = 2;
 					out = 2;
-					break;
+					break ;
 				}
 				ft_track_free(shell, tmp);
-				break;
+				break ;
 			}
 			env++;
 		}
-		// If no name in env -> add new line to env
 		if (*env == NULL)
 		{
 			if (add_line_to_envp(shell, *arg) != 0)
@@ -139,11 +132,5 @@ int	ft_ms_export(t_shell *shell, t_command *cmd)
 			}
 		}
 	}
-	// if (write(STDOUT_FILENO, "export\n", 7) == -1)
-	// {
-	// 	perror("-minishell");
-	// 	cmd->exit_val = 1;
-	// 	return (-1);
-	// }
 	return (out);
 }

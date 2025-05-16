@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/15 16:03:42 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:47:17 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 int	ft_ms_pwd(t_shell *shell, t_command *cmd)
 {
 	char	*cwd;
+
 	(void)shell;
-	// (void)cmd;
-	
 	cwd = getcwd(NULL, PATH_MAX);
 	if (cwd == NULL)
 	{

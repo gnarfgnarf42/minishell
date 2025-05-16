@@ -6,11 +6,12 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 14:09:36 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/06 15:46:39 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:54:20 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "minishell.h"
 
 // Additional checks for null strings can be added
 char	*get_next_path(char *path, char delim)
@@ -55,7 +56,7 @@ char	*get_full_path(t_shell *shell, t_command *cmd, char *cur_path)
 	full_path = ft_track_malloc(shell, cur_len + ft_strlen(cmd->cmdname) + 2);
 	if (!full_path)
 		return (NULL);
-	i = -1;	
+	i = -1;
 	while (cur_path[++i])
 		full_path[i] = cur_path[i];
 	if (cur_len > 0 && cur_path[cur_len - 1] != '/')
@@ -64,7 +65,7 @@ char	*get_full_path(t_shell *shell, t_command *cmd, char *cur_path)
 	while (cmd->cmdname[j])
 		full_path[i++] = cmd->cmdname[j++];
 	full_path[i] = 0;
-	return full_path;
+	return (full_path);
 }
 
 int	path_is_dir(char *path)
@@ -81,13 +82,13 @@ int	path_is_dir(char *path)
 // stored in env. variable PATH
 // Return 0 and save pesult path to the "cmd->pathname"
 // Return 1 and print error if no file, PATH variable or error
-int search_in_path(t_shell *shell, t_command *cmd)
+int	search_in_path(t_shell *shell, t_command *cmd)
 {
 	char	*path;
 	char	*cur_path;
 	char	*full_path;
 
-	path = getenv(PATH_ENV);
+	path = ft_getenv(shell, PATH_ENV);
 	if (path == NULL)
 		return (1);
 	path = ft_track_strdup(shell, path);
@@ -99,9 +100,8 @@ int search_in_path(t_shell *shell, t_command *cmd)
 			return (2);
 		if (access(full_path, F_OK) == 0 && path_is_dir(full_path) != 0)
 		{
-			// ft_track_free(shell, cmd->pathname);
 			cmd->cmdname = full_path;
-			return (0);	
+			return (0);
 		}
 		ft_track_free(shell, full_path);
 		cur_path = get_next_path(NULL, PATH_DELIMITER);
@@ -111,7 +111,7 @@ int search_in_path(t_shell *shell, t_command *cmd)
 }
 
 // Check if str content '/' char. Return 1 if yes, 0 if no.
-int str_is_pathname(char *str)
+int	str_is_pathname(char *str)
 {
 	while (*str)
 	{
@@ -127,11 +127,9 @@ int str_is_pathname(char *str)
 // If cmd->pathname is not a path, searc it in PATH variable
 int	ft_get_path(t_shell *shell, t_command *cmd)
 {
-	// Check if cmd->pathname is a path
 	if (str_is_pathname(cmd->cmdname) == 1 && access(cmd->cmdname, F_OK) == 0
 		&& path_is_dir(cmd->cmdname) != 0)
 		return (0);
-	// Get pathnames from PATH env variable and check it for exist
 	if (search_in_path(shell, cmd) == 0)
 		return (0);
 	return (1);

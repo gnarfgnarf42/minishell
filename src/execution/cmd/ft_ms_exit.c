@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/15 15:08:15 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:44:13 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	ft_ms_exit(t_shell *shell, t_command *cmd)
 {
 	(void)shell;
 	(void)cmd;
-	
 	if (write(STDOUT_FILENO, "exit\n", 5) == -1)
 	{
 		perror("-minishell");

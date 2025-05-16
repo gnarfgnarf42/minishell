@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:37:59 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 16:35:50 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:54:50 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "minishell.h"
 #include "parser.h"
 
-static void write_exit_code(t_shell *shell, t_command *cmd_line)
+static void	write_exit_code(t_shell *shell, t_command *cmd_line)
 {
 	if (!shell || !cmd_line)
 		return ;
@@ -32,7 +32,6 @@ int	ft_exec_shell(t_shell *shell)
 	cmd_line = ft_create_cmd_line(shell);
 	if (!cmd_line)
 		return (1);
-		
 	cmd = cmd_line;
 	while (cmd)
 	{
@@ -43,6 +42,5 @@ int	ft_exec_shell(t_shell *shell)
 		cmd = cmd->next;
 	}
 	ft_free_cmd_line(shell, cmd_line);
-	
 	return (0);
 }

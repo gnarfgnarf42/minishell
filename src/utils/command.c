@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 19:24:15 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 14:43:41 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/16 19:00:34 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ t_command	*ft_init_cmd(t_shell *shell)
 		return (NULL);
 	cmd->args = ft_track_malloc(shell, sizeof(char *) * ARGS_MAX);
 	if (!cmd->args)
-		return (NULL);		
+		return (NULL);
 	cmd->cmdname = NULL;
-	// cmd->args = NULL;
 	cmd->argsc = 0;
 	cmd->envp = shell->envp;
 	cmd->exit_val = 0;
@@ -39,10 +38,10 @@ t_command	*ft_init_cmd(t_shell *shell)
 	return (cmd);
 }
 
-void		ft_free_cmd(t_shell *shell, t_command *cmd)
+void	ft_free_cmd(t_shell *shell, t_command *cmd)
 {
 	if (!cmd)
-		return ;	
+		return ;
 	if (cmd->fd_in != STDIN_FILENO)
 		close(cmd->fd_in);
 	if (cmd->fd_out != STDOUT_FILENO)
@@ -51,16 +50,15 @@ void		ft_free_cmd(t_shell *shell, t_command *cmd)
 		close(cmd->fd_pipe[0]);
 	if (cmd->fd_pipe[1] != STDOUT_FILENO)
 		close(cmd->fd_pipe[1]);
-	// (void)shell;
 	if (cmd && cmd->args)
 		ft_track_free(shell, cmd->args);
 	if (cmd)
 		ft_track_free(shell, cmd);
 }
 
-void		ft_free_cmd_line(t_shell *shell, t_command *cmd)
+void	ft_free_cmd_line(t_shell *shell, t_command *cmd)
 {
-	t_command *cmd_next;
+	t_command	*cmd_next;
 
 	while (cmd)
 	{
@@ -70,9 +68,9 @@ void		ft_free_cmd_line(t_shell *shell, t_command *cmd)
 	}
 }
 
-void		ft_print_cmd(t_command *cmd)
+void	ft_print_cmd(t_command *cmd)
 {
-	char		**arg;
+	char	**arg;
 
 	arg = cmd->args;
 	printf("\ncmd: '%s'\n", cmd->cmdname);
@@ -88,14 +86,13 @@ void		ft_print_cmd(t_command *cmd)
 	printf("pipe: %3d | %d\n", cmd->fd_pipe[0], cmd->fd_pipe[1]);
 	printf("next: %p\n", cmd->next);
 	printf("prev: %p\n", cmd->prev);
-	// printf("\n");
 }
 
 // Check if cmdname is a build-in function
 // Return 0 if yes and execution is success
 // Return -1 if yes and execution with error
 // Return 1 if cmdname is not a build-in function
-int		ft_exec_builtin(t_shell *shell, t_command *cmd)
+int	ft_exec_builtin(t_shell *shell, t_command *cmd)
 {
 	(void)shell;
 	if (!ft_strcmp(cmd->cmdname, "echo"))
@@ -115,7 +112,7 @@ int		ft_exec_builtin(t_shell *shell, t_command *cmd)
 	return (1);
 }
 
-int		ft_cmd_is_builtin(t_shell *shell, t_command *cmd)
+int	ft_cmd_is_builtin(t_shell *shell, t_command *cmd)
 {
 	(void)shell;
 	if (!ft_strcmp(cmd->cmdname, "echo"))
@@ -136,9 +133,9 @@ int		ft_cmd_is_builtin(t_shell *shell, t_command *cmd)
 }
 
 int	ft_close_cmd_fd(t_command *cmd)
-{	
+{
 	if (cmd->next && cmd->fd_pipe[1] != STDOUT_FILENO)
-		close(cmd->fd_pipe[1]);		
+		close(cmd->fd_pipe[1]);
 	if (cmd->prev && cmd->prev->fd_pipe[0] != STDIN_FILENO)
 		close(cmd->prev->fd_pipe[0]);
 	if (cmd->fd_in != STDIN_FILENO)
