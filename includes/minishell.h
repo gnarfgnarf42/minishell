@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:35 by sscholz           #+#    #+#             */
-/*   Updated: 2025/05/14 10:43:53 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/16 12:24:33 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_shell
 {
 	t_token	*tokens;
 	t_track	*memory_list;
+	char 	**envp;
 	int		last_exit_status;
 }	t_shell;
 
@@ -50,5 +51,10 @@ char	*ft_track_strndup(t_shell *shell, const char *s, size_t n);
 // Main loop function
 void	ft_minishell_loop(t_shell *shell);
 void	ft_print_tokens(t_token *tokens);
+
+// Envp functions
+char	**ft_envp_cpy(t_shell *shell, char *envp[]);
+void	ft_penv(t_shell *shell);
+char	*ft_getenv(t_shell *shell, char *name);
 
 #endif
