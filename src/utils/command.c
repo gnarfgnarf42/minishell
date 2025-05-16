@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 19:24:15 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/15 14:49:47 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:43:41 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_command	*ft_init_cmd(t_shell *shell)
 	cmd->cmdname = NULL;
 	// cmd->args = NULL;
 	cmd->argsc = 0;
-	cmd->envp = NULL;
+	cmd->envp = shell->envp;
 	cmd->exit_val = 0;
 	cmd->is_builtin = 0;
 	cmd->fd_in = STDIN_FILENO;
