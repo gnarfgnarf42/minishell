@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/05/15 13:01:50 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/18 16:20:05 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,24 @@
 #include "execution.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <signal.h>
+
+volatile sig_atomic_t interrupted = 0;
+
+void sigint_handler(int signum)
+{
+    (void)signum;
+    interrupted = 1;
+    // write(STDOUT_FILENO, "\n", 1);  // Print newline to reset prompt line
+}
+
+int check_sigint_hook(void)
+{
+    if (interrupted) {
+        rl_done = 1;  // Force readline() to return
+    }
+    return 0;
+}
 
 void	ft_print_tokens(t_token *cur)
 {
@@ -54,26 +72,41 @@ void	ft_print_tokens(t_token *cur)
 
 void	ft_minishell_loop(t_shell *shell)
 {
-	char	*input;
-	char	*tracked_input;
-	t_token	*tokens;
+	char				*input;
+	char				*tracked_input;
+	t_token				*tokens;
+	struct sigaction	sa;
+	
+    sa.sa_handler = sigint_handler;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;  // You can also try 0 if readline doesn't exit with SA_RESTART
+    sigaction(SIGINT, &sa, NULL);
 
+	// Set readline event hook
+	rl_event_hook = check_sigint_hook;
+	
 	shell->last_exit_status = 0;
+	
 	while (1)
 	{
+		interrupted = 0;
+		
+		// rl_on_new_line();              // Tell readline a new line is starting
+		// rl_replace_line("", 0); 
 		input = readline("minishell> ");
+		// printf("readline: '%s'\n", input);
 		if (!input)
 		{
 			printf("exit\n");
 			break ;
 		}
-		if (ft_strncmp(input, "exit", 4) == 0)
-		{
-			printf("exit\n");
-			free(input);
-			break ;
-		}
-		add_history(input);
+		if (interrupted) {
+            // If readline was interrupted, restart loop
+            free(input);
+            continue ;
+        }
+		if (*input)
+            add_history(input);
 		tracked_input = ft_track_strdup(shell, input);
 		free(input);
 		if (!tracked_input)
