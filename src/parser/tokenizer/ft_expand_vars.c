@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_vars.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sscholz <sscholz@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:04:27 by sscholz           #+#    #+#             */
-/*   Updated: 2025/04/24 19:04:28 by sscholz          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:47:33 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "minishell.h"
 
 static int	ft_expand_var_node(t_shell *shell, t_token *tok)
 {
@@ -25,7 +26,8 @@ static int	ft_expand_var_node(t_shell *shell, t_token *tok)
 	}
 	else
 	{
-		env = getenv(tok->value);
+		// env = getenv(tok->value);
+		env = ft_getenv(shell, tok->value);
 		if (env)
 			lookup = ft_track_strdup(shell, env);
 		else

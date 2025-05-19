@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_handle_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sscholz <sscholz@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 20:48:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/03/26 20:48:59 by sscholz          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:48:27 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "minishell.h"
 /*
 static void	ft_quote_error(char quote)
 {
@@ -104,7 +105,8 @@ static char	*get_var_value(t_shell *shell, const char *input, size_t *i)
 		val = ft_itoa(shell->last_exit_status);
 	else
 	{
-		env = getenv(name);
+		env = ft_getenv(shell, name);
+		// env = getenv(name);
 		if (env)
 			val = ft_track_strdup(shell, env);
 		else
