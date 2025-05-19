@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 19:24:15 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 19:00:34 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/05/18 15:58:13 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ int	ft_exec_builtin(t_shell *shell, t_command *cmd)
 		return (ft_ms_unset(shell, cmd));
 	else if (!ft_strcmp(cmd->cmdname, "env"))
 		return (ft_ms_env(shell, cmd));
-	// else if (!ft_strcmp(cmd->cmdname, "exit"))
-	// 	return (ft_ms_exit(shell, cmd));
+	else if (!ft_strcmp(cmd->cmdname, "exit"))
+		return (ft_ms_exit(shell, cmd));
 	return (1);
 }
 
@@ -127,8 +127,8 @@ int	ft_cmd_is_builtin(t_shell *shell, t_command *cmd)
 		cmd->is_builtin = 1;
 	else if (!ft_strcmp(cmd->cmdname, "env"))
 		cmd->is_builtin = 1;
-	// else if (!ft_strcmp(cmd->cmdname, "exit"))
-	// 	cmd->is_builtin = 1;
+	else if (!ft_strcmp(cmd->cmdname, "exit"))
+		cmd->is_builtin = 1;
 	return (cmd->is_builtin);
 }
 
