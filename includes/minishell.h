@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:35 by sscholz           #+#    #+#             */
-/*   Updated: 2025/05/16 12:24:33 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:31:39 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ typedef struct s_track
 // Shell state struct
 typedef struct s_shell
 {
-	t_token	*tokens;
-	t_track	*memory_list;
-	char 	**envp;
-	int		last_exit_status;
+	t_token					*tokens;
+	t_track					*memory_list;
+	char 					**envp;
+	int						last_exit_status;
+	// volatile sig_atomic_t	interrupted;
 }	t_shell;
 
 // Memory functions

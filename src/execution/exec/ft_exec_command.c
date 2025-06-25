@@ -6,12 +6,13 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:06:17 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 17:52:11 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/25 16:45:18 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include <errno.h>
+#include <signal.h>
 
 static int	get_exit_code(pid_t pid);
 
@@ -68,26 +69,28 @@ void	ft_exec_command(t_shell *shell, t_command *cmd)
 		pid = fork();
 		if (pid == 0)
 		{
+			signal(SIGQUIT, SIG_DFL); // Restore default handler
+			signal(SIGINT, SIG_DFL);
 			dup_fd(cmd);
+			// {
+			execve(cmd->cmdname, cmd->args, cmd->envp);
+			if (errno == ENOEXEC)
 			{
-				execve(cmd->cmdname, cmd->args, cmd->envp);
-				if (errno == ENOEXEC)
+				i = 0;
+				while (cmd->args[i])
+					i++;
+				while (i >= 0)
 				{
-					i = 0;
-					while (cmd->args[i])
-						i++;
-					while (i >= 0)
-					{
-						cmd->args[i + 1] = cmd->args[i];
-						i--;
-					}
-					cmd->args[0] = SH_PATH;
-					execve(SH_PATH, cmd->args, cmd->envp);
+					cmd->args[i + 1] = cmd->args[i];
+					i--;
 				}
-				perror("execve failed");
-				cmd->exit_val = 127;
-				exit(127);
+				cmd->args[0] = SH_PATH;
+				execve(SH_PATH, cmd->args, cmd->envp);
 			}
+			perror("execve failed");
+			cmd->exit_val = 127;
+			exit(127);
+			// }
 		}
 		else
 			cmd->exit_val = get_exit_code(pid);
@@ -106,6 +109,7 @@ static int	get_exit_code(pid_t pid)
 	if (waitpid(pid, &status, 0) == -1)
 	{
 		perror("waitpid failed");
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		return (255);
 	}
 	if (WIFEXITED(status))
@@ -114,6 +118,7 @@ static int	get_exit_code(pid_t pid)
 	}
 	else if (WIFSIGNALED(status))
 	{
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		return (128 + WTERMSIG(status));
 	}
 	return (255);
