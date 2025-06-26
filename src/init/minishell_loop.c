@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/06/25 17:14:46 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/26 16:46:15 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,15 @@ int check_sigint_hook(void)
 {
     if (interrupted)
     {
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		rl_reset_line_state();
-    	rl_replace_line("", 0);
-    	rl_redisplay();
-		interrupted = 0;
+		rl_replace_line("", 0);    // Clear current input
+        rl_done = 1;
+		// write(STDOUT_FILENO, "\n", 1);
+		
+		// ft_putchar_fd('\n', STDOUT_FILENO);
+		// rl_reset_line_state();
+    	// rl_replace_line("", 0);
+    	// rl_redisplay();
+		// interrupted = 0;
     }
     return 0;
 }
@@ -79,16 +83,34 @@ void	ft_minishell_loop(t_shell *shell)
 	char				*input;
 	char				*tracked_input;
 	t_token				*tokens;
+	int					is_interactive;
 
 	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
 	rl_event_hook = check_sigint_hook;
 	shell->last_exit_status = 0;
+	is_interactive = isatty(STDIN_FILENO);
 	
 	while (1)
 	{
 		interrupted = 0;
-		input = readline("minishell> ");
+		// printf("New input | Inrettuptes: %i\n", interrupted);
+		// input = readline("minishell> ");
+
+		if (is_interactive)
+            input = readline("minishell> ");
+        else {
+            char buf[4096];
+            if (fgets(buf, sizeof(buf), stdin) == NULL) {
+                printf("exit\n");
+                break;
+            }
+            // Remove trailing newline
+            buf[strcspn(buf, "\n")] = 0;
+            input = strdup(buf);
+        }
+		
+		// printf("Input: %s\n", input);
 		if (!input)
 		{
 			printf("exit\n");
@@ -118,6 +140,7 @@ void	ft_minishell_loop(t_shell *shell)
 			ft_free_tokens(shell, &tokens);
 		}
 		ft_track_free(shell, tracked_input);
+		rl_done = 1;
 	}
 	ft_free_all_tracked(shell);
 }
