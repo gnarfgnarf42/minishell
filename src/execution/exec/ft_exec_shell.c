@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:37:59 by nefimov           #+#    #+#             */
-/*   Updated: 2025/06/28 00:35:20 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/28 13:07:34 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -16,18 +16,18 @@
 #include <errno.h>
 #include <signal.h>
 
-// static void	write_exit_code(t_shell *shell)
-// {
-// 	t_command	*cmd;
+static void	write_exit_code(t_shell *shell)
+{
+	t_command	*cmd;
 	
-// 	if (!shell)
-// 		return ;
-// 	cmd = shell->cmd_list;
-// 	while (cmd->next)
-// 		cmd = cmd->next;
-// 	shell->last_exit_status = cmd->exit_val;
-// 	return ;
-// }
+	if (!shell)
+		return ;
+	cmd = shell->cmd_list;
+	while (cmd->next)
+		cmd = cmd->next;
+	shell->last_exit_status = cmd->exit_val;
+	return ;
+}
 
 static void	dup_fd(t_command *cmd)
 {
@@ -105,7 +105,9 @@ int	ft_exec_shell(t_shell *shell)
 		{
 			cmd->exit_val = 127;
 			perror("Path error");
-			return (1);
+			cmd = cmd->next;
+			continue;
+			// return (1);
 		}
 		else
 		{
@@ -180,11 +182,11 @@ int	ft_exec_shell(t_shell *shell)
 	// {
 	// 	if (cmd->exit_val == 0)
 	// 		ft_exec_command(shell, cmd);
-	// 	write_exit_code(shell);
+	// write_exit_code(shell);
 	// 	ft_close_cmd_fd(cmd);
 	// 	cmd = cmd->next;
 	// }
-	
+	write_exit_code(shell);
 	ft_free_cmd_line(shell, shell->cmd_list);
 	return (0);
 }
