@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/06/26 16:46:15 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/28 14:26:43 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 #include "parser.h"
@@ -86,7 +86,7 @@ void	ft_minishell_loop(t_shell *shell)
 	int					is_interactive;
 
 	signal(SIGINT, sigint_handler);
-	// signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	rl_event_hook = check_sigint_hook;
 	shell->last_exit_status = 0;
 	is_interactive = isatty(STDIN_FILENO);
@@ -99,15 +99,11 @@ void	ft_minishell_loop(t_shell *shell)
 
 		if (is_interactive)
             input = readline("minishell> ");
-        else {
-            char buf[4096];
-            if (fgets(buf, sizeof(buf), stdin) == NULL) {
-                printf("exit\n");
-                break;
-            }
-            // Remove trailing newline
-            buf[strcspn(buf, "\n")] = 0;
-            input = strdup(buf);
+        else
+		{
+            input = get_next_line(STDIN_FILENO);
+			if (input)
+            	input[ft_strlen(input) - 1] = 0;
         }
 		
 		// printf("Input: %s\n", input);
