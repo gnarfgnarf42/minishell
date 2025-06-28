@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
@@ -6,12 +6,18 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:31:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/05/14 14:18:56 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/28 14:18:55 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
+# include <unistd.h>
+# include <stdlib.h>
 
 # include <stddef.h>
 # include <stdarg.h>
@@ -76,5 +82,14 @@ int		ft_write_p(va_list args);
 int		ft_write_d(va_list args);
 int		ft_write_u(va_list args);
 int		ft_write_hex(va_list args, int uppercase);
+
+
+// Get next line
+char	*get_next_line(int fd);
+int		check_init_buff(char *buff, ssize_t	fd);
+char	*read_new_line(ssize_t	i, char *buff, ssize_t	fd);
+// size_t	ft_strlen(const char *s);
+char	*ft_strljoin(char *s1, char *s2, size_t size);
+char	*alloc_zero(void);
 
 #endif /* LIBFT_H */

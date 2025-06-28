@@ -57,7 +57,9 @@ SRC = ft_bzero.c \
       ft_putnbr_fd.c \
       ft_printf.c \
       format_one.c \
-      format_two.c
+      format_two.c \
+	  ft_get_next_line.c \
+	  ft_get_next_line_utils.c
 
 # Add the source directory prefix to source files
 SRCS = $(addprefix $(SRCDIR)/, $(SRC))
