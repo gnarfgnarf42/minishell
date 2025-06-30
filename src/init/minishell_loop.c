@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/06/30 12:37:19 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:42:13 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -90,7 +90,7 @@ void	ft_minishell_loop(t_shell *shell)
 	shell->last_exit_status = 0;
 	is_interactive = isatty(STDIN_FILENO);
 	
-	while (1)
+	while (shell->exit)
 	{
 		interrupted = 0;
 		// printf("New input | Inrettuptes: %i\n", interrupted);
@@ -137,5 +137,7 @@ void	ft_minishell_loop(t_shell *shell)
 		ft_track_free(shell, tracked_input);
 		rl_done = 1;
 	}
+	clear_history();
 	ft_free_all_tracked(shell);
+	// ft_ms_exit(shell->last_exit_status);
 }
