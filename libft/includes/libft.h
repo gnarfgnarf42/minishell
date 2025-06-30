@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:31:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/06/28 14:18:55 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:14:56 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -14,7 +14,7 @@
 # define LIBFT_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
+#  define BUFFER_SIZE 1
 # endif
 # include <unistd.h>
 # include <stdlib.h>
