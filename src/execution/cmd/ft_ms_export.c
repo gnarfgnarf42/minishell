@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_ms_export.c                                     :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 18:31:22 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 12:26:55 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "execution.h"
 #include "minishell.h"
@@ -23,16 +23,17 @@ static int	find_eq_position(char *name)
 	int	i;
 
 	if (!name)
-		return (0);
-	pos = 0;
+		return (-1);
+	pos = -1;
 	i = 0;
 	while (name[i] && name[i] != '=')
 		i++;
-	if (name[i])
-		pos = i;
+	// if (name[i])
+	pos = i;
 	return (pos);
 }
 
+/*
 static int	name_is_valid(char *s, int len)
 {
 	int	out;
@@ -45,6 +46,30 @@ static int	name_is_valid(char *s, int len)
 		if (!((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z')
 				|| (s[i] >= '0' && s[i] <= '9') || s[i] == '_'))
 			out = 1;
+		i++;
+	}
+	return (out);
+}
+*/
+
+static int	name_is_valid(char *s, int len)
+{
+	int	out;
+	int	i;
+
+	if (!s || len == 0)
+		return (1);
+	out = 0;
+	i = 0;
+	// Check if the first letter of the identifire is a number
+	if (s[0] >= '0' && s[0]<= '9')
+		return (1);
+	// Check the identifire for correct letters
+	while (i < len)
+	{
+		if (!((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z')
+				|| (s[i] >= '0' && s[i] <= '9') || s[i] == '_'))
+			return (1);
 		i++;
 	}
 	return (out);
@@ -79,6 +104,7 @@ static int	add_line_to_envp(t_shell *shell, char *line)
 	return (0);
 }
 
+/*
 int	ft_ms_export(t_shell *shell, t_command *cmd)
 {
 	char	**arg;
@@ -94,9 +120,9 @@ int	ft_ms_export(t_shell *shell, t_command *cmd)
 	while (*(++arg))
 	{
 		eq_pos = find_eq_position(*arg);
-		if (eq_pos == 0)
-			continue ;
-		if (name_is_valid(*arg, eq_pos) == 1)
+		// if (eq_pos == 0)
+		// 	continue ;
+		if (eq_pos == 0 && name_is_valid(*arg, eq_pos) == 1)
 		{
 			ft_putstr_fd("-minishell: export: ", STDERR_FILENO);
 			ft_putstr_fd(*arg, STDERR_FILENO);
@@ -134,3 +160,80 @@ int	ft_ms_export(t_shell *shell, t_command *cmd)
 	}
 	return (out);
 }
+*/
+
+// Print " not a valid identifier" error and return 1
+static int	perror_ident(char *arg)
+{
+	ft_putstr_fd("-minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+	return (1);
+}
+
+// Searching in env string with identifier and set it's value
+// Or create a new string in env
+// Return 0 if Ok or 2 if error
+static int	export_value(t_shell *shell, t_command *cmd, int eq_pos, char *arg)
+{
+	char	**env;
+	char	*tmp;
+	int		r_value;
+
+	r_value = 0;
+	env = shell->envp;
+	while (*env)
+	{
+		if (ft_strncmp(*env, arg, eq_pos) == 0 && (*env)[eq_pos] == '=')
+		{
+			tmp = *env;
+			*env = ft_track_strdup(shell, arg);
+			if (*env == NULL)
+			{
+				cmd->exit_val = 2;
+				r_value = 2;
+				break ;
+			}
+			ft_track_free(shell, tmp);
+			break ;
+		}
+		env++;
+	}
+	if (*env == NULL)
+	{
+		if (add_line_to_envp(shell, arg) != 0)
+		{
+			cmd->exit_val = 2;
+			r_value = 2;
+		}
+	}
+	return (r_value);
+}
+
+// Process each argument of cmd. First arg index is [1]
+static int	proc_args(t_shell *shell, t_command *cmd)
+{
+	char	**arg;
+	int		eq_pos;
+
+	arg = cmd->args;
+	while (*(++arg))
+	{
+		eq_pos = find_eq_position(*arg);
+		if (name_is_valid(*arg, eq_pos) == 1)
+			cmd->exit_val = perror_ident(*arg);
+		else if (eq_pos >= 0 && (*arg)[eq_pos] == 0)
+			cmd->exit_val = 0;
+		else
+			cmd->exit_val = export_value(shell, cmd, eq_pos, *arg);
+	}
+	return (cmd->exit_val);
+}
+
+int	ft_ms_export(t_shell *shell, t_command *cmd)
+{
+	if (shell == NULL || cmd == NULL)
+		return (2);
+	return (proc_args(shell, cmd));
+}
+
