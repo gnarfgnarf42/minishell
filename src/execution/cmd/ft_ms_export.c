@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/06/30 12:26:55 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 12:49:51 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -104,64 +104,6 @@ static int	add_line_to_envp(t_shell *shell, char *line)
 	return (0);
 }
 
-/*
-int	ft_ms_export(t_shell *shell, t_command *cmd)
-{
-	char	**arg;
-	char	**env;
-	char	*tmp;
-	int		eq_pos;
-	int		out;
-
-	if (shell == NULL || cmd == NULL)
-		return (2);
-	out = 0;
-	arg = cmd->args;
-	while (*(++arg))
-	{
-		eq_pos = find_eq_position(*arg);
-		// if (eq_pos == 0)
-		// 	continue ;
-		if (eq_pos == 0 && name_is_valid(*arg, eq_pos) == 1)
-		{
-			ft_putstr_fd("-minishell: export: ", STDERR_FILENO);
-			ft_putstr_fd(*arg, STDERR_FILENO);
-			ft_putstr_fd(" :not a valid identifier\n", STDERR_FILENO);
-			cmd->exit_val = 1;
-			out = 1;
-			continue ;
-		}
-		env = shell->envp;
-		while (*env)
-		{
-			if (ft_strncmp(*env, *arg, eq_pos) == 0 && (*env)[eq_pos] == '=')
-			{
-				tmp = *env;
-				*env = ft_track_strdup(shell, *arg);
-				if (*env == NULL)
-				{
-					cmd->exit_val = 2;
-					out = 2;
-					break ;
-				}
-				ft_track_free(shell, tmp);
-				break ;
-			}
-			env++;
-		}
-		if (*env == NULL)
-		{
-			if (add_line_to_envp(shell, *arg) != 0)
-			{
-				cmd->exit_val = 2;
-				out = 2;
-			}
-		}
-	}
-	return (out);
-}
-*/
-
 // Print " not a valid identifier" error and return 1
 static int	perror_ident(char *arg)
 {
@@ -178,9 +120,7 @@ static int	export_value(t_shell *shell, t_command *cmd, int eq_pos, char *arg)
 {
 	char	**env;
 	char	*tmp;
-	int		r_value;
 
-	r_value = 0;
 	env = shell->envp;
 	while (*env)
 	{
@@ -191,7 +131,6 @@ static int	export_value(t_shell *shell, t_command *cmd, int eq_pos, char *arg)
 			if (*env == NULL)
 			{
 				cmd->exit_val = 2;
-				r_value = 2;
 				break ;
 			}
 			ft_track_free(shell, tmp);
@@ -199,15 +138,10 @@ static int	export_value(t_shell *shell, t_command *cmd, int eq_pos, char *arg)
 		}
 		env++;
 	}
-	if (*env == NULL)
-	{
+	if (*env == NULL && cmd->exit_val == 0)
 		if (add_line_to_envp(shell, arg) != 0)
-		{
 			cmd->exit_val = 2;
-			r_value = 2;
-		}
-	}
-	return (r_value);
+	return (cmd->exit_val);
 }
 
 // Process each argument of cmd. First arg index is [1]
