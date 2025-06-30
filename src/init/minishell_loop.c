@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/06/28 14:26:43 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 12:37:19 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -29,15 +29,14 @@ int check_sigint_hook(void)
 {
     if (interrupted)
     {
-		rl_replace_line("", 0);    // Clear current input
-        rl_done = 1;
+		// rl_replace_line("", 0);    // Clear current input
+        // rl_done = 1;
 		// write(STDOUT_FILENO, "\n", 1);
-		
-		// ft_putchar_fd('\n', STDOUT_FILENO);
-		// rl_reset_line_state();
-    	// rl_replace_line("", 0);
-    	// rl_redisplay();
-		// interrupted = 0;
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_reset_line_state();
+    	rl_replace_line("", 0);
+    	rl_redisplay();
+		interrupted = 0;
     }
     return 0;
 }
