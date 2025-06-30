@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:35 by sscholz           #+#    #+#             */
-/*   Updated: 2025/06/27 21:48:20 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 16:01:12 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -40,7 +40,7 @@ typedef struct s_shell
 	t_command				*cmd_list;
 	char 					**envp;
 	int						last_exit_status;
-	// volatile sig_atomic_t	interrupted;
+	bool					exit;
 }	t_shell;
 
 // Memory functions
