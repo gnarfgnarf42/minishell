@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:37:59 by nefimov           #+#    #+#             */
-/*   Updated: 2025/06/28 13:07:34 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:42:24 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -41,32 +41,32 @@ static void	dup_fd(t_command *cmd)
 		dup2(cmd->fd_out, STDOUT_FILENO);
 }
 
-static int	close_fd(t_command *cmd)
-{
-	if (cmd->next)
-	{
-		close(cmd->fd_pipe[0]);
-		close(cmd->fd_pipe[1]);
-	}
-	if (cmd->fd_in != STDIN_FILENO)
-		close(cmd->fd_in);
-	if (cmd->fd_out != STDOUT_FILENO)
-		close(cmd->fd_out);
-	return (0);
-}
+// static int	close_fd(t_command *cmd)
+// {
+// 	if (cmd->next)
+// 	{
+// 		close(cmd->fd_pipe[0]);
+// 		close(cmd->fd_pipe[1]);
+// 	}
+// 	if (cmd->fd_in != STDIN_FILENO)
+// 		close(cmd->fd_in);
+// 	if (cmd->fd_out != STDOUT_FILENO)
+// 		close(cmd->fd_out);
+// 	return (0);
+// }
 
-static int	close_all_fd(t_shell *shell)
-{
-	t_command	*cmd;
+// static int	close_all_fd(t_shell *shell)
+// {
+// 	t_command	*cmd;
 
-	cmd = shell->cmd_list;
-	while (cmd)
-	{
-		close_fd(cmd);
-		cmd = cmd->next;
-	}
-	return (0);
-}
+// 	cmd = shell->cmd_list;
+// 	while (cmd)
+// 	{
+// 		close_fd(cmd);
+// 		cmd = cmd->next;
+// 	}
+// 	return (0);
+// }
 
 int	ft_exec_shell(t_shell *shell)
 {
@@ -96,6 +96,7 @@ int	ft_exec_shell(t_shell *shell)
 			old_fd[1] = dup(STDOUT_FILENO);
 			dup_fd(cmd);
 			cmd->exit_val = ft_exec_builtin(shell, cmd);
+			// printf("BUILTIN cmd->exit_val: %i\n", cmd->exit_val);
 			dup2(old_fd[0], STDIN_FILENO);
 			dup2(old_fd[1], STDOUT_FILENO);
 			close(old_fd[0]);
@@ -123,7 +124,7 @@ int	ft_exec_shell(t_shell *shell)
 				signal(SIGQUIT, SIG_DFL); // Restore default handler
 				signal(SIGINT, SIG_DFL);
 				dup_fd(cmd);
-				close_all_fd(shell);
+				ft_close_all_fd(shell);
 				execve(cmd->cmdname, cmd->args, cmd->envp);
 				if (errno == ENOEXEC)
 				{
@@ -146,7 +147,7 @@ int	ft_exec_shell(t_shell *shell)
 		cmd = cmd->next;
 	}
 	// Parent closes all pipe fds
-	close_all_fd(shell);
+	ft_close_all_fd(shell);
     // Wait for all children and store exit codes
 	cmd = shell->cmd_list;
 	while (cmd)
@@ -165,7 +166,7 @@ int	ft_exec_shell(t_shell *shell)
 		}
 		if (WIFEXITED(status))
 		{
-			cmd->exit_val = status;
+			cmd->exit_val = WEXITSTATUS(status);
 			// return (WEXITSTATUS(status));
 		}
 		else if (WIFSIGNALED(status))
@@ -177,16 +178,8 @@ int	ft_exec_shell(t_shell *shell)
 		cmd = cmd->next;
 	}
 
-	// cmd = shell->cmd_list;
-	// while (cmd)
-	// {
-	// 	if (cmd->exit_val == 0)
-	// 		ft_exec_command(shell, cmd);
-	// write_exit_code(shell);
-	// 	ft_close_cmd_fd(cmd);
-	// 	cmd = cmd->next;
-	// }
 	write_exit_code(shell);
+	ft_close_all_fd(shell);
 	ft_free_cmd_line(shell, shell->cmd_list);
 	return (0);
 }

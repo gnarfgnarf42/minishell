@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 19:24:15 by nefimov           #+#    #+#             */
-/*   Updated: 2025/06/28 00:33:53 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:50:16 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -135,13 +135,27 @@ int	ft_cmd_is_builtin(t_shell *shell, t_command *cmd)
 
 int	ft_close_cmd_fd(t_command *cmd)
 {
-	if (cmd->next && cmd->fd_pipe[1] != STDOUT_FILENO)
+	if (cmd->next)
+	{
+		close(cmd->fd_pipe[0]);
 		close(cmd->fd_pipe[1]);
-	if (cmd->prev && cmd->prev->fd_pipe[0] != STDIN_FILENO)
-		close(cmd->prev->fd_pipe[0]);
+	}
 	if (cmd->fd_in != STDIN_FILENO)
 		close(cmd->fd_in);
 	if (cmd->fd_out != STDOUT_FILENO)
 		close(cmd->fd_out);
+	return (0);
+}
+
+int	ft_close_all_fd(t_shell *shell)
+{
+	t_command	*cmd;
+
+	cmd = shell->cmd_list;
+	while (cmd)
+	{
+		ft_close_cmd_fd(cmd);
+		cmd = cmd->next;
+	}
 	return (0);
 }
