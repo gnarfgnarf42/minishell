@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:21:49 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/01 22:07:01 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/01 23:30:05 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -85,7 +85,8 @@ int			ft_ms_echo(t_shell *shell, t_command *cmd);
 int			ft_ms_env(t_shell *shell, t_command *cmd);
 int			ft_ms_exit(t_shell *shell, t_command *cmd);
 int			ft_ms_export(t_shell *shell, t_command *cmd);
-int			ft_ms_pwd(t_shell *shell, t_command *cmd);
+int 		ft_export_arg(t_shell *shell, t_command *cmd, char *arg);
+int 		ft_ms_pwd(t_shell *shell, t_command *cmd);
 int			ft_ms_unset(t_shell *shell, t_command *cmd);
 int			ft_perror(char *process, char *arg, char *message, int code);
 int			ft_perror_syntax(char *arg);
