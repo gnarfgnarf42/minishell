@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_proc_append.c                                   :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 19:05:28 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/01 13:54:57 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "execution.h"
 #include "minishell.h"
@@ -32,7 +32,7 @@ t_token		*ft_process_append(t_shell *shell, t_token *token, t_command *cmd)
 	{
 		perror("-minishell");
 		cmd->exit_val = 1;
-		return (NULL);
+		return (token->next);
 	}
 	if (cmd->fd_out != STDOUT_FILENO && close(cmd->fd_out) == -1)
 	{
