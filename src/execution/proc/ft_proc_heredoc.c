@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_proc_heredoc.c                                  :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 18:35:21 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/01 22:34:03 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "execution.h"
 #include "minishell.h"
@@ -23,7 +23,7 @@ static int	read_heredoc(const char *dest)
 
 	if (pipe(fdpipe) == -1)
 	{
-		perror("-minishell");
+		ft_perror("minishell", "HereDoc", strerror(errno), 1);
 		return (-1);
 	}
 	while (1)
@@ -48,8 +48,7 @@ t_token	*ft_process_heredoc(t_shell *shell, t_token *token, t_command *cmd)
 	token = token->next;
 	if (token->type != TOKEN_WORD)
 	{
-		ft_putstr_fd("-minishell: ", STDERR_FILENO);
-		ft_putstr_fd("syntax error near unexpected token\n", STDERR_FILENO);
+		ft_perror_syntax(token->value);
 		cmd->exit_val = 2;
 		return (NULL);
 	}
@@ -61,7 +60,7 @@ t_token	*ft_process_heredoc(t_shell *shell, t_token *token, t_command *cmd)
 	}
 	if (cmd->fd_in != STDIN_FILENO && close(cmd->fd_in) == -1)
 	{
-		perror("-minishell");
+		ft_perror("minishell", "HereDoc", strerror(errno), 1);
 		cmd->exit_val = 1;
 		close(fd);
 		return (NULL);

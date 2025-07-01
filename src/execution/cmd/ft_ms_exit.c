@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/06/30 18:05:09 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/01 22:35:28 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -49,7 +49,6 @@ int	ft_ms_exit(t_shell *shell, t_command *cmd)
 {
 	int code;
 
-	
 	if (cmd->argsc == 1)
     	code = shell->last_exit_status;
 	else if (cmd->argsc > 2)
@@ -65,11 +64,7 @@ int	ft_ms_exit(t_shell *shell, t_command *cmd)
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	else
 		ft_putstr_fd("\n", STDOUT_FILENO);
-	// ft_close_all_fd(shell);
-	// ft_free_all_tracked(shell);
 	cmd->exit_val = code & 0xFF;
 	shell->exit = 0;
-	// printf("exit code: %i\n", cmd->exit_val);
-	// exit(cmd->exit_val);
 	return (cmd->exit_val);
 }

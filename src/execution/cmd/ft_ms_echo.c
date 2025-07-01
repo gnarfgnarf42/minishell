@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_ms_echo.c                                       :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 17:43:15 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/01 15:56:27 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "execution.h"
 #include "minishell.h"
@@ -31,17 +31,19 @@ int	ft_ms_echo(t_shell *shell, t_command *cmd)
 	{
 		if (write(STDOUT_FILENO, cmd->args[i], ft_strlen(cmd->args[i])) == -1)
 		{
-			perror("-minishell");
+			// perror("-minishell echo write");
+			ft_perror("minishell", "echo", strerror(errno), 1);
 			cmd->exit_val = 1;
-			return (-1);
+			return (1);
 		}
 		if (i < cmd->argsc - 1)
 		{
 			if (write(STDOUT_FILENO, " ", 1) == -1)
 			{
-				perror("-minishell");
+				// perror("-minishell echo write");
+				ft_perror("minishell", "echo", strerror(errno), 1);
 				cmd->exit_val = 1;
-				return (-1);
+				return (1);
 			}
 		}
 	}
@@ -49,9 +51,10 @@ int	ft_ms_echo(t_shell *shell, t_command *cmd)
 	{
 		if (write(STDOUT_FILENO, "\n", 1) == -1)
 		{
-			perror("-minishell");
+			// perror("-minishell echo write nl");
+			ft_perror("minishell", "echo", strerror(errno), 1);
 			cmd->exit_val = 1;
-			return (-1);
+			return (1);
 		}
 	}
 	cmd->exit_val = 0;

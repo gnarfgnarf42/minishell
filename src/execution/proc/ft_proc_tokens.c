@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/01 01:36:15 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/01 13:57:28 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -51,6 +51,7 @@ t_command	*ft_create_cmd_line(t_shell *shell)
 	cur_token = shell->tokens;
 	while (cur_token && cur_token->type != TOKEN_END)
 	{
+		// printf("---CUR_TOKEN: %s\n", cur_token->value);
 		if (cmd->exit_val == 0 || cur_token->type == TOKEN_PIPE)
 		{
 			next_token = ft_process_token(shell, cur_token, &cmd);
