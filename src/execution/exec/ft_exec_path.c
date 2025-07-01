@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_exec_path.c                                     :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 14:09:36 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 17:54:20 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/01 00:55:24 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "execution.h"
 #include "minishell.h"
@@ -127,10 +127,29 @@ int	str_is_pathname(char *str)
 // If cmd->pathname is not a path, searc it in PATH variable
 int	ft_get_path(t_shell *shell, t_command *cmd)
 {
-	if (str_is_pathname(cmd->cmdname) == 1 && access(cmd->cmdname, F_OK) == 0
-		&& path_is_dir(cmd->cmdname) != 0)
+	if (str_is_pathname(cmd->cmdname) == 1)
+	{
+		if (!path_is_dir(cmd->cmdname))
+		{
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			ft_putstr_fd(cmd->args[0], STDERR_FILENO);
+			ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
+			cmd->exit_val = 126;
+			return (2);
+		}
+		if (access(cmd->cmdname, F_OK) == 0)
+			return (0);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(cmd->args[0], STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		cmd->exit_val = 127;
+		return (1);
+	}
+	else if (search_in_path(shell, cmd) == 0)
 		return (0);
-	if (search_in_path(shell, cmd) == 0)
-		return (0);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd->args[0], STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	cmd->exit_val = 127;
 	return (1);
 }
