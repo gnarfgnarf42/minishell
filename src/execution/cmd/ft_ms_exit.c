@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/06/30 17:31:45 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 18:05:09 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -63,6 +63,8 @@ int	ft_ms_exit(t_shell *shell, t_command *cmd)
 	}
 	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
+	else
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	// ft_close_all_fd(shell);
 	// ft_free_all_tracked(shell);
 	cmd->exit_val = code & 0xFF;
