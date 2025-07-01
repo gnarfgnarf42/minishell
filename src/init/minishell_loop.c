@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/06/30 17:42:13 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/01 22:43:54 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -86,6 +86,7 @@ void	ft_minishell_loop(t_shell *shell)
 
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGPIPE, SIG_IGN);
 	rl_event_hook = check_sigint_hook;
 	shell->last_exit_status = 0;
 	is_interactive = isatty(STDIN_FILENO);
@@ -93,9 +94,6 @@ void	ft_minishell_loop(t_shell *shell)
 	while (shell->exit)
 	{
 		interrupted = 0;
-		// printf("New input | Inrettuptes: %i\n", interrupted);
-		// input = readline("minishell> ");
-
 		if (is_interactive)
             input = readline("minishell> ");
         else
@@ -108,7 +106,8 @@ void	ft_minishell_loop(t_shell *shell)
 		// printf("Input: %s\n", input);
 		if (!input)
 		{
-			printf("exit\n");
+			if (is_interactive)
+				printf("exit\n");
 			break ;
 		}
 		if (interrupted)
