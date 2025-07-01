@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:37:59 by nefimov           #+#    #+#             */
-/*   Updated: 2025/06/30 17:42:24 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/01 12:23:17 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -41,33 +41,6 @@ static void	dup_fd(t_command *cmd)
 		dup2(cmd->fd_out, STDOUT_FILENO);
 }
 
-// static int	close_fd(t_command *cmd)
-// {
-// 	if (cmd->next)
-// 	{
-// 		close(cmd->fd_pipe[0]);
-// 		close(cmd->fd_pipe[1]);
-// 	}
-// 	if (cmd->fd_in != STDIN_FILENO)
-// 		close(cmd->fd_in);
-// 	if (cmd->fd_out != STDOUT_FILENO)
-// 		close(cmd->fd_out);
-// 	return (0);
-// }
-
-// static int	close_all_fd(t_shell *shell)
-// {
-// 	t_command	*cmd;
-
-// 	cmd = shell->cmd_list;
-// 	while (cmd)
-// 	{
-// 		close_fd(cmd);
-// 		cmd = cmd->next;
-// 	}
-// 	return (0);
-// }
-
 int	ft_exec_shell(t_shell *shell)
 {
 	t_command	*cmd;
@@ -90,25 +63,50 @@ int	ft_exec_shell(t_shell *shell)
 	cmd = shell->cmd_list;
 	while (cmd)
 	{
+		if (cmd->exit_val != 0)
+		{
+			cmd = cmd->next;
+			continue;
+		}
 		if (cmd->is_builtin)
 		{
-			old_fd[0] = dup(STDIN_FILENO);
-			old_fd[1] = dup(STDOUT_FILENO);
-			dup_fd(cmd);
-			cmd->exit_val = ft_exec_builtin(shell, cmd);
-			// printf("BUILTIN cmd->exit_val: %i\n", cmd->exit_val);
-			dup2(old_fd[0], STDIN_FILENO);
-			dup2(old_fd[1], STDOUT_FILENO);
-			close(old_fd[0]);
-			close(old_fd[1]);
+			if (cmd->next || cmd->prev) // If builtin in pipeline -> make fork
+			{
+				// ft_putstr_fd("Builtin in pipe\n", STDOUT_FILENO);
+				cmd->pid = fork();
+				if (cmd->pid < 0)
+				{
+					cmd->exit_val = 255;
+					perror("fork failed");
+					return (1);
+				}
+				if (cmd->pid == 0)
+				{
+					signal(SIGQUIT, SIG_DFL);
+					signal(SIGINT, SIG_DFL);
+					dup_fd(cmd);
+					ft_close_all_fd(shell);
+					cmd->exit_val = ft_exec_builtin(shell, cmd);
+					exit(cmd->exit_val);
+				}
+			}
+			else // If builtin is alone -> run in current process
+			{
+				old_fd[0] = dup(STDIN_FILENO);
+				old_fd[1] = dup(STDOUT_FILENO);
+				dup_fd(cmd);
+				cmd->exit_val = ft_exec_builtin(shell, cmd);
+				// printf("BUILTIN cmd->exit_val: %i\n", cmd->exit_val);
+				dup2(old_fd[0], STDIN_FILENO);
+				dup2(old_fd[1], STDOUT_FILENO);
+				close(old_fd[0]);
+				close(old_fd[1]);
+			}
 		}
 		else if (ft_get_path(shell, cmd) != 0)
 		{
-			cmd->exit_val = 127;
-			perror("Path error");
 			cmd = cmd->next;
 			continue;
-			// return (1);
 		}
 		else
 		{
@@ -140,8 +138,8 @@ int	ft_exec_shell(t_shell *shell)
 					execve(SH_PATH, cmd->args, cmd->envp);
 				}
 				perror("execve failed");
-				cmd->exit_val = 127;
-				exit(127);
+				cmd->exit_val = 126;
+				exit(cmd->exit_val);
 			}
 		}
 		cmd = cmd->next;
@@ -162,18 +160,15 @@ int	ft_exec_shell(t_shell *shell)
 			perror("waitpid failed");
 			ft_putchar_fd('\n', STDOUT_FILENO);
 			cmd->exit_val = 255;
-			// return (255);
 		}
 		if (WIFEXITED(status))
 		{
 			cmd->exit_val = WEXITSTATUS(status);
-			// return (WEXITSTATUS(status));
 		}
 		else if (WIFSIGNALED(status))
 		{
 			ft_putchar_fd('\n', STDOUT_FILENO);
 			cmd->exit_val = 128 + WTERMSIG(status);
-			// return (128 + WTERMSIG(status));
 		}
 		cmd = cmd->next;
 	}
