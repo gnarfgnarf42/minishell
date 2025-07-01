@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:21:49 by nefimov           #+#    #+#             */
-/*   Updated: 2025/06/30 15:05:40 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/01 22:07:01 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -22,6 +22,7 @@
 # include <sys/stat.h>
 # include <limits.h>
 # include <linux/limits.h>
+# include <errno.h>
 # include "parser.h"
 
 typedef struct s_command
@@ -86,5 +87,7 @@ int			ft_ms_exit(t_shell *shell, t_command *cmd);
 int			ft_ms_export(t_shell *shell, t_command *cmd);
 int			ft_ms_pwd(t_shell *shell, t_command *cmd);
 int			ft_ms_unset(t_shell *shell, t_command *cmd);
+int			ft_perror(char *process, char *arg, char *message, int code);
+int			ft_perror_syntax(char *arg);
 
 #endif
