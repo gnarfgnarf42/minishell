@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_proc_tokens.c                                   :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/05/16 18:49:26 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/01 01:36:15 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "execution.h"
 #include "minishell.h"
@@ -51,10 +51,15 @@ t_command	*ft_create_cmd_line(t_shell *shell)
 	cur_token = shell->tokens;
 	while (cur_token && cur_token->type != TOKEN_END)
 	{
-		next_token = ft_process_token(shell, cur_token, &cmd);
-		if (next_token == NULL && cmd->exit_val == 0)
-			cmd->exit_val = 22;
-		cur_token = next_token;
+		if (cmd->exit_val == 0 || cur_token->type == TOKEN_PIPE)
+		{
+			next_token = ft_process_token(shell, cur_token, &cmd);
+			if (next_token == NULL && cmd->exit_val == 0)
+				cmd->exit_val = 22;
+			cur_token = next_token;
+		}
+		else
+			cur_token = cur_token->next;
 	}
 	return (cmd_line);
 }
