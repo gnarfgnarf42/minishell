@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/06/30 12:49:51 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/02 00:13:45 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -28,29 +28,9 @@ static int	find_eq_position(char *name)
 	i = 0;
 	while (name[i] && name[i] != '=')
 		i++;
-	// if (name[i])
 	pos = i;
 	return (pos);
 }
-
-/*
-static int	name_is_valid(char *s, int len)
-{
-	int	out;
-	int	i;
-
-	out = 0;
-	i = 0;
-	while (i < len)
-	{
-		if (!((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z')
-				|| (s[i] >= '0' && s[i] <= '9') || s[i] == '_'))
-			out = 1;
-		i++;
-	}
-	return (out);
-}
-*/
 
 static int	name_is_valid(char *s, int len)
 {
@@ -104,15 +84,6 @@ static int	add_line_to_envp(t_shell *shell, char *line)
 	return (0);
 }
 
-// Print " not a valid identifier" error and return 1
-static int	perror_ident(char *arg)
-{
-	ft_putstr_fd("-minishell: export: `", STDERR_FILENO);
-	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-	return (1);
-}
-
 // Searching in env string with identifier and set it's value
 // Or create a new string in env
 // Return 0 if Ok or 2 if error
@@ -138,9 +109,28 @@ static int	export_value(t_shell *shell, t_command *cmd, int eq_pos, char *arg)
 		}
 		env++;
 	}
-	if (*env == NULL && cmd->exit_val == 0)
+	if (*env == NULL) // && cmd->exit_val == 0)
 		if (add_line_to_envp(shell, arg) != 0)
 			cmd->exit_val = 2;
+	return (cmd->exit_val);
+}
+
+int	ft_export_arg(t_shell *shell, t_command *cmd, char *arg)
+{
+	int eq_pos;
+
+	eq_pos = find_eq_position(arg);
+	if (name_is_valid(arg, eq_pos) == 1)
+	{
+		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+		cmd->exit_val = 1;
+	}
+	else if (eq_pos >= 0 && (arg)[eq_pos] == 0)
+		cmd->exit_val = 0;
+	else
+		cmd->exit_val = export_value(shell, cmd, eq_pos, arg);
 	return (cmd->exit_val);
 }
 
@@ -148,19 +138,16 @@ static int	export_value(t_shell *shell, t_command *cmd, int eq_pos, char *arg)
 static int	proc_args(t_shell *shell, t_command *cmd)
 {
 	char	**arg;
-	int		eq_pos;
+	int ret;
 
 	arg = cmd->args;
+	ret = 0;
 	while (*(++arg))
 	{
-		eq_pos = find_eq_position(*arg);
-		if (name_is_valid(*arg, eq_pos) == 1)
-			cmd->exit_val = perror_ident(*arg);
-		else if (eq_pos >= 0 && (*arg)[eq_pos] == 0)
-			cmd->exit_val = 0;
-		else
-			cmd->exit_val = export_value(shell, cmd, eq_pos, *arg);
+		if (ft_export_arg(shell, cmd, *arg))
+			ret = 1;
 	}
+	cmd->exit_val = ret;
 	return (cmd->exit_val);
 }
 
