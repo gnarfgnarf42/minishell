@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:37:59 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/01 12:23:17 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/01 22:38:26 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -15,6 +15,7 @@
 #include "parser.h"
 #include <errno.h>
 #include <signal.h>
+#include <fcntl.h>
 
 static void	write_exit_code(t_shell *shell)
 {
@@ -56,15 +57,25 @@ int	ft_exec_shell(t_shell *shell)
 	cmd = shell->cmd_list;
 	while (cmd)
 	{
-		ft_cmd_is_builtin(shell, cmd);
+		if (cmd->exit_val == 0)
+			ft_cmd_is_builtin(shell, cmd);
 		cmd = cmd->next;
 	}
 	// Create fork. Put PID to cmd->pid
 	cmd = shell->cmd_list;
 	while (cmd)
 	{
+		// ft_print_cmd(cmd);
 		if (cmd->exit_val != 0)
 		{
+			// Close pipe write end to prevent broken pipe for next command
+			if (cmd->fd_pipe[1] != STDOUT_FILENO)
+				close(cmd->fd_pipe[1]);
+			// Close redirection file descriptors
+			if (cmd->fd_in != STDIN_FILENO)
+				close(cmd->fd_in);
+			if (cmd->fd_out != STDOUT_FILENO)
+				close(cmd->fd_out);
 			cmd = cmd->next;
 			continue;
 		}
@@ -72,7 +83,6 @@ int	ft_exec_shell(t_shell *shell)
 		{
 			if (cmd->next || cmd->prev) // If builtin in pipeline -> make fork
 			{
-				// ft_putstr_fd("Builtin in pipe\n", STDOUT_FILENO);
 				cmd->pid = fork();
 				if (cmd->pid < 0)
 				{
@@ -84,6 +94,8 @@ int	ft_exec_shell(t_shell *shell)
 				{
 					signal(SIGQUIT, SIG_DFL);
 					signal(SIGINT, SIG_DFL);
+					signal(SIGPIPE, SIG_DFL);
+					// signal(SIGPIPE, SIG_IGN);
 					dup_fd(cmd);
 					ft_close_all_fd(shell);
 					cmd->exit_val = ft_exec_builtin(shell, cmd);
@@ -121,6 +133,7 @@ int	ft_exec_shell(t_shell *shell)
 			{
 				signal(SIGQUIT, SIG_DFL); // Restore default handler
 				signal(SIGINT, SIG_DFL);
+				signal(SIGPIPE, SIG_DFL);
 				dup_fd(cmd);
 				ft_close_all_fd(shell);
 				execve(cmd->cmdname, cmd->args, cmd->envp);
@@ -158,7 +171,6 @@ int	ft_exec_shell(t_shell *shell)
 		if (waitpid(cmd->pid, &status, 0) == -1)
 		{
 			perror("waitpid failed");
-			ft_putchar_fd('\n', STDOUT_FILENO);
 			cmd->exit_val = 255;
 		}
 		if (WIFEXITED(status))
@@ -167,7 +179,6 @@ int	ft_exec_shell(t_shell *shell)
 		}
 		else if (WIFSIGNALED(status))
 		{
-			ft_putchar_fd('\n', STDOUT_FILENO);
 			cmd->exit_val = 128 + WTERMSIG(status);
 		}
 		cmd = cmd->next;
