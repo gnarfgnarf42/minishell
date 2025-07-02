@@ -21,6 +21,7 @@ SRCS =		$(INIT_DIR)/main.c \
 			$(UTILS_DIR)/memory.c \
 			$(UTILS_DIR)/command.c \
 			$(UTILS_DIR)/env.c \
+			$(UTILS_DIR)/tokens.c \
 			$(TOKENIZER_DIR)/ft_add_token.c \
 			$(TOKENIZER_DIR)/ft_create_token.c \
 			$(TOKENIZER_DIR)/ft_expand_vars.c \
@@ -66,6 +67,7 @@ TEST_SRC =	$(TEST_DIR)/unit/test_envp.c \
         	$(UTILS_DIR)/memory.c \
 			$(UTILS_DIR)/command.c \
 			$(UTILS_DIR)/env.c \
+			$(UTILS_DIR)/tokens.c \
 			$(TOKENIZER_DIR)/ft_add_token.c \
 			$(TOKENIZER_DIR)/ft_create_token.c \
 			$(TOKENIZER_DIR)/ft_expand_vars.c \

@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:35 by sscholz           #+#    #+#             */
-/*   Updated: 2025/07/02 20:28:56 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/02 23:43:17 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_shell
 	char					**envp;
 	int						last_exit_status;
 	int						is_interactive;
-	bool exit;
+	bool					exit;
 }	t_shell;
 
 // Memory functions
@@ -53,6 +53,8 @@ char	*ft_track_strndup(t_shell *shell, const char *s, size_t n);
 
 // Main loop function
 void	ft_minishell_loop(t_shell *shell);
+
+// Tokens functions
 void	ft_print_tokens(t_token *tokens);
 
 // Envp functions
