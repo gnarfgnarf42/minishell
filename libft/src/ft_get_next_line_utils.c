@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_get_next_line_utils.c                           :+:      :+:    :+:   */
@@ -6,30 +6,12 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:13:23 by nefimov           #+#    #+#             */
-/*   Updated: 2025/06/28 14:19:51 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/02 16:02:37 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 // #include <stdint.h>
 #include "libft.h"
-
-/* 
-	Calculate a length of the string.
-	
-	INPUT: C string "s"
-	RETURN: number of characters in string "s"
-*/
-// size_t	ft_strlen(const char *s)
-// {
-// 	size_t	len;
-
-// 	len = 0;
-// 	while (*(s + len))
-// 	{
-// 		len++;
-// 	}
-// 	return (len);
-// }
 
 /*
 	Create a new string, that is a result of concatination of string 's1'

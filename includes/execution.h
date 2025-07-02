@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 17:21:49 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/01 23:30:05 by nefimov          ###   ########.fr       */
+/*   Created: 2025/07/02 15:29:11 by nefimov           #+#    #+#             */
+/*   Updated: 2025/07/02 15:57:14 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
@@ -27,9 +27,9 @@
 
 typedef struct s_command
 {
-	char 				*cmdname;
-	char 				**args;
-	int 				argsc;
+	char				*cmdname;
+	char				**args;
+	int					argsc;
 	char				**envp;
 	pid_t				pid;
 	int					fd_in;
@@ -52,12 +52,11 @@ void		ft_exec_command(t_shell *shell, t_command *cmd);
 int			ft_cmd_is_builtin(t_shell *shell, t_command *cmd);
 int			ft_exec_builtin(t_shell *shell, t_command *cmd);
 
-
 // ft_exec_path.c
 int			ft_get_path(t_shell *shell, t_command *cmd);
 char		*get_next_path(char *path, char delim);
 char		*get_full_path(t_shell *shell, t_command *cmd, char *cur_path);
-int 		search_in_path(t_shell *shell, t_command *cmd);
+int			search_in_path(t_shell *shell, t_command *cmd);
 int			str_is_pathname(char *str);
 int			path_is_dir(char *path);
 
@@ -67,8 +66,10 @@ t_token		*ft_process_token(t_shell *shell, t_token *token, t_command **cmd);
 
 // ft_proc_word.c
 t_token		*ft_process_word(t_shell *shell, t_token *token, t_command *cmd);
-t_token		*ft_process_redir_in(t_shell *shell, t_token *token, t_command *cmd);
-t_token		*ft_process_redir_out(t_shell *shell, t_token *token, t_command *cmd);
+t_token		*ft_process_redir_in(t_shell *shell, t_token *token,
+				t_command *cmd);
+t_token		*ft_process_redir_out(t_shell *shell, t_token *token,
+				t_command *cmd);
 t_token		*ft_process_append(t_shell *shell, t_token *token, t_command *cmd);
 t_token		*ft_process_heredoc(t_shell *shell, t_token *token, t_command *cmd);
 t_token		*ft_process_pipe(t_shell *shell, t_token *token, t_command **cmd);
@@ -85,8 +86,8 @@ int			ft_ms_echo(t_shell *shell, t_command *cmd);
 int			ft_ms_env(t_shell *shell, t_command *cmd);
 int			ft_ms_exit(t_shell *shell, t_command *cmd);
 int			ft_ms_export(t_shell *shell, t_command *cmd);
-int 		ft_export_arg(t_shell *shell, t_command *cmd, char *arg);
-int 		ft_ms_pwd(t_shell *shell, t_command *cmd);
+int			ft_export_arg(t_shell *shell, t_command *cmd, char *arg);
+int			ft_ms_pwd(t_shell *shell, t_command *cmd);
 int			ft_ms_unset(t_shell *shell, t_command *cmd);
 int			ft_perror(char *process, char *arg, char *message, int code);
 int			ft_perror_syntax(char *arg);

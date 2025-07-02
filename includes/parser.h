@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:51:07 by sscholz           #+#    #+#             */
-/*   Updated: 2025/05/12 16:46:40 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/02 15:27:12 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-	   
+
 typedef enum e_quote_type
 {
 	QUOTE_NONE,
