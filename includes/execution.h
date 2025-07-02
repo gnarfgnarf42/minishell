@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:29:11 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 00:09:47 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 00:21:54 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ t_command	*ft_init_cmd(t_shell *shell);
 void		ft_free_cmd(t_shell *shell, t_command *cmd);
 void		ft_free_cmd_line(t_shell *shell, t_command *cmd);
 // cmd
-// int			ft_close_cmd_fd(t_command *cmd);
 int			ft_ms_cd(t_shell *shell, t_command *cmd);
 int			ft_ms_echo(t_shell *shell, t_command *cmd);
 int			ft_ms_env(t_shell *shell, t_command *cmd);
+void		ft_penv(t_shell *shell);
 int			ft_ms_exit(t_shell *shell, t_command *cmd);
 int			ft_ms_export(t_shell *shell, t_command *cmd);
 int			ft_export_arg(t_shell *shell, t_command *cmd, char *arg);

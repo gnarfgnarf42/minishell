@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 23:35:48 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/02 23:39:15 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 00:15:15 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "minishell.h"
 #include "parser.h"
 
-static void print_tokens_bonus(t_token *cur);
+static void	print_tokens_bonus(t_token *cur);
 
 void	ft_print_tokens(t_token *cur)
 {
@@ -42,7 +42,7 @@ void	ft_print_tokens(t_token *cur)
 	}
 }
 
-static void print_tokens_bonus(t_token *cur)
+static void	print_tokens_bonus(t_token *cur)
 {
 	if (cur->type == TOKEN_AND)
 		printf("AND: ");

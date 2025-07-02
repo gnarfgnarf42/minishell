@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:30:44 by nefimov           #+#    #+#             */
-/*   Updated: 2025/06/26 15:36:44 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 00:19:45 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,21 +93,6 @@ char	**ft_envp_cpy(t_shell *shell, char *envp[])
 	}
 	envp_cpy[i] = NULL;
 	return (envp_cpy);
-}
-
-void	ft_penv(t_shell *shell)
-{
-	int	i;
-
-	if (shell->envp == NULL)
-		return ;
-	i = 0;
-	while (shell->envp[i])
-	{
-		write(STDOUT_FILENO, shell->envp[i], ft_strlen(shell->envp[i]));
-		write(STDOUT_FILENO, "\n", 1);
-		i++;
-	}
 }
 
 char	*ft_getenv(t_shell *shell, char *name)

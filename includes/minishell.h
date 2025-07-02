@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:35 by sscholz           #+#    #+#             */
-/*   Updated: 2025/07/02 23:43:17 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 00:21:36 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	ft_print_tokens(t_token *tokens);
 
 // Envp functions
 char	**ft_envp_cpy(t_shell *shell, char *envp[]);
-void	ft_penv(t_shell *shell);
 char	*ft_getenv(t_shell *shell, char *name);
 
 #endif
