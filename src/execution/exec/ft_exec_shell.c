@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_exec_shell.c                                    :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:37:59 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/01 22:38:26 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 00:12:26 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "execution.h"
 #include "minishell.h"
@@ -28,18 +28,6 @@ static void	write_exit_code(t_shell *shell)
 		cmd = cmd->next;
 	shell->last_exit_status = cmd->exit_val;
 	return ;
-}
-
-static void	dup_fd(t_command *cmd)
-{
-	if (cmd->next && cmd->fd_pipe[1] != STDOUT_FILENO)
-		dup2(cmd->fd_pipe[1], STDOUT_FILENO);
-	if (cmd->prev && cmd->prev->fd_pipe[0] != STDIN_FILENO)
-		dup2(cmd->prev->fd_pipe[0], STDIN_FILENO);
-	if (cmd->fd_in != STDIN_FILENO)
-		dup2(cmd->fd_in, STDIN_FILENO);
-	if (cmd->fd_out != STDOUT_FILENO)
-		dup2(cmd->fd_out, STDOUT_FILENO);
 }
 
 int	ft_exec_shell(t_shell *shell)
@@ -96,7 +84,7 @@ int	ft_exec_shell(t_shell *shell)
 					signal(SIGINT, SIG_DFL);
 					signal(SIGPIPE, SIG_DFL);
 					// signal(SIGPIPE, SIG_IGN);
-					dup_fd(cmd);
+					ft_dup_fd(cmd);
 					ft_close_all_fd(shell);
 					cmd->exit_val = ft_exec_builtin(shell, cmd);
 					exit(cmd->exit_val);
@@ -106,7 +94,7 @@ int	ft_exec_shell(t_shell *shell)
 			{
 				old_fd[0] = dup(STDIN_FILENO);
 				old_fd[1] = dup(STDOUT_FILENO);
-				dup_fd(cmd);
+				ft_dup_fd(cmd);
 				cmd->exit_val = ft_exec_builtin(shell, cmd);
 				// printf("BUILTIN cmd->exit_val: %i\n", cmd->exit_val);
 				dup2(old_fd[0], STDIN_FILENO);
@@ -134,7 +122,7 @@ int	ft_exec_shell(t_shell *shell)
 				signal(SIGQUIT, SIG_DFL); // Restore default handler
 				signal(SIGINT, SIG_DFL);
 				signal(SIGPIPE, SIG_DFL);
-				dup_fd(cmd);
+				ft_dup_fd(cmd);
 				ft_close_all_fd(shell);
 				execve(cmd->cmdname, cmd->args, cmd->envp);
 				if (errno == ENOEXEC)
@@ -180,6 +168,7 @@ int	ft_exec_shell(t_shell *shell)
 		else if (WIFSIGNALED(status))
 		{
 			cmd->exit_val = 128 + WTERMSIG(status);
+			ft_putchar_fd('\n', STDOUT_FILENO);
 		}
 		cmd = cmd->next;
 	}
