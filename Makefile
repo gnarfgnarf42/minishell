@@ -28,7 +28,7 @@ SRCS =		$(INIT_DIR)/main.c \
 			$(UTILS_DIR)/tokens.c \
 			$(TOKENIZER_DIR)/ft_add_token.c \
 			$(TOKENIZER_DIR)/ft_create_token.c \
-			$(TOKENIZER_DIR)/ft_expand_vars.c \
+			$(TOKENIZER_DIR)/ft_expand_variables.c \
 			$(TOKENIZER_DIR)/ft_finalize_tokens.c \
 			$(TOKENIZER_DIR)/ft_free_tokens.c \
 			$(TOKENIZER_DIR)/ft_handle_dollar.c \
@@ -37,7 +37,6 @@ SRCS =		$(INIT_DIR)/main.c \
 			$(TOKENIZER_DIR)/ft_handle_paren.c \
 			$(TOKENIZER_DIR)/ft_handle_quotes.c \
 			$(TOKENIZER_DIR)/ft_handle_word.c \
-			$(TOKENIZER_DIR)/ft_merge_adjacent_words.c \
 			$(TOKENIZER_DIR)/ft_process_char.c \
 			$(TOKENIZER_DIR)/ft_skip_whitespace.c \
 			$(TOKENIZER_DIR)/ft_tokenize_loop.c \
@@ -78,11 +77,10 @@ TEST_SRC =	$(TEST_DIR)/unit/test_envp.c \
 			$(UTILS_DIR)/tokens.c \
 			$(TOKENIZER_DIR)/ft_add_token.c \
 			$(TOKENIZER_DIR)/ft_create_token.c \
-			$(TOKENIZER_DIR)/ft_expand_vars.c \
+			$(TOKENIZER_DIR)/ft_expand_variables.c \
 			$(TOKENIZER_DIR)/ft_finalize_tokens.c \
 			$(TOKENIZER_DIR)/ft_free_tokens.c \
 			$(TOKENIZER_DIR)/ft_handle_dollar.c \
-			$(TOKENIZER_DIR)/ft_handle_multichar_op.c \
 			$(TOKENIZER_DIR)/ft_handle_operator.c \
 			$(TOKENIZER_DIR)/ft_handle_paren.c \
 			$(TOKENIZER_DIR)/ft_handle_quotes.c \

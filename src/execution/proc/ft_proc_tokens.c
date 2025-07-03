@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 11:55:54 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 19:15:49 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ t_token	*ft_process_token(t_shell *shell, t_token *token, t_command **cmd)
 		return (ft_process_redir_in(shell, token, *cmd));
 	else if (token->type == TOKEN_REDIR_OUT)
 		return (ft_process_redir_out(shell, token, *cmd));
-	else if (token->type == TOKEN_APPEND)
+	else if (token->type == TOKEN_REDIR_APPEND)
 		return (ft_process_append(shell, token, *cmd));
-	else if (token->type == TOKEN_HEREDOC)
+	else if (token->type == TOKEN_REDIR_HEREDOC)
 		return (ft_process_heredoc(shell, token, *cmd));
 	else if (token->type == TOKEN_PIPE)
 		return (ft_process_pipe(shell, token, cmd));

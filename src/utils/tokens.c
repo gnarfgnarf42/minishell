@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 23:35:48 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 00:15:15 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 19:38:29 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	ft_print_tokens(t_token *cur)
 			printf("REDIR_IN: ");
 		else if (cur->type == TOKEN_REDIR_OUT)
 			printf("REDIR_OUT: ");
-		else if (cur->type == TOKEN_HEREDOC)
+		else if (cur->type == TOKEN_REDIR_HEREDOC)
 			printf("HEREDOC: ");
-		else if (cur->type == TOKEN_APPEND)
+		else if (cur->type == TOKEN_REDIR_APPEND)
 			printf("APPEND: ");
 		else
 			print_tokens_bonus(cur);

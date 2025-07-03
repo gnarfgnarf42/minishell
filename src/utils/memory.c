@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: sscholz <sscholz@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:17:15 by sscholz           #+#    #+#             */
-/*   Updated: 2025/07/03 00:15:54 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/03/17 19:17:16 by sscholz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,35 @@ char	*ft_track_strndup(t_shell *shell, const char *src, size_t n)
 	}
 	dest[i] = '\0';
 	return (dest);
+}
+
+char	*ft_track_strjoin(t_shell *shell, const char *s1, const char *s2)
+{
+	char	*result;
+	size_t	len1;
+	size_t	len2;
+	size_t	i;
+	size_t	j;
+
+	if (!s1 || !s2)
+		return (NULL);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	result = ft_track_malloc(shell, len1 + len2 + 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (i < len1)
+	{
+		result[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (j < len2)
+	{
+		result[i + j] = s2[j];
+		j++;
+	}
+	result[i + j] = '\0';
+	return (result);
 }

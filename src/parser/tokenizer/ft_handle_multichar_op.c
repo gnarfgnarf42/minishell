@@ -27,9 +27,9 @@ t_token	*ft_handle_multichar_op(t_shell *shell, const char *input, size_t *i)
 	if (!ft_is_multichar_start(input[*i], input[*i + 1]))
 		return (NULL);
 	if (input[*i] == '<')
-		token = ft_create_token(shell, TOKEN_HEREDOC, &input[*i], 2);
+		token = ft_create_token(shell, TOKEN_REDIR_HEREDOC, &input[*i], 2);
 	else if (input[*i] == '>')
-		token = ft_create_token(shell, TOKEN_APPEND, &input[*i], 2);
+		token = ft_create_token(shell, TOKEN_REDIR_APPEND, &input[*i], 2);
 	else if (input[*i] == '&')
 		token = ft_create_token(shell, TOKEN_AND, &input[*i], 2);
 	else

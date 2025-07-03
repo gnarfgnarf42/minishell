@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:51:07 by sscholz           #+#    #+#             */
-/*   Updated: 2025/07/02 15:27:12 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 19:34:24 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,29 @@
 # define PARSER_H
 
 # include "minishell.h"
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
 
-typedef enum e_quote_type
-{
-	QUOTE_NONE,
-	QUOTE_SINGLE,
-	QUOTE_DOUBLE
-}	t_quote_type;
+# define TOKEN_SKIP ((t_token *)-1)
+
 typedef enum e_token_type
 {
-	TOKEN_VAR,
 	TOKEN_WORD,
+	TOKEN_VAR,
 	TOKEN_PIPE,
 	TOKEN_REDIR_IN,
 	TOKEN_REDIR_OUT,
-	TOKEN_APPEND,
-	TOKEN_HEREDOC,
-	TOKEN_AND,
-	TOKEN_OR,
+	TOKEN_REDIR_APPEND,
+	TOKEN_REDIR_HEREDOC,
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
+	TOKEN_AND,
+	TOKEN_OR,
 	TOKEN_END
-}	t_token_type;
+} t_token_type;
 
 typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	bool			glue;
-	t_quote_type	quote_type;
 	struct s_token	*next;
 }	t_token;
 
@@ -60,13 +51,20 @@ t_token	*ft_handle_operator(t_shell *shell, const char *input, size_t *i);
 t_token	*ft_handle_paren(t_shell *shell, const char *input, size_t *i);
 t_token	*ft_handle_quotes(t_shell *shell, const char *input, size_t *i);
 t_token	*ft_handle_dollar(t_shell *shell, const char *input, size_t *i);
-t_token	*ft_expand_vars(t_shell *shell, t_token *head);
-void	ft_merge_adjacent_words(t_shell *shell, t_token *head);
+
 t_token	*ft_handle_word(t_shell *shell, const char *input, size_t *i);
 void	ft_add_token(t_token **head, t_token **tail, t_token *new_token);
 t_token	*ft_process_char(t_shell *shell, const char *input, size_t *i);
 t_token	*ft_finalize_tokens(t_shell *shell, t_token *head);
-t_token	*ft_tokenize_loop(t_shell *shell, const char *input, size_t *i); // New
+t_token	*ft_tokenize_loop(t_shell *shell, const char *input, size_t *i);
 void	ft_free_tokens(t_shell *shell, t_token **head);
+
+// Variable expansion functions
+char	*ft_get_var_value(t_shell *shell, const char *var_name);
+char	*ft_expand_variable(t_shell *shell, const char *input, size_t *i);
+char	*ft_append_to_result(t_shell *shell, char *result, const char *append);
+char	*ft_process_quoted_content(t_shell *shell, const char *input,
+			size_t *i, char quote_char);
+char	*ft_process_regular_text(t_shell *shell, const char *input, size_t *i);
 
 #endif
