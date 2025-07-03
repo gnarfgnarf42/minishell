@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/07/02 23:43:42 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:16:40 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	tokenize_exec_input(t_shell *shell, char *input)
 	}
 	else
 	{
-		ft_perror("minishell", NULL, "Memory allocation failed", 0);
+		ft_perror("minishell", NULL, "Memory allocation failed");
 		shell->exit = 0;
 	}
 }

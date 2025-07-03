@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 11:30:30 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:16:06 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	read_heredoc(const char *dest)
 
 	if (pipe(fdpipe) == -1)
 	{
-		ft_perror("minishell", "HereDoc", strerror(errno), 1);
+		ft_perror("minishell", "HereDoc", strerror(errno));
 		return (-1);
 	}
 	while (1)
@@ -60,7 +60,7 @@ t_token	*ft_process_heredoc(t_shell *shell, t_token *token, t_command *cmd)
 	}
 	if (cmd->fd_in != STDIN_FILENO && close(cmd->fd_in) == -1)
 	{
-		ft_perror("minishell", "HereDoc", strerror(errno), 1);
+		ft_perror("minishell", "HereDoc", strerror(errno));
 		cmd->exit_val = 1;
 		close(fd);
 		return (NULL);

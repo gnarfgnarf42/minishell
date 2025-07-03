@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 11:35:42 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:16:16 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token	*ft_process_pipe(t_shell *shell, t_token *token, t_command **cmd)
 	new_cmd = ft_init_cmd(shell);
 	if (new_cmd == NULL)
 	{
-		ft_perror("minishell", "pipe", strerror(errno), 1);
+		ft_perror("minishell", "pipe", strerror(errno));
 		(*cmd)->exit_val = 1;
 		return (NULL);
 	}
@@ -44,7 +44,7 @@ t_token	*ft_process_pipe(t_shell *shell, t_token *token, t_command **cmd)
 	(*cmd)->next = new_cmd;
 	if (pipe((*cmd)->fd_pipe) == -1)
 	{
-		ft_perror("minishell", "pipe", strerror(errno), 1);
+		ft_perror("minishell", "pipe", strerror(errno));
 		(*cmd)->exit_val = 1;
 		return (NULL);
 	}

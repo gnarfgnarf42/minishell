@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 23:53:40 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/02 23:55:10 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:14:29 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "minishell.h"
 #include "parser.h"
 
-int	ft_perror(char *process, char *arg, char *message, int code)
+void	ft_perror(char *process, char *arg, char *message)
 {
 	if (process)
 	{
@@ -31,7 +31,6 @@ int	ft_perror(char *process, char *arg, char *message, int code)
 		ft_putstr_fd(message, STDERR_FILENO);
 	}
 	ft_putstr_fd("\n", STDERR_FILENO);
-	return (code);
 }
 
 int	ft_perror_syntax(char *arg)

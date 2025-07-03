@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 10:22:12 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:15:08 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ static char	*get_path(t_shell *shell, t_command *cmd)
 	path = ft_getenv(shell, HOME);
 	if (cmd->argsc == 1 && path == NULL)
 	{
-		ft_perror("minishell", "cd", "HOME variable not found", 1);
+		ft_perror("minishell", "cd", "HOME variable not found");
 		cmd->exit_val = 1;
 		return (NULL);
 	}
 	else if (cmd->argsc > 2)
 	{
-		ft_perror("minishell", "cd", "too many arguments", 1);
+		ft_perror("minishell", "cd", "too many arguments");
 		cmd->exit_val = 1;
 		return (NULL);
 	}
@@ -48,7 +48,7 @@ static int	make_env_line(t_command *cmd, char *ident, char *line)
 	ft_memcpy(line, ident, str_len + 1);
 	if (getcwd(line + str_len, PATH_MAX - str_len) == NULL)
 	{
-		ft_perror("minishell", "cd", strerror(errno), 1);
+		ft_perror("minishell", "cd", strerror(errno));
 		cmd->exit_val = 1;
 		return (1);
 	}
@@ -68,7 +68,7 @@ int	ft_ms_cd(t_shell *shell, t_command *cmd)
 		return (1);
 	if (chdir(path) == -1)
 	{
-		ft_perror("minishell", "cd", strerror(errno), 1);
+		ft_perror("minishell", "cd", strerror(errno));
 		cmd->exit_val = 1;
 		return (1);
 	}
@@ -76,7 +76,7 @@ int	ft_ms_cd(t_shell *shell, t_command *cmd)
 		return (1);
 	if (ft_export_arg(shell, cmd, old_pwd) || ft_export_arg(shell, cmd, pwd))
 	{
-		ft_perror("minishell", "cd", strerror(errno), 1);
+		ft_perror("minishell", "cd", strerror(errno));
 		cmd->exit_val = 1;
 		return (1);
 	}

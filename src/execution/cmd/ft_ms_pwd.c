@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 11:00:03 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:15:30 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int	ft_ms_pwd(t_shell *shell, t_command *cmd)
 	cwd = getcwd(NULL, PATH_MAX);
 	if (cwd == NULL)
 	{
-		ft_perror("minishell", "pwd", strerror(errno), 1);
+		ft_perror("minishell", "pwd", strerror(errno));
 		cmd->exit_val = 1;
 		return (1);
 	}
 	if (write(STDOUT_FILENO, cwd, ft_strlen(cwd)) == -1
 		|| write(STDOUT_FILENO, "\n", 1) == -1)
 	{
-		ft_perror("minishell", "pwd", strerror(errno), 1);
+		ft_perror("minishell", "pwd", strerror(errno));
 		cmd->exit_val = 1;
 		free(cwd);
 		return (1);

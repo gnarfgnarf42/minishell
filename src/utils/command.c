@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 19:24:15 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 00:01:21 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:25:25 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,17 @@ void	ft_print_cmd(t_command *cmd)
 	printf("next: %p\n", cmd->next);
 	printf("prev: %p\n", cmd->prev);
 	printf("exit_val: %i\n", cmd->exit_val);
+}
+
+void	ft_write_exit_code(t_shell *shell)
+{
+	t_command	*cmd;
+
+	if (!shell)
+		return ;
+	cmd = shell->cmd_list;
+	while (cmd->next)
+		cmd = cmd->next;
+	shell->last_exit_status = cmd->exit_val;
+	return ;
 }

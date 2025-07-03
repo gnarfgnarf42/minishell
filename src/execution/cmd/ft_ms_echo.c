@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 10:43:20 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:15:21 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	write_args(t_command *cmd, int nl)
 	{
 		if (write(STDOUT_FILENO, cmd->args[i], ft_strlen(cmd->args[i])) == -1)
 		{
-			ft_perror("minishell", "echo", strerror(errno), 1);
+			ft_perror("minishell", "echo", strerror(errno));
 			cmd->exit_val = 1;
 			return (1);
 		}
@@ -41,7 +41,7 @@ static int	write_args(t_command *cmd, int nl)
 		{
 			if (write(STDOUT_FILENO, DELIM, 1) == -1)
 			{
-				ft_perror("minishell", "echo", strerror(errno), 1);
+				ft_perror("minishell", "echo", strerror(errno));
 				cmd->exit_val = 1;
 				return (1);
 			}
@@ -56,7 +56,7 @@ static int	write_nl(t_command *cmd, int nl)
 	{
 		if (write(STDOUT_FILENO, "\n", 1) == -1)
 		{
-			ft_perror("minishell", "echo", strerror(errno), 1);
+			ft_perror("minishell", "echo", strerror(errno));
 			cmd->exit_val = 1;
 			return (1);
 		}

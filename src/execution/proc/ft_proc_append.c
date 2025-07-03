@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 11:47:36 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:15:57 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	open_fd(t_token *token, t_command *cmd)
 	fd = open(token->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		ft_perror("minishell", token->value, strerror(errno), 1);
+		ft_perror("minishell", token->value, strerror(errno));
 		if (cmd->prev)
 			close(cmd->prev->fd_pipe[0]);
 		cmd->exit_val = 1;
@@ -44,7 +44,7 @@ static int	close_current_fdin(t_command *cmd)
 {
 	if (cmd->fd_out != STDOUT_FILENO && close(cmd->fd_out) == -1)
 	{
-		ft_perror("minishell", NULL, strerror(errno), 1);
+		ft_perror("minishell", NULL, strerror(errno));
 		cmd->exit_val = 1;
 		return (1);
 	}
