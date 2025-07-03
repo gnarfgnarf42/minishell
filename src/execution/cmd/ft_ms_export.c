@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_ms_export.c                                     :+:      :+:    :+:   */
@@ -6,32 +6,15 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/02 00:13:45 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 10:58:54 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "execution.h"
 #include "minishell.h"
 #include "parser.h"
 
-// Find position of char '=' in string name
-// Return position value or 0 if there are no '=' in name
-// or it is in the begginig of the string
-static int	find_eq_position(char *name)
-{
-	int	pos;
-	int	i;
-
-	if (!name)
-		return (-1);
-	pos = -1;
-	i = 0;
-	while (name[i] && name[i] != '=')
-		i++;
-	pos = i;
-	return (pos);
-}
-
+// Check identifire for valid syntaxis
 static int	name_is_valid(char *s, int len)
 {
 	int	out;
@@ -41,10 +24,8 @@ static int	name_is_valid(char *s, int len)
 		return (1);
 	out = 0;
 	i = 0;
-	// Check if the first letter of the identifire is a number
-	if (s[0] >= '0' && s[0]<= '9')
+	if (s[0] >= '0' && s[0] <= '9')
 		return (1);
-	// Check the identifire for correct letters
 	while (i < len)
 	{
 		if (!((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z')
@@ -109,7 +90,7 @@ static int	export_value(t_shell *shell, t_command *cmd, int eq_pos, char *arg)
 		}
 		env++;
 	}
-	if (*env == NULL) // && cmd->exit_val == 0)
+	if (*env == NULL)
 		if (add_line_to_envp(shell, arg) != 0)
 			cmd->exit_val = 2;
 	return (cmd->exit_val);
@@ -117,9 +98,14 @@ static int	export_value(t_shell *shell, t_command *cmd, int eq_pos, char *arg)
 
 int	ft_export_arg(t_shell *shell, t_command *cmd, char *arg)
 {
-	int eq_pos;
+	int	eq_pos;
+	int	i;
 
-	eq_pos = find_eq_position(arg);
+	eq_pos = -1;
+	i = 0;
+	while (arg[i] && arg[i] != '=')
+		i++;
+	eq_pos = i;
 	if (name_is_valid(arg, eq_pos) == 1)
 	{
 		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
@@ -135,10 +121,10 @@ int	ft_export_arg(t_shell *shell, t_command *cmd, char *arg)
 }
 
 // Process each argument of cmd. First arg index is [1]
-static int	proc_args(t_shell *shell, t_command *cmd)
+int	ft_ms_export(t_shell *shell, t_command *cmd)
 {
 	char	**arg;
-	int ret;
+	int		ret;
 
 	arg = cmd->args;
 	ret = 0;
@@ -150,11 +136,3 @@ static int	proc_args(t_shell *shell, t_command *cmd)
 	cmd->exit_val = ret;
 	return (cmd->exit_val);
 }
-
-int	ft_ms_export(t_shell *shell, t_command *cmd)
-{
-	if (shell == NULL || cmd == NULL)
-		return (2);
-	return (proc_args(shell, cmd));
-}
-

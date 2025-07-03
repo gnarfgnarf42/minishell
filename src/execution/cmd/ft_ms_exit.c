@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_ms_exit.c                                       :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/01 22:35:28 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 10:45:22 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "execution.h"
 #include "minishell.h"
@@ -47,10 +47,10 @@ static int	perror_exit(char *arg, char *msg, int code)
 
 int	ft_ms_exit(t_shell *shell, t_command *cmd)
 {
-	int code;
+	int	code;
 
 	if (cmd->argsc == 1)
-    	code = shell->last_exit_status;
+		code = shell->last_exit_status;
 	else if (cmd->argsc > 2)
 		code = perror_exit("", "too many arguments", 1);
 	else if (cmd->argsc == 2)
