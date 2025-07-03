@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-# define TOKEN_SKIP ((t_token *)-1)
+# define TOKEN_SKIP	-1
 
 typedef enum e_token_type
 {
@@ -31,7 +31,7 @@ typedef enum e_token_type
 	TOKEN_AND,
 	TOKEN_OR,
 	TOKEN_END
-} t_token_type;
+}	t_token_type;
 
 typedef struct s_token
 {
@@ -53,6 +53,15 @@ t_token	*ft_handle_quotes(t_shell *shell, const char *input, size_t *i);
 t_token	*ft_handle_dollar(t_shell *shell, const char *input, size_t *i);
 
 t_token	*ft_handle_word(t_shell *shell, const char *input, size_t *i);
+char	*ft_handle_quotes_in_word(t_shell *shell, const char *input,
+			size_t *i, char *result);
+char	*ft_handle_double_quotes(t_shell *shell, const char *input,
+			size_t *i, char *result);
+char	*ft_process_word_part(t_shell *shell, const char *input,
+			size_t *i, char *current_result);
+char	*ft_build_complex_word(t_shell *shell, const char *input,
+			size_t *i, int *was_quoted);
+int		ft_is_word_boundary(char c);
 void	ft_add_token(t_token **head, t_token **tail, t_token *new_token);
 t_token	*ft_process_char(t_shell *shell, const char *input, size_t *i);
 t_token	*ft_finalize_tokens(t_shell *shell, t_token *head);

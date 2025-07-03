@@ -14,7 +14,8 @@ TEST_DIR = tests
 # Source files
 SRCS =	$(INIT_DIR)/main.c \
 		$(INIT_DIR)/minishell_loop.c \
-		$(UTILS_DIR)/memory.c \
+		$(UTILS_DIR)/memory_basic.c \
+		$(UTILS_DIR)/memory_string.c \
 		$(TOKENIZER_DIR)/ft_add_token.c \
 		$(TOKENIZER_DIR)/ft_create_token.c \
 		$(TOKENIZER_DIR)/ft_finalize_tokens.c \
@@ -26,6 +27,8 @@ SRCS =	$(INIT_DIR)/main.c \
 		$(TOKENIZER_DIR)/ft_handle_dollar.c \
 		$(TOKENIZER_DIR)/ft_expand_variables.c \
 		$(TOKENIZER_DIR)/ft_handle_word.c \
+		$(TOKENIZER_DIR)/ft_handle_word_quotes.c \
+		$(TOKENIZER_DIR)/ft_handle_word_process.c \
 		$(TOKENIZER_DIR)/ft_process_char.c \
 		$(TOKENIZER_DIR)/ft_skip_whitespace.c \
 		$(TOKENIZER_DIR)/ft_tokenize_loop.c \
