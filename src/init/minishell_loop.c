@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/07/03 12:16:40 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 20:23:18 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,6 @@ void	ft_minishell_loop(t_shell *shell)
 		else
 			break ;
 	}
-	clear_history();
+	rl_clear_history();
 	ft_free_all_tracked(shell);
 }
