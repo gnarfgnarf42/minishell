@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 23:59:17 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 13:29:00 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 14:00:37 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // Return 0 if yes and execution is success
 // Return -1 if yes and execution with error
 // Return 1 if cmdname is not a build-in function
-int	ft_exec_builtin(t_shell *shell, t_command *cmd)
+int	ft_run_builtin_cmd(t_shell *shell, t_command *cmd)
 {
 	(void)shell;
 	if (!ft_strcmp(cmd->cmdname, "echo"))

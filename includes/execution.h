@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:29:11 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 13:28:39 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 14:33:06 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ typedef struct s_command
 
 // ft_exec_shell.c
 int			ft_exec_shell(t_shell *shell);
+void		ft_exec_commands(t_shell *shell);
 
 // ft_exec_command.c
-void		ft_exec_command(t_shell *shell, t_command *cmd);
+int			ft_exec_builtin(t_shell *shell, t_command *cmd);
+int			ft_exec_external(t_shell *shell, t_command *cmd);
 
 // ft_exec_path.c
 int			ft_get_path(t_shell *shell, t_command *cmd);
@@ -97,12 +99,11 @@ int			ft_close_all_fd(t_shell *shell);
 void		ft_dup_fd(t_command *cmd);
 
 // utils/builtin.c
-// int			ft_cmd_is_builtin(t_shell *shell, t_command *cmd);
 void		ft_set_cmd_builtin(t_shell *shell);
-int			ft_exec_builtin(t_shell *shell, t_command *cmd);
+int			ft_run_builtin_cmd(t_shell *shell, t_command *cmd);
 
 // utils/path.c
-int 		str_is_pathname(char *str);
-int 		path_is_dir(char *path);
+int			str_is_pathname(char *str);
+int			path_is_dir(char *path);
 
 #endif
