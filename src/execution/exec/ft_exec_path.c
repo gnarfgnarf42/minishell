@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_exec_path.c                                     :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 14:09:36 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/01 00:55:24 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:20:43 by nefimov          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "execution.h"
 #include "minishell.h"
@@ -68,16 +68,6 @@ char	*get_full_path(t_shell *shell, t_command *cmd, char *cur_path)
 	return (full_path);
 }
 
-int	path_is_dir(char *path)
-{
-	struct stat	sb;
-
-	if (access(path, F_OK) == 0 && stat(path, &sb) == 0)
-		if (S_ISDIR(sb.st_mode))
-			return (0);
-	return (1);
-}
-
 // Search execution file with name "cmd->pathname" in directories
 // stored in env. variable PATH
 // Return 0 and save pesult path to the "cmd->pathname"
@@ -110,46 +100,31 @@ int	search_in_path(t_shell *shell, t_command *cmd)
 	return (1);
 }
 
-// Check if str content '/' char. Return 1 if yes, 0 if no.
-int	str_is_pathname(char *str)
-{
-	while (*str)
-	{
-		if (*str == '/')
-			return (1);
-		str++;
-	}
-	return (0);
-}
-
 // Get a path for command name in cmd->pathname 
 // If cmd->pathname is a path (consist '/') return 0;
 // If cmd->pathname is not a path, searc it in PATH variable
 int	ft_get_path(t_shell *shell, t_command *cmd)
 {
-	if (str_is_pathname(cmd->cmdname) == 1)
+	if (str_is_pathname(cmd->cmdname))
 	{
 		if (!path_is_dir(cmd->cmdname))
 		{
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd(cmd->args[0], STDERR_FILENO);
-			ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
+			ft_perror("minishell", cmd->args[0], "Is a directory");
 			cmd->exit_val = 126;
 			return (2);
 		}
-		if (access(cmd->cmdname, F_OK) == 0)
-			return (0);
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(cmd->args[0], STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		if (access(cmd->cmdname, F_OK))
+		{
+			ft_perror("minishell", cmd->args[0], "No such file or directory");
+			cmd->exit_val = 127;
+			return (1);
+		}
+	}
+	else if (search_in_path(shell, cmd))
+	{
+		ft_perror("minishell", cmd->args[0], "command not found");
 		cmd->exit_val = 127;
 		return (1);
 	}
-	else if (search_in_path(shell, cmd) == 0)
-		return (0);
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(cmd->args[0], STDERR_FILENO);
-	ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	cmd->exit_val = 127;
-	return (1);
+	return (0);
 }

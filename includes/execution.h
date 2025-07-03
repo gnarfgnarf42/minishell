@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:29:11 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 00:21:54 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:25:47 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int			ft_exec_shell(t_shell *shell);
 
 // ft_exec_command.c
 void		ft_exec_command(t_shell *shell, t_command *cmd);
-int			ft_cmd_is_builtin(t_shell *shell, t_command *cmd);
-int			ft_exec_builtin(t_shell *shell, t_command *cmd);
 
 // ft_exec_path.c
 int			ft_get_path(t_shell *shell, t_command *cmd);
@@ -76,6 +74,8 @@ void		ft_print_cmd(t_command *cmd);
 t_command	*ft_init_cmd(t_shell *shell);
 void		ft_free_cmd(t_shell *shell, t_command *cmd);
 void		ft_free_cmd_line(t_shell *shell, t_command *cmd);
+void		ft_write_exit_code(t_shell *shell);
+
 // cmd
 int			ft_ms_cd(t_shell *shell, t_command *cmd);
 int			ft_ms_echo(t_shell *shell, t_command *cmd);
@@ -88,7 +88,7 @@ int			ft_ms_pwd(t_shell *shell, t_command *cmd);
 int			ft_ms_unset(t_shell *shell, t_command *cmd);
 
 // utils/error.c
-int			ft_perror(char *process, char *arg, char *message, int code);
+void		ft_perror(char *process, char *arg, char *message);
 int			ft_perror_syntax(char *arg);
 
 // utils/fd.c
@@ -97,5 +97,11 @@ int			ft_close_all_fd(t_shell *shell);
 void		ft_dup_fd(t_command *cmd);
 
 // utils/builtin.c
+int			ft_cmd_is_builtin(t_shell *shell, t_command *cmd);
+int			ft_exec_builtin(t_shell *shell, t_command *cmd);
+
+// utils/path.c
+int 		str_is_pathname(char *str);
+int 		path_is_dir(char *path);
 
 #endif
