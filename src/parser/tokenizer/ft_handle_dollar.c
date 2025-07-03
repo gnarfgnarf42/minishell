@@ -37,7 +37,6 @@ t_token	*ft_handle_dollar(t_shell *shell, const char *input, size_t *i)
 		return (NULL);
 	*i += name_len;
 	token = ft_create_token(shell, TOKEN_VAR, name, name_len);
-	token->glue = true;
 	ft_track_free(shell, name);
 	return (token);
 }

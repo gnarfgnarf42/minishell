@@ -46,6 +46,7 @@ void	ft_track_free(t_shell *shell, void *ptr);
 void	ft_free_all_tracked(t_shell *shell);
 char	*ft_track_strdup(t_shell *shell, const char *src);
 char	*ft_track_strndup(t_shell *shell, const char *s, size_t n);
+char	*ft_track_strjoin(t_shell *shell, const char *s1, const char *s2);
 
 // Main loop function
 void	ft_minishell_loop(t_shell *shell);

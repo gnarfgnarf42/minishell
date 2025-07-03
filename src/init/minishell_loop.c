@@ -30,9 +30,9 @@ static void	ft_print_tokens(t_token *cur)
 			printf("REDIR_IN: ");
 		else if (cur->type == TOKEN_REDIR_OUT)
 			printf("REDIR_OUT: ");
-		else if (cur->type == TOKEN_HEREDOC)
+		else if (cur->type == TOKEN_REDIR_HEREDOC)
 			printf("HEREDOC: ");
-		else if (cur->type == TOKEN_APPEND)
+		else if (cur->type == TOKEN_REDIR_APPEND)
 			printf("APPEND: ");
 		else if (cur->type == TOKEN_AND)
 			printf("AND: ");
