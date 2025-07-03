@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 23:59:17 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 00:01:29 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 13:29:00 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_exec_builtin(t_shell *shell, t_command *cmd)
 	return (1);
 }
 
-int	ft_cmd_is_builtin(t_shell *shell, t_command *cmd)
+static int	cmd_is_builtin(t_shell *shell, t_command *cmd)
 {
 	(void)shell;
 	if (!ft_strcmp(cmd->cmdname, "echo"))
@@ -56,4 +56,17 @@ int	ft_cmd_is_builtin(t_shell *shell, t_command *cmd)
 	else if (!ft_strcmp(cmd->cmdname, "exit"))
 		cmd->is_builtin = 1;
 	return (cmd->is_builtin);
+}
+
+void	ft_set_cmd_builtin(t_shell *shell)
+{
+	t_command	*cmd;
+
+	cmd = shell->cmd_list;
+	while (cmd)
+	{
+		if (cmd->exit_val == 0)
+			cmd_is_builtin(shell, cmd);
+		cmd = cmd->next;
+	}
 }

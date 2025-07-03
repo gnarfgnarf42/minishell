@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:29:11 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 13:08:12 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 13:28:39 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int			ft_close_all_fd(t_shell *shell);
 void		ft_dup_fd(t_command *cmd);
 
 // utils/builtin.c
-int			ft_cmd_is_builtin(t_shell *shell, t_command *cmd);
+// int			ft_cmd_is_builtin(t_shell *shell, t_command *cmd);
+void		ft_set_cmd_builtin(t_shell *shell);
 int			ft_exec_builtin(t_shell *shell, t_command *cmd);
 
 // utils/path.c
