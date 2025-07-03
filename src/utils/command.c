@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 19:24:15 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 12:25:25 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 13:08:47 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ void	ft_free_cmd(t_shell *shell, t_command *cmd)
 		ft_track_free(shell, cmd);
 }
 
-void	ft_free_cmd_line(t_shell *shell, t_command *cmd)
+void	ft_free_cmd_line(t_shell *shell)
 {
+	t_command	*cmd;
 	t_command	*cmd_next;
 
+	cmd = shell->cmd_list;
 	while (cmd)
 	{
 		cmd_next = cmd->next;

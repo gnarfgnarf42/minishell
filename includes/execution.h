@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:29:11 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 12:25:47 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 13:08:12 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_token		*ft_process_pipe(t_shell *shell, t_token *token, t_command **cmd);
 void		ft_print_cmd(t_command *cmd);
 t_command	*ft_init_cmd(t_shell *shell);
 void		ft_free_cmd(t_shell *shell, t_command *cmd);
-void		ft_free_cmd_line(t_shell *shell, t_command *cmd);
+void		ft_free_cmd_line(t_shell *shell);
 void		ft_write_exit_code(t_shell *shell);
 
 // cmd

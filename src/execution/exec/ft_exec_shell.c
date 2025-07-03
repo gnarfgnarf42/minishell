@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:37:59 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 00:12:26 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/03 13:09:00 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,6 @@
 #include <errno.h>
 #include <signal.h>
 #include <fcntl.h>
-
-static void	write_exit_code(t_shell *shell)
-{
-	t_command	*cmd;
-	
-	if (!shell)
-		return ;
-	cmd = shell->cmd_list;
-	while (cmd->next)
-		cmd = cmd->next;
-	shell->last_exit_status = cmd->exit_val;
-	return ;
-}
 
 int	ft_exec_shell(t_shell *shell)
 {
@@ -40,7 +27,6 @@ int	ft_exec_shell(t_shell *shell)
 	shell->cmd_list = ft_create_cmd_line(shell);
 	if (!shell->cmd_list)
 		return (1);
-	
 	// Check if cmd is builtin and set cmd->is_builtin
 	cmd = shell->cmd_list;
 	while (cmd)
@@ -65,11 +51,11 @@ int	ft_exec_shell(t_shell *shell)
 			if (cmd->fd_out != STDOUT_FILENO)
 				close(cmd->fd_out);
 			cmd = cmd->next;
-			continue;
+			continue ;
 		}
 		if (cmd->is_builtin)
 		{
-			if (cmd->next || cmd->prev) // If builtin in pipeline -> make fork
+			if (cmd->next || cmd->prev)
 			{
 				cmd->pid = fork();
 				if (cmd->pid < 0)
@@ -106,20 +92,20 @@ int	ft_exec_shell(t_shell *shell)
 		else if (ft_get_path(shell, cmd) != 0)
 		{
 			cmd = cmd->next;
-			continue;
+			continue ;
 		}
 		else
 		{
 			cmd->pid = fork();
-			if (cmd->pid < 0) // Fork error
+			if (cmd->pid < 0)
 			{
 				cmd->exit_val = 255;
 				perror("fork failed");
 				return (1);
 			}
-			if (cmd->pid == 0) // Child process
+			if (cmd->pid == 0)
 			{
-				signal(SIGQUIT, SIG_DFL); // Restore default handler
+				signal(SIGQUIT, SIG_DFL);
 				signal(SIGINT, SIG_DFL);
 				signal(SIGPIPE, SIG_DFL);
 				ft_dup_fd(cmd);
@@ -173,8 +159,8 @@ int	ft_exec_shell(t_shell *shell)
 		cmd = cmd->next;
 	}
 
-	write_exit_code(shell);
+	ft_write_exit_code(shell);
 	ft_close_all_fd(shell);
-	ft_free_cmd_line(shell, shell->cmd_list);
+	ft_free_cmd_line(shell);
 	return (0);
 }
