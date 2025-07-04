@@ -25,6 +25,7 @@ int	main(int argc, char *argv[], char *envp[])
 	shell.last_exit_status = 0;
 	shell.envp = ft_envp_cpy(&shell, envp);
 	shell.is_interactive = isatty(STDIN_FILENO);
+	shell.syntax_error = false;
 	ft_minishell_loop(&shell);
 	return (shell.last_exit_status);
 }

@@ -21,7 +21,7 @@ static void	ft_quote_error(int in_single, int in_double)
 		write(STDERR_FILENO, "minishell: syntax error: unclosed quote\n", 40);
 }
 
-static int	ft_validate_quotes(const char *input)
+static int	ft_validate_quotes(t_shell *shell, const char *input)
 {
 	size_t	i;
 	int		in_single_quote;
@@ -41,6 +41,7 @@ static int	ft_validate_quotes(const char *input)
 	if (in_single_quote || in_double_quote)
 	{
 		ft_quote_error(in_single_quote, in_double_quote);
+		shell->syntax_error = true;
 		return (0);
 	}
 	return (1);
@@ -51,7 +52,8 @@ t_token	*ft_tokenize(t_shell *shell, const char *input)
 	t_token	*head;
 	size_t	i;
 
-	if (!ft_validate_quotes(input))
+	shell->syntax_error = false;
+	if (!ft_validate_quotes(shell, input))
 		return (NULL);
 	i = 0;
 	head = ft_tokenize_loop(shell, input, &i);

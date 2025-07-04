@@ -37,13 +37,14 @@ typedef struct s_track
 // Shell state struct
 typedef struct s_shell
 {
-	t_token					*tokens;
-	t_track					*memory_list;
-	t_command				*cmd_list;
-	char					**envp;
-	int						last_exit_status;
-	int						is_interactive;
-	bool					exit;
+	t_token				*tokens;
+	t_track				*memory_list;
+	t_command			*cmd_list;
+	char				**envp;
+	int					last_exit_status;
+	int					is_interactive;
+	bool				exit;
+	bool				syntax_error;
 }	t_shell;
 
 // Memory functions
@@ -59,6 +60,7 @@ void	ft_minishell_loop(t_shell *shell);
 
 // Tokens functions
 void	ft_print_tokens(t_token *tokens);
+void	ft_handle_tokenization(t_shell *shell, char *tracked_input);
 void	ft_check_empty_input(t_shell *shell, char *tracked_input);
 
 // Envp functions
