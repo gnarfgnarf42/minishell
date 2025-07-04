@@ -64,9 +64,6 @@ SRCS =		$(INIT_DIR)/main.c \
 
 OBJS =		$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-#TEST_SRC = $(TEST_DIR)/unit/test_memory.c \
-        	$(TEST_DIR)/unity/unity.c \
-        	$(UTILS_DIR)/memory.c
 TEST_SRC =	$(TEST_DIR)/unit/test_envp.c \
     		$(TEST_DIR)/unity/unity.c \
 			$(INIT_DIR)/minishell_loop.c \
