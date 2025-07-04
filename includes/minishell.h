@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:35 by sscholz           #+#    #+#             */
-/*   Updated: 2025/07/03 19:42:03 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/04 15:09:26 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ft_minishell_loop(t_shell *shell);
 
 // Tokens functions
 void	ft_print_tokens(t_token *tokens);
+void	ft_check_empty_input(t_shell *shell, char *tracked_input);
 
 // Envp functions
 char	**ft_envp_cpy(t_shell *shell, char *envp[]);

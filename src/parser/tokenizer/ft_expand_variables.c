@@ -29,7 +29,7 @@ char	*ft_get_var_value(t_shell *shell, const char *var_name)
 		free(temp);
 		return (result);
 	}
-	env_value = getenv(var_name);
+	env_value = ft_getenv(shell, (char *)var_name);
 	if (env_value)
 		result = ft_track_strdup(shell, env_value);
 	else

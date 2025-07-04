@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 23:35:48 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 19:38:29 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/04 15:10:59 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,14 @@ static void	print_tokens_bonus(t_token *cur)
 		printf("END: ");
 	else
 		printf("UNKNOWN: ");
+}
+
+void	ft_check_empty_input(t_shell *shell, char *tracked_input)
+{
+	size_t	i;
+
+	i = 0;
+	ft_skip_whitespace(tracked_input, &i);
+	if (tracked_input[i] != 0)
+		shell->last_exit_status = 0;
 }

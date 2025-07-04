@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/07/04 10:11:49 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/04 15:10:43 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static void	tokenize_exec_input(t_shell *shell, char *input)
 			ft_exec_shell(shell);
 			ft_free_tokens(shell, &tokens);
 		}
+		else
+			ft_check_empty_input(shell, tracked_input);
 		ft_track_free(shell, tracked_input);
 		rl_done = 1;
 	}
