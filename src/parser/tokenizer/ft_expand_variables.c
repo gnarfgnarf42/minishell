@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand_variables.c                               :+:      :+:    :+:   */
+/*   ft_expand_variables.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sscholz <sscholz@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,11 +16,19 @@ char	*ft_get_var_value(t_shell *shell, const char *var_name)
 {
 	char	*env_value;
 	char	*result;
+	char	*temp;
 
 	if (!var_name)
 		return (ft_track_strdup(shell, ""));
 	if (var_name[0] == '?' && var_name[1] == '\0')
-		return (ft_itoa(shell->last_exit_status));
+	{
+		temp = ft_itoa(shell->last_exit_status);
+		if (!temp)
+			return (NULL);
+		result = ft_track_strdup(shell, temp);
+		free(temp);
+		return (result);
+	}
 	env_value = getenv(var_name);
 	if (env_value)
 		result = ft_track_strdup(shell, env_value);

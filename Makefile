@@ -18,7 +18,8 @@ TEST_DIR = tests
 # Source files
 SRCS =		$(INIT_DIR)/main.c \
 			$(INIT_DIR)/minishell_loop.c \
-			$(UTILS_DIR)/memory.c \
+			$(UTILS_DIR)/memory_basic.c \
+			$(UTILS_DIR)/memory_string.c \
 			$(UTILS_DIR)/command.c \
 			$(UTILS_DIR)/env.c \
 			$(UTILS_DIR)/error.c \
@@ -37,6 +38,8 @@ SRCS =		$(INIT_DIR)/main.c \
 			$(TOKENIZER_DIR)/ft_handle_paren.c \
 			$(TOKENIZER_DIR)/ft_handle_quotes.c \
 			$(TOKENIZER_DIR)/ft_handle_word.c \
+			$(TOKENIZER_DIR)/ft_handle_word_quotes.c \
+			$(TOKENIZER_DIR)/ft_handle_word_process.c \
 			$(TOKENIZER_DIR)/ft_process_char.c \
 			$(TOKENIZER_DIR)/ft_skip_whitespace.c \
 			$(TOKENIZER_DIR)/ft_tokenize_loop.c \
@@ -67,7 +70,8 @@ OBJS =		$(SRCS:%.c=$(OBJ_DIR)/%.o)
 TEST_SRC =	$(TEST_DIR)/unit/test_envp.c \
     		$(TEST_DIR)/unity/unity.c \
 			$(INIT_DIR)/minishell_loop.c \
-        	$(UTILS_DIR)/memory.c \
+        	$(UTILS_DIR)/memory_basic.c \
+			$(UTILS_DIR)/memory_string.c \
 			$(UTILS_DIR)/command.c \
 			$(UTILS_DIR)/env.c \
 			$(UTILS_DIR)/error.c \
@@ -85,6 +89,8 @@ TEST_SRC =	$(TEST_DIR)/unit/test_envp.c \
 			$(TOKENIZER_DIR)/ft_handle_paren.c \
 			$(TOKENIZER_DIR)/ft_handle_quotes.c \
 			$(TOKENIZER_DIR)/ft_handle_word.c \
+			$(TOKENIZER_DIR)/ft_handle_word_quotes.c \
+			$(TOKENIZER_DIR)/ft_handle_word_process.c \ \
 			$(TOKENIZER_DIR)/ft_merge_adjacent_words.c \
 			$(TOKENIZER_DIR)/ft_process_char.c \
 			$(TOKENIZER_DIR)/ft_skip_whitespace.c \

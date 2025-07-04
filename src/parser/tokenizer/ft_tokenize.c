@@ -19,9 +19,7 @@ t_token	*ft_tokenize(t_shell *shell, const char *input)
 
 	i = 0;
 	head = ft_tokenize_loop(shell, input, &i);
-	
 	if (head)
 		head = ft_finalize_tokens(shell, head);
-	
 	return (head);
 }

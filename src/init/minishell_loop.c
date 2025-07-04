@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/07/03 20:23:18 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/04 10:11:49 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ volatile sig_atomic_t	g_interrupted;
 
 static void	sigint_handler(int signum)
 {
-	(void)signum;
-	g_interrupted = 1;
+	g_interrupted = signum;
 }
 
 static int	check_sigint_hook(void)
@@ -51,7 +50,6 @@ static void	tokenize_exec_input(t_shell *shell, char *input)
 		tokens = ft_tokenize(shell, tracked_input);
 		if (tokens && tokens->type != TOKEN_END)
 		{
-			// ft_print_tokens(tokens);
 			shell->tokens = tokens;
 			ft_exec_shell(shell);
 			ft_free_tokens(shell, &tokens);

@@ -23,7 +23,7 @@ t_token	*ft_tokenize_loop(t_shell *shell, const char *input, size_t *i)
 	while (input[*i])
 	{
 		new_token = ft_process_char(shell, input, i);
-		if (new_token == TOKEN_SKIP)
+		if (new_token == (t_token *)TOKEN_SKIP)
 			continue ;
 		if (!new_token && input[*i])
 		{
