@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 12:15:21 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/04 20:07:09 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,17 @@
 
 static int	get_nl(t_command *cmd)
 {
-	if (cmd->argsc > 1 && !ft_strcmp(cmd->args[1], NL))
-		return (1);
+	int	i;
+
+	if (cmd->argsc > 1 && ft_strlen(cmd->args[1]) > 1
+		&& !ft_strncmp(cmd->args[1], NL, 2))
+	{
+		i = 2;
+		while (cmd->args[1][i] == 'n')
+			i++;
+		if (cmd->args[1][i] == 0)
+			return (1);
+	}
 	return (0);
 }
 
