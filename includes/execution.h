@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:29:11 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 14:33:06 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:57:07 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define SH_PATH		"/bin/sh"
 # define PATH_ENV		"PATH"
-# define PATH_DELIMITER	':'
+# define PATH_DELIMITER	58
 # define ARGS_MAX		100
 
 # include <sys/wait.h>
