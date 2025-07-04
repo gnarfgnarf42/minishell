@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 23:59:17 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 14:00:37 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/04 19:17:13 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_set_cmd_builtin(t_shell *shell)
 	cmd = shell->cmd_list;
 	while (cmd)
 	{
-		if (cmd->exit_val == 0)
+		if (cmd->exit_val == 0 && cmd->cmdname)
 			cmd_is_builtin(shell, cmd);
 		cmd = cmd->next;
 	}

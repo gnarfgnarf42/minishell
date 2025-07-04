@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:37:59 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 14:32:00 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/04 19:22:48 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,18 @@ void	ft_exec_commands(t_shell *shell)
 		{
 			close_bad_cmd_fds(cmd);
 		}
-		else if (cmd->is_builtin)
+		else if (cmd->cmdname)
 		{
-			if (ft_exec_builtin(shell, cmd))
-				break ;
-		}
-		else if (ft_get_path(shell, cmd) == 0)
-		{
-			if (ft_exec_external(shell, cmd))
-				break ;
+			if (cmd->is_builtin)
+			{
+				if (ft_exec_builtin(shell, cmd))
+					break ;
+			}
+			else if (ft_get_path(shell, cmd) == 0)
+			{
+				if (ft_exec_external(shell, cmd))
+					break ;
+			}
 		}
 		cmd = cmd->next;
 	}
