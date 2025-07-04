@@ -87,7 +87,7 @@ $(OBJ_DIR)/%.o: %.c $(INC_DIR)/minishell.h
 
 valgrind-test: $(NAME)
 	@echo "========== Running Tests with Valgrind =========="
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=./readline.supp ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --suppressions=./readline.supp ./$(NAME)
 	@echo "========== Valgrind Tests Complete ========="
 
 #debug
