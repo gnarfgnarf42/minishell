@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/04 17:55:49 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/04 19:31:31 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,28 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-static void	hd_read_loop(t_shell *shell, const char *dest, char *str,
-				char *heredoc)
+static void	hd_read_loop(t_shell *shell, const char *dest, char **str,
+				char **heredoc)
 {
 	char	*temp;
 
 	while (1)
 	{
-		str = readline(">");
-		if (!str || !ft_strcmp(str, dest))
+		*str = readline(">");
+		if (!(*str))
 			break ;
-		temp = ft_track_strjoin(shell, heredoc, str);
-		free(str);
+		if (!ft_strcmp(*str, dest))
+			break ;
+		temp = ft_track_strjoin(shell, *heredoc, *str);
+		free(*str);
 		if (!temp)
 		{
-			ft_track_free(shell, heredoc);
+			ft_track_free(shell, *heredoc);
 			exit(1);
 		}
-		ft_track_free(shell, heredoc);
-		heredoc = ft_track_strjoin(shell, temp, "\n");
-		if (!heredoc)
+		ft_track_free(shell, *heredoc);
+		*heredoc = ft_track_strjoin(shell, temp, "\n");
+		if (!(*heredoc))
 		{
 			ft_track_free(shell, temp);
 			exit(1);
@@ -55,7 +57,7 @@ static char	*hd_read_input(t_shell *shell, const char *dest)
 	if (!heredoc)
 		exit(1);
 	str = NULL;
-	hd_read_loop(shell, dest, str, heredoc);
+	hd_read_loop(shell, dest, &str, &heredoc);
 	if (str)
 		free(str);
 	return (heredoc);
@@ -75,7 +77,7 @@ static void	hd_run_child(t_shell *shell, int fdpipe[], const char *dest)
 	if (write(fdpipe[1], heredoc, ft_strlen(heredoc)) == -1)
 		ev = 1;
 	close(fdpipe[1]);
-	ft_track_free(shell, heredoc);
+	ft_free_all_tracked(shell);
 	exit(ev);
 }
 
