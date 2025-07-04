@@ -65,7 +65,10 @@ char	*ft_handle_double_quotes(t_shell *shell, const char *input,
 	(*i)++;
 	result = ft_handle_double_quotes_content(shell, input, i, result);
 	if (!input[*i])
+	{
+		write(STDERR_FILENO, "minishell: syntax error: unclosed quote\n", 40);
 		return (NULL);
+	}
 	(*i)++;
 	return (result);
 }

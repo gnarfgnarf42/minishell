@@ -89,7 +89,15 @@ char	*ft_process_quoted_content(t_shell *shell, const char *input,
 	while (input[*i] && input[*i] != quote_char)
 		(*i)++;
 	if (!input[*i])
+	{
+		if (quote_char == '"')
+			write(STDERR_FILENO,
+				"minishell: syntax error: unclosed quote\n", 40);
+		else
+			write(STDERR_FILENO,
+				"minishell: syntax error: unclosed single quote\n", 48);
 		return (NULL);
+	}
 	len = *i - start;
 	content = ft_track_strndup(shell, &input[start], len);
 	(*i)++;
