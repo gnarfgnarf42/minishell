@@ -40,22 +40,13 @@ static int	check_sigint_hook(void)
 static void	tokenize_exec_input(t_shell *shell, char *input)
 {
 	char	*tracked_input;
-	t_token	*tokens;
 
 	if (*input)
 		add_history(input);
 	tracked_input = ft_track_strdup(shell, input);
 	if (tracked_input)
 	{
-		tokens = ft_tokenize(shell, tracked_input);
-		if (tokens && tokens->type != TOKEN_END)
-		{
-			shell->tokens = tokens;
-			ft_exec_shell(shell);
-			ft_free_tokens(shell, &tokens);
-		}
-		else
-			ft_check_empty_input(shell, tracked_input);
+		ft_handle_tokenization(shell, tracked_input);
 		ft_track_free(shell, tracked_input);
 		rl_done = 1;
 	}

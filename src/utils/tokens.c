@@ -58,6 +58,23 @@ static void	print_tokens_bonus(t_token *cur)
 		printf("UNKNOWN: ");
 }
 
+void	ft_handle_tokenization(t_shell *shell, char *tracked_input)
+{
+	t_token	*tokens;
+
+	tokens = ft_tokenize(shell, tracked_input);
+	if (tokens && tokens->type != TOKEN_END)
+	{
+		shell->tokens = tokens;
+		ft_exec_shell(shell);
+		ft_free_tokens(shell, &tokens);
+	}
+	else if (shell->syntax_error)
+		shell->last_exit_status = 2;
+	else
+		ft_check_empty_input(shell, tracked_input);
+}
+
 void	ft_check_empty_input(t_shell *shell, char *tracked_input)
 {
 	size_t	i;
