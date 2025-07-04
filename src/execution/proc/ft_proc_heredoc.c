@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 12:02:41 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/04 19:31:31 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/04 19:52:25 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	hd_read_loop(t_shell *shell, const char *dest, char **str,
 			exit(1);
 		}
 		ft_track_free(shell, temp);
-		rl_done = 1;
 	}
 }
 
