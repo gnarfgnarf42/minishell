@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:37:59 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/04 19:22:48 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/05 11:23:34 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ int	ft_exec_shell(t_shell *shell)
 	return (0);
 }
 
+static void	close_pipe(t_command *cmd)
+{
+	if (cmd->next && cmd->fd_pipe[1] != STDOUT_FILENO)
+		close(cmd->fd_pipe[1]);
+	if (cmd->prev && cmd->prev->fd_pipe[0] != STDIN_FILENO)
+		close(cmd->prev->fd_pipe[0]);
+}
+
 void	ft_exec_commands(t_shell *shell)
 {
 	t_command	*cmd;
@@ -78,9 +86,7 @@ void	ft_exec_commands(t_shell *shell)
 	while (cmd)
 	{
 		if (cmd->exit_val != 0)
-		{
 			close_bad_cmd_fds(cmd);
-		}
 		else if (cmd->cmdname)
 		{
 			if (cmd->is_builtin)
@@ -93,6 +99,8 @@ void	ft_exec_commands(t_shell *shell)
 				if (ft_exec_external(shell, cmd))
 					break ;
 			}
+			else
+				close_pipe(cmd);
 		}
 		cmd = cmd->next;
 	}

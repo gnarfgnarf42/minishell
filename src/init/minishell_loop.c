@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:35:58 by sscholz           #+#    #+#             */
-/*   Updated: 2025/07/04 15:10:43 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/05 11:04:11 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	ft_minishell_loop(t_shell *shell)
 
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGPIPE, SIG_IGN);
 	rl_event_hook = check_sigint_hook;
 	while (shell->exit)
 	{

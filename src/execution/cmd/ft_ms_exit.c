@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:16:57 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 17:59:53 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/05 11:20:42 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_ms_exit(t_shell *shell, t_command *cmd)
 		else
 			code = ft_atoi(cmd->args[1]);
 	}
-	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO) && errno != EPIPE)
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	cmd->exit_val = code & 0xFF;
 	shell->exit = 0;

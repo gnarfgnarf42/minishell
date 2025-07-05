@@ -6,7 +6,7 @@
 /*   By: nefimov <nefimov@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:06:17 by nefimov           #+#    #+#             */
-/*   Updated: 2025/07/03 14:31:00 by nefimov          ###   ########.fr       */
+/*   Updated: 2025/07/05 11:23:12 by nefimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@
 
 void	builtin_in_child_proc(t_shell *shell, t_command *cmd)
 {
+	int	ev;
+
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
-	signal(SIGPIPE, SIG_DFL);
 	ft_dup_fd(cmd);
 	ft_close_all_fd(shell);
 	cmd->exit_val = ft_run_builtin_cmd(shell, cmd);
-	exit(cmd->exit_val);
+	ev = cmd->exit_val;
+	ft_free_all_tracked(shell);
+	exit(ev);
 }
 
 void	builtin_in_current_proc(t_shell *shell, t_command *cmd)
@@ -87,6 +90,7 @@ void	execve_in_child_proc(t_shell *shell, t_command *cmd)
 	}
 	perror("execve failed");
 	cmd->exit_val = 126;
+	ft_free_all_tracked(shell);
 	exit(cmd->exit_val);
 }
 
