@@ -40,6 +40,38 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef enum e_ast_type
+{
+	AST_COMMAND,
+	AST_PIPE,
+	AST_REDIR_IN,
+	AST_REDIR_OUT,
+	AST_REDIR_APPEND,
+	AST_REDIR_HEREDOC,
+	AST_AND,
+	AST_OR,
+	AST_SUBSHELL
+}	t_ast_type;
+
+typedef struct s_ast_node
+{
+	t_ast_type			type;
+	char				**args;
+	int					argc;
+	char				*filename;
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
+}	t_ast_node;
+
+// AST functions
+t_ast_node	*ft_create_ast_node(t_shell *shell, t_ast_type type);
+void		ft_free_ast(t_shell *shell, t_ast_node *node);
+t_ast_node	*ft_parse_tokens(t_shell *shell, t_token *tokens);
+t_ast_node	*ft_parse_pipeline(t_shell *shell, t_token **current);
+t_ast_node	*ft_parse_command(t_shell *shell, t_token **current);
+t_ast_node	*ft_parse_redirections(t_shell *shell, t_token **current,
+				t_ast_node *cmd);
+
 // Tokenizer functions (in src/parser/tokenizer/)
 t_token	*ft_tokenize(t_shell *shell, const char *input);
 t_token	*ft_create_token(t_shell *shell, t_token_type type,

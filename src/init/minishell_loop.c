@@ -24,18 +24,7 @@ static void	sigint_handler(int signum)
 	g_interrupted = signum;
 }
 
-static int	check_sigint_hook(void)
-{
-	if (g_interrupted)
-	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		rl_reset_line_state();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_interrupted = 0;
-	}
-	return (0);
-}
+
 
 static void	tokenize_exec_input(t_shell *shell, char *input)
 {
@@ -48,7 +37,7 @@ static void	tokenize_exec_input(t_shell *shell, char *input)
 	{
 		ft_handle_tokenization(shell, tracked_input);
 		ft_track_free(shell, tracked_input);
-		rl_done = 1;
+
 	}
 	else
 	{
@@ -81,7 +70,7 @@ void	ft_minishell_loop(t_shell *shell)
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGPIPE, SIG_IGN);
-	rl_event_hook = check_sigint_hook;
+
 	while (shell->exit)
 	{
 		g_interrupted = 0;
@@ -95,6 +84,6 @@ void	ft_minishell_loop(t_shell *shell)
 		else
 			break ;
 	}
-	rl_clear_history();
+	clear_history();
 	ft_free_all_tracked(shell);
 }

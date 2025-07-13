@@ -44,6 +44,20 @@ typedef struct s_command
 int			ft_exec_shell(t_shell *shell);
 void		ft_exec_commands(t_shell *shell);
 
+// ft_exec_ast.c
+int			ft_exec_ast_node(t_shell *shell, t_ast_node *node);
+
+// ft_exec_ast_utils.c
+int			ft_copy_args(t_shell *shell, t_command *cmd, t_ast_node *node);
+t_command	*ft_ast_to_command(t_shell *shell, t_ast_node *node);
+int			ft_open_redir_in(t_ast_node *node, t_command *cmd);
+int			ft_open_redir_out(t_ast_node *node, t_command *cmd);
+int			ft_open_redir_append(t_ast_node *node, t_command *cmd);
+
+// ft_exec_ast_pipe.c
+void		ft_exec_pipe_left(t_shell *shell, t_ast_node *node, int *pipefd);
+void		ft_exec_pipe_right(t_shell *shell, t_ast_node *node, int *pipefd);
+
 // ft_exec_command.c
 int			ft_exec_builtin(t_shell *shell, t_command *cmd);
 int			ft_exec_external(t_shell *shell, t_command *cmd);

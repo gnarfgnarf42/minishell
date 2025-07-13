@@ -25,6 +25,7 @@
 
 typedef struct s_token		t_token;
 typedef struct s_command	t_command;
+typedef struct s_ast_node	t_ast_node;
 
 // Memory tracking struct
 typedef struct s_track
@@ -38,6 +39,7 @@ typedef struct s_track
 typedef struct s_shell
 {
 	t_token				*tokens;
+	t_ast_node			*ast;
 	t_track				*memory_list;
 	t_command			*cmd_list;
 	char				**envp;

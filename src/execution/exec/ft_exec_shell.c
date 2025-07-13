@@ -58,6 +58,14 @@ static void	close_bad_cmd_fds(t_command *cmd)
 
 int	ft_exec_shell(t_shell *shell)
 {
+	int	status;
+
+	if (shell->ast)
+	{
+		status = ft_exec_ast_node(shell, shell->ast);
+		shell->last_exit_status = status;
+		return (status);
+	}
 	shell->cmd_list = ft_create_cmd_line(shell);
 	if (!shell->cmd_list)
 		return (1);

@@ -43,9 +43,16 @@ SRCS =		$(INIT_DIR)/main.c \
 			$(TOKENIZER_DIR)/ft_skip_whitespace.c \
 			$(TOKENIZER_DIR)/ft_tokenize_loop.c \
 			$(TOKENIZER_DIR)/ft_tokenize.c \
+			$(PARSER_DIR)/ft_ast.c \
+			$(PARSER_DIR)/ft_parse_ast.c \
+			$(PARSER_DIR)/ft_parse_pipeline.c \
+			$(PARSER_DIR)/ft_parse_tokens.c \
 			$(EXEC_DIR)/ft_exec_command.c \
 			$(EXEC_DIR)/ft_exec_path.c \
 			$(EXEC_DIR)/ft_exec_shell.c \
+			$(EXECUTION_DIR)/ft_exec_ast.c \
+			$(EXECUTION_DIR)/ft_exec_ast_utils.c \
+			$(EXECUTION_DIR)/ft_exec_ast_pipe.c \
 			$(PROC_DIR)/ft_proc_tokens.c \
 			$(PROC_DIR)/ft_proc_word.c \
 			$(PROC_DIR)/ft_proc_redir_in.c \

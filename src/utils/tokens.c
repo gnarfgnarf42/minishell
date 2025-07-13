@@ -66,7 +66,14 @@ void	ft_handle_tokenization(t_shell *shell, char *tracked_input)
 	if (tokens && tokens->type != TOKEN_END)
 	{
 		shell->tokens = tokens;
-		ft_exec_shell(shell);
+		shell->ast = ft_parse_tokens(shell, tokens);
+		if (shell->ast)
+			ft_exec_shell(shell);
+		else
+			shell->last_exit_status = 2;
+		if (shell->ast)
+			ft_free_ast(shell, shell->ast);
+		shell->ast = NULL;
 		ft_free_tokens(shell, &tokens);
 	}
 	else if (shell->syntax_error)
